@@ -1,0 +1,34 @@
+{
+  "name": "ahnabshahin/spin-the-wheel",
+  "description": "Spin The Wheel - A customizable WordPress plugin.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+      {
+          "name": "Your Name",
+          "email": "your-email@example.com"
+      }
+  ],
+  "require": {
+      "php": ">=7.4",
+      "composer/installers": "^2.0"
+  },
+  "autoload": {
+      "psr-4": {
+          "AhnabShahin\\SpinTheWheel\\": "includes/"
+      }
+  },
+  "scripts": {
+      "post-update-cmd": [
+          "composer dump-autoload"
+      ],
+      "post-install-cmd": [
+          "composer dump-autoload"
+      ]
+  },
+  "config": {
+      "allow-plugins": {
+          "composer/installers": true
+      }
+  }
+}

@@ -1,0 +1,49 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Composer dependencies and lock file
+vendor/
+composer.lock
+
+# Build directories
+dist/
+build/
+
+# Grunt files
+.grunt/
+.grunt-cache/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# WordPress-specific files
+wp-config.php
+*.sql
+*.sql.gz
+*.log
+uploads/
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*.orig
+
+# Other system files
+.env
+.env.local
