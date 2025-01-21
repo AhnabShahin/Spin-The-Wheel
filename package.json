@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "wp-scripts start",
     "build": "wp-scripts build",
-    "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js"
+    "start": "wp-scripts start"
   },
   "keywords": [],
   "author": "",
