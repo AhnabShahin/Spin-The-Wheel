@@ -1,4 +1,5 @@
 <?php
+
 namespace AhnabShahin\SpinTheWheel\Plugin;
 
 
@@ -37,19 +38,26 @@ class Plugin
     public function enqueue_admin_scripts($hook_suffix)
     {
         $plugin_dir = plugin_dir_url(__FILE__);
-        
+
         // if ($hook_suffix !== 'toplevel_page_' . self::MENU_SLUG) {
         //     return;
         // }
 
         wp_enqueue_script(
             'hello-world-react-script',
-            $plugin_dir . 'build/index.js',
+            $plugin_dir . 'build/admin.js',
             ['wp-element'],
             '1.0.0',
             true
         );
-        error_log($plugin_dir . 'build/index.js');
+
+        //    enqueue style
+        wp_enqueue_style(
+            'hello-world-react-style',
+            $plugin_dir . 'build/admin.css',
+            [],
+            '1.0.0'
+        );
 
     }
 

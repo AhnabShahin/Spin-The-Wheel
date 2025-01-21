@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    admin: './src/admin/index.js',
-    user: './src/user/index.js',
+    admin: './src/script/admin/index.js',
+    user: './src/script/user/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -20,6 +20,10 @@ module.exports = {
             presets: ['@babel/preset-react', '@babel/preset-env'],
           },
         },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
