@@ -1,12 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import Index from "./admin";
+
+
 
 const App = () => {
   const handleClick = () => alert("Hello World");
 
   return (
     <div>
-      <h1>Hello World React Plugin</h1>
+      <Index/>
       <button onClick={handleClick}>Click Me</button>
     </div>
   );
