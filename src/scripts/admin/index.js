@@ -8,12 +8,12 @@ const App = () => {
   return (
     <div>
       <Index />
-      <button onClick={handleClick}>Click Me</button>
+      <button onClick={handleClick}>Clsick Me</button>
     </div>
   );
 };
 
-const domNode = document.getElementById("hello-world-react-root");
+const domNode = document.getElementById("spin-the-wheel-admin");
 console.log(domNode);
 if (domNode) {
   const root = createRoot(domNode);

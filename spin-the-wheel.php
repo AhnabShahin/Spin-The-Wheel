@@ -9,7 +9,7 @@
  * Text Domain:       spin-the-wheel
  */
 
-use AhnabShahin\SpinTheWheel\Plugin\Plugin;
+use AhnabShahin\SpinTheWheel\ROOT\Plugin;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.

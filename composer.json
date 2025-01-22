@@ -2,8 +2,8 @@
   "name": "shahin/spin-the-wheel",
   "autoload": {
     "psr-4": {
-      "AhnabShahin\\SpinTheWheel\\": "src/",
-      "AhnabShahin\\SpinTheWheel\\Plugin\\": ""
+      "AhnabShahin\\SpinTheWheel\\": "classes/",
+      "AhnabShahin\\SpinTheWheel\\ROOT\\": ""
     }
   },
   "authors": [

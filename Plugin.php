@@ -1,7 +1,9 @@
 <?php
 
-namespace AhnabShahin\SpinTheWheel\Plugin;
+namespace AhnabShahin\SpinTheWheel\ROOT;
 
+use AhnabShahin\SpinTheWheel\System\Menu;
+use AhnabShahin\SpinTheWheel\System\Enqueue;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -9,63 +11,23 @@ if (! defined('ABSPATH')) {
 
 class Plugin
 {
-    const MENU_SLUG = 'hello-world-react';
-
     public function __construct()
     {
-        add_action('admin_menu', [$this, 'register_admin_menu']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
+        add_action('init', [$this, 'load_plugin_constants']);
+        add_action('plugins_loaded', [$this, 'stw_init']);
     }
 
-    /**
-     * Register admin menu.
-     */
-    public function register_admin_menu()
+    public function stw_init()
     {
-        add_menu_page(
-            __('Hello World React', 'hello-world-react-plugin'),
-            __('Hello World React', 'hello-world-react-plugin'),
-            'manage_options',
-            self::MENU_SLUG,
-            [$this, 'render_admin_page'],
-            'dashicons-smiley'
-        );
+        new Enqueue();
+        new Menu();
     }
 
-    /**
-     * Enqueue React scripts.
-     */
-    public function enqueue_admin_scripts($hook_suffix)
+    public function load_plugin_constants()
     {
-        $plugin_dir = plugin_dir_url(__FILE__);
-
-        // if ($hook_suffix !== 'toplevel_page_' . self::MENU_SLUG) {
-        //     return;
-        // }
-
-        wp_enqueue_script(
-            'hello-world-react-script',
-            $plugin_dir . 'build/admin.js',
-            ['wp-element'],
-            '1.0.0',
-            true
-        );
-
-        //    enqueue style
-        wp_enqueue_style(
-            'hello-world-react-style',
-            $plugin_dir . 'build/admin.css',
-            [],
-            '1.0.0'
-        );
-
-    }
-
-    /**
-     * Render the admin page.
-     */
-    public function render_admin_page()
-    {
-        echo '<div id="hello-world-react-root"></div>';
+        define('STW_MENU_SLUG', 'spin-the-wheel');
+        define('STW_PLUGIN_DIR', plugin_dir_path(__FILE__));
+        define('STW_PLUGIN_URL', plugin_dir_url(__FILE__));
+        define('STW_ASSETS_URL', STW_PLUGIN_URL . 'build/');
     }
 }
