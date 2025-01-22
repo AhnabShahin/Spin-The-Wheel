@@ -1,4 +1,6 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -6,7 +8,7 @@ module.exports = {
     user: './src/script/user/index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'build/js'),
     filename: '[name].js',
   },
   module: {
@@ -23,8 +25,20 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        include: path.resolve(__dirname, './src/style'),
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '../style/[name].css',
+    }),
+  ],
+  optimization: {
+    minimizer: [
+      `...`,
+      new CssMinimizerPlugin(),
     ],
   },
   externals: {

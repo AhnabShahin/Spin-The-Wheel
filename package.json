@@ -15,5 +15,9 @@
     "@wordpress/element": "^6.16.0",
     "@wordpress/scripts": "^30.9.0",
     "antd": "^5.23.1"
+  },
+  "devDependencies": {
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "mini-css-extract-plugin": "^2.9.2"
   }
 }
