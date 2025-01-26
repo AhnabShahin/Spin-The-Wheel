@@ -1,20 +1,23 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import Index from "./admin";
+import { Suspense } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
-  const handleClick = () => alert("Hello World");
-
   return (
-    <div>
-      <Index />
-      <button onClick={handleClick}>Clsick Me</button>
-    </div>
+    <Router>
+      <div className="spin-the-wheel-admin-wrapper">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+          </Routes>
+        </Suspense>
+      </div>
+    </Router>
   );
 };
 
 const domNode = document.getElementById("spin-the-wheel-admin");
-console.log(domNode);
 if (domNode) {
   const root = createRoot(domNode);
   root.render(<App />);

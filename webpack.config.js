@@ -1,54 +1,26 @@
-const path = require("path");
+const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const glob = require("glob");
 
 module.exports = {
+  ...defaultConfig,
   entry: {
     admin: "./src/scripts/admin/index.js",
-    user: "./src/scripts/user/index.js",
-    ...glob.sync("./src/styles/**/*.css").reduce((acc, file) => {
-      const name = file.replace("./src/styles/", "").replace(".css", "");
-      acc[name] = file;
-      return acc;
-    }, {}),
-  },
-  output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "js/[name].js",
+    frontend: "./src/scripts/frontend/index.js",
   },
   module: {
+    ...defaultConfig.module,
     rules: [
+      ...defaultConfig.module.rules,
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-react", "@babel/preset-env"],
-          },
-        },
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
   plugins: [
+    ...defaultConfig.plugins,
     new MiniCssExtractPlugin({
-      filename: "styles/[name].min.css",
+      filename: "[name].css",
     }),
   ],
-  optimization: {
-    minimizer: [
-      `...`,
-      new CssMinimizerPlugin(),
-    ],
-  },
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-    "@wordpress/element": "wp.element",
-  },
 };

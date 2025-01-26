@@ -2,7 +2,9 @@
 
 namespace AhnabShahin\SpinTheWheel\System;
 
-
+if (! defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
 
 class Enqueue
 {
@@ -16,17 +18,36 @@ class Enqueue
 
     public function enqueue_website_styles()
     {
+        wp_enqueue_style(
+            'spin-the-wheel-frontend-style',
+            STW_PLUGIN_URL . 'build/frontend.css',
+            [],
+            '1.0.0'
+        );
     }
 
     public function enqueue_website_scripts()
     {
+        wp_enqueue_script(
+            'spin-the-wheel-frontend-script',
+            STW_PLUGIN_URL . 'build/frontend.js',
+            ['wp-element', 'wp-components', 'wp-api-fetch'],
+            '1.0.0',
+            true
+        );
+        wp_enqueue_style(
+            'spin-the-wheel-admin-style',
+            STW_PLUGIN_URL . 'build/admin.css',
+            [],
+            '1.0.0'
+        );
     }
 
     public function enqueue_dashboard_styles()
     {
         wp_enqueue_style(
-            'hello-world-react-style',
-            STW_ASSETS_URL . 'styles/user.min.css',
+            'spin-the-wheel-admin-style',
+            STW_PLUGIN_URL . 'build/admin.css',
             [],
             '1.0.0'
         );
@@ -35,9 +56,16 @@ class Enqueue
     public function enqueue_dashboard_scripts()
     {
         wp_enqueue_script(
-            'hello-world-react-script',
-            STW_ASSETS_URL . 'js/admin.js',
-            ['wp-element'],
+            'spin-the-wheel-admin-script',
+            STW_PLUGIN_URL . 'build/admin.js',
+            ['wp-element', 'wp-components', 'wp-api-fetch'],
+            '1.0.0',
+            true
+        );
+        wp_enqueue_script(
+            'spin-the-wheel-frontend-script',
+            STW_PLUGIN_URL . 'build/frontend.js',
+            ['wp-element', 'wp-components', 'wp-api-fetch'],
             '1.0.0',
             true
         );

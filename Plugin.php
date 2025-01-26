@@ -29,5 +29,7 @@ class Plugin
         define('STW_PLUGIN_DIR', plugin_dir_path(__FILE__));
         define('STW_PLUGIN_URL', plugin_dir_url(__FILE__));
         define('STW_ASSETS_URL', STW_PLUGIN_URL . 'build/');
+        define('STW_VERSION', '1.0.0');
+        define('STW_DEV_MODE', defined('SCRIPT_DEBUG') && SCRIPT_DEBUG);
     }
 }
