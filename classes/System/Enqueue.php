@@ -35,12 +35,6 @@ class Enqueue
             '1.0.0',
             true
         );
-        wp_enqueue_style(
-            'spin-the-wheel-admin-style',
-            STW_PLUGIN_URL . 'build/admin.css',
-            [],
-            '1.0.0'
-        );
     }
 
     public function enqueue_dashboard_styles()
@@ -58,13 +52,6 @@ class Enqueue
         wp_enqueue_script(
             'spin-the-wheel-admin-script',
             STW_PLUGIN_URL . 'build/admin.js',
-            ['wp-element', 'wp-components', 'wp-api-fetch'],
-            '1.0.0',
-            true
-        );
-        wp_enqueue_script(
-            'spin-the-wheel-frontend-script',
-            STW_PLUGIN_URL . 'build/frontend.js',
             ['wp-element', 'wp-components', 'wp-api-fetch'],
             '1.0.0',
             true

@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Switch, Button, Card, message, ColorPicker } 
 import { SaveOutlined } from '@ant-design/icons';
 
 const Settings = () => {
-    const [form] = Form.useForm();
+    const [form] = Form.useForm(); 
 
     useEffect(() => {
         // TODO: Fetch settings from WordPress REST API

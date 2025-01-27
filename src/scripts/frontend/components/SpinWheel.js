@@ -1,74 +1,46 @@
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { Modal, Button, message } from 'antd';
-import { Wheel } from 'spin-wheel';
+import { Wheel } from 'react-custom-roulette';
 
 const SpinWheel = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isSpinning, setIsSpinning] = useState(false);
-    const [wheelData, setWheelData] = useState([]);
-    const wheelRef = useRef(null);
-    const containerRef = useRef(null);
+    const [prizeNumber, setPrizeNumber] = useState(0);
+
+    const data = [
+        { option: '20% OFF', style: { backgroundColor: '#ff4d4f', textColor: '#ffffff' } },
+        { option: '10% OFF', style: { backgroundColor: '#1890ff', textColor: '#ffffff' } },
+        { option: '5% OFF', style: { backgroundColor: '#52c41a', textColor: '#ffffff' } },
+        { option: 'Try Again', style: { backgroundColor: '#faad14', textColor: '#ffffff' } }
+    ];
 
     useEffect(() => {
-        // TODO: Fetch wheel settings and coupons from WordPress REST API
-        const items = [
-            { label: '20% OFF', backgroundColor: '#ff4d4f', textColor: '#ffffff' },
-            { label: '10% OFF', backgroundColor: '#1890ff', textColor: '#ffffff' },
-            { label: '5% OFF', backgroundColor: '#52c41a', textColor: '#ffffff' },
-            { label: 'Try Again', backgroundColor: '#faad14', textColor: '#ffffff' }
-        ];
-        setWheelData(items);
-
-        if (containerRef.current) {
-            wheelRef.current = new Wheel(containerRef.current, {
-                items,
-                radius: 0.9,
-                itemLabelFontSizeMax: 24,
-                itemLabelRadius: 0.85,
-                rotationResistance: 0.95,
-                pointerAngle: 0
-            });
-        }
-
         // Show wheel after delay
         const timer = setTimeout(() => {
             setIsVisible(true);
-        }, 5000); // 5 seconds delay
+        }, 0); // 5 seconds delay
 
-        return () => {
-            clearTimeout(timer);
-            if (wheelRef.current) {
-                wheelRef.current.remove();
-            }
-        };
+        return () => clearTimeout(timer);
     }, []);
 
-    const handleSpinClick = () => {
-        if (!isSpinning && wheelRef.current) {
+    const handleSpinClick = () => { 
+        if (!isSpinning) {
             setIsSpinning(true);
-            const winningIndex = Math.floor(Math.random() * wheelData.length);
-            
-            wheelRef.current.spinToItem(
-                winningIndex,
-                4000, // duration
-                true, // spinToCenter
-                2, // numberOfRevolutions
-                1, // direction (clockwise)
-                'easeOutCubic' // Using built-in easing string instead of importing
-            ).then(() => {
-                const prize = wheelData[winningIndex].label;
-                if (prize !== 'Try Again') {
-                    // TODO: Save spin result to WordPress database
-                    message.success(`Congratulations! You won ${prize}!`);
-                } else {
-                    message.info('Better luck next time!');
-                }
-                setIsSpinning(false);
-            });
+            const newPrizeNumber = Math.floor(Math.random() * data.length);
+            setPrizeNumber(newPrizeNumber);
         }
     };
 
-
+    const handleSpinStop = () => {
+        setIsSpinning(false);
+        const prize = data[prizeNumber].option;
+        if (prize !== 'Try Again') {
+            // TODO: Save spin result to WordPress database
+            message.success(`Congratulations! You won ${prize}!`);
+        } else {
+            message.info('Better luck next time!');
+        }
+    };
 
     return (
         <Modal
@@ -82,28 +54,34 @@ const SpinWheel = () => {
             <div style={{ textAlign: 'center' }}>
                 <p>Spin the wheel for a chance to win amazing discounts!</p>
                 
-                <div 
-                    ref={containerRef} 
-                    style={{ 
-                        width: '300px', 
-                        height: '300px', 
-                        margin: '0 auto',
-                        position: 'relative'
-                    }}
-                >
-                    <div 
-                        style={{
-                            position: 'absolute',
-                            top: '-20px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            width: 0,
-                            height: 0,
-                            borderLeft: '10px solid transparent',
-                            borderRight: '10px solid transparent',
-                            borderTop: '20px solid #000',
-                            zIndex: 1
-                        }}
+                <div style={{ 
+                    width: '300px', 
+                    height: '300px', 
+                    margin: '0 auto',
+                    position: 'relative'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: '-20px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 0,
+                        height: 0,
+                        borderLeft: '10px solid transparent',
+                        borderRight: '10px solid transparent',
+                        borderTop: '20px solid #000',
+                        zIndex: 1
+                    }} />
+                    <Wheel
+                        mustStartSpinning={isSpinning}
+                        prizeNumber={prizeNumber}
+                        data={data}
+                        onStopSpinning={handleSpinStop}
+                        spinDuration={0.8}
+                        outerBorderWidth={2}
+                        radiusLineWidth={1}
+                        fontSize={16}
+                        textDistance={60}
                     />
                 </div>
 

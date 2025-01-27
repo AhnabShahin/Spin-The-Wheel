@@ -8,9 +8,12 @@ if (! defined('ABSPATH')) {
 
 class Menu
 {
+    private $theme_selector;
+
     public function __construct()
     {
         add_action('admin_menu', [$this, 'register_admin_menu']);
+        $this->theme_selector = new \AhnabShahin\SpinTheWheel\Components\ThemeSelector();
     }
 
     public function register_admin_menu()
@@ -36,11 +39,11 @@ class Menu
 
         add_submenu_page(
             STW_MENU_SLUG,
-            'Users',
-            'Users',
+            'Theme Settings',
+            'Theme Settings',
             'manage_options',
-            'stw-users',
-            [$this, 'render_user_page']
+            'stw-theme-settings',
+            [$this, 'render_theme_settings']
         );
     }
 
@@ -49,8 +52,8 @@ class Menu
         echo '<div id="spin-the-wheel-admin"></div>';
     }
 
-    public function render_user_page()
+    public function render_theme_settings()
     {
-        echo '<div id="spin-the-wheel-frontend"></div>';
+        $this->theme_selector->render_theme_selector();
     }
 }

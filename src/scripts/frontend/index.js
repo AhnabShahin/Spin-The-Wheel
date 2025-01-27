@@ -1,7 +1,7 @@
 import { createRoot } from '@wordpress/element';
 import SpinWheel from './components/SpinWheel';
-import '../../styles/frontend.scss';
+import '../../styles/frontend.css';
 
-const container = document.getElementById('spin-the-wheel-frontend');
+const container = document.getElementById('wpadminbar');
 const root = createRoot(container);
-root.render(<SpinWheel />);
+root.render(<SpinWheel />); 

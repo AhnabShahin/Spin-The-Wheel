@@ -9,7 +9,7 @@ const App = () => {
       <div className="spin-the-wheel-admin-wrapper">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} /> 
           </Routes>
         </Suspense>
       </div>
