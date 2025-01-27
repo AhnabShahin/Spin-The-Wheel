@@ -1,6 +1,6 @@
 import { useState, useEffect } from "@wordpress/element";
-import { Card, Col, Row, Statistic, Table } from "antd";
-import { TrophyOutlined, UserOutlined, GiftOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Statistic, Table, Button } from "antd";
+import { TrophyOutlined, UserOutlined, GiftOutlined, PlusOutlined } from "@ant-design/icons";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -10,6 +10,7 @@ const Dashboard = () => {
   });
 
   const [recentSpins, setRecentSpins] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   useEffect(() => {
     // TODO: Fetch actual data from WordPress REST API
@@ -33,30 +34,39 @@ const Dashboard = () => {
 
   const columns = [
     {
-      title: "User",
+      title: "Title",
       dataIndex: "user",
       key: "user",
+      sorter: true,
     },
     {
-      title: "Coupon",
+      title: "Discription",
       dataIndex: "coupon",
       key: "coupon",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: "Action",
+      key: "action",
+      render: () => (
+        <Button type="text" style={{ color: "#666" }}>
+          ...
+        </Button>
+      ),
     },
   ];
 
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
   return (
     <div>
-      <Row gutter={16}>
+      <Row gutter={16} style={{ margin: 0 }}>
         <Col span={8}>
           <Card>
             <Statistic
@@ -85,15 +95,16 @@ const Dashboard = () => {
           </Card>
         </Col>
       </Row>
-
-      <Card style={{ marginTop: 16 }}>
-        <h2>Recent Spinsj</h2>
-        <Table
-          columns={columns}
-          dataSource={recentSpins}
-          pagination={{ pageSize: 10 }}
-        />
-      </Card>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '24px' }}>
+        <h2 style={{ margin: 0 }}>Recent Spin Themes</h2>
+        <Button type="primary" icon={<PlusOutlined />}>Add New</Button>
+      </div>
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={recentSpins}
+        pagination={{ pageSize: 10 }}
+      />
     </div>
   );
 };

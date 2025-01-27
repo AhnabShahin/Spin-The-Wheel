@@ -8,7 +8,7 @@ const SpinWheel = () => {
     const [prizeNumber, setPrizeNumber] = useState(0);
 
     const data = [
-        { option: '20% OFF', style: { backgroundColor: '#ff4d4f', textColor: '#ffffff' } },
+        { option: '20% OFF',optionSize:2, style: { backgroundColor: '#ff4d4f', textColor: '#ffffff' } },
         { option: '10% OFF', style: { backgroundColor: '#1890ff', textColor: '#ffffff' } },
         { option: '5% OFF', style: { backgroundColor: '#52c41a', textColor: '#ffffff' } },
         { option: 'Try Again', style: { backgroundColor: '#faad14', textColor: '#ffffff' } }
@@ -27,7 +27,7 @@ const SpinWheel = () => {
         if (!isSpinning) {
             setIsSpinning(true);
             const newPrizeNumber = Math.floor(Math.random() * data.length);
-            setPrizeNumber(newPrizeNumber);
+            setPrizeNumber(0);
         }
     };
 
