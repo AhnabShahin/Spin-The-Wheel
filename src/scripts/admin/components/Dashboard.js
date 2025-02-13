@@ -1,5 +1,6 @@
 import { useState, useEffect } from "@wordpress/element";
-import { Card, Col, Row, Statistic, Table, Button, DatePicker, Progress, Typography, Modal, Form, Input } from "antd";
+import { Card, Col, Row, Statistic, Table, Button, DatePicker, Progress, Typography } from "antd";
+import ThemeModal from './ThemeModal';
 import { TrophyOutlined, UserOutlined, GiftOutlined, PlusOutlined, LineChartOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import apiFetch from '@wordpress/api-fetch';
 
@@ -19,10 +20,12 @@ const Dashboard = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
+  const [tableData, setTableData] = useState([]);
+  const [themePropertiesLoading, setThemePropertiesLoading] = useState(false);
 
   useEffect(() => {
     fetchDashboardData();
+    fetchThemeProperties();
   }, []);
 
   const fetchDashboardData = async () => {
@@ -44,6 +47,25 @@ const Dashboard = () => {
       console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchThemeProperties = async () => {
+    setThemePropertiesLoading(true);
+    try {
+      const response = await apiFetch({ path: '/spin-wheel/v1/theme-properties' });
+      const formattedData = response.map((item, index) => ({
+        key: String(index + 1),
+        property: item.name,
+        description: item.description,
+        type: item.type,
+        defaultValue: item.default_value || '-'
+      }));
+      setTableData(formattedData);
+    } catch (error) {
+      console.error('Error fetching theme properties:', error);
+    } finally {
+      setThemePropertiesLoading(false);
     }
   };
 
@@ -102,21 +124,10 @@ const Dashboard = () => {
     setIsModalOpen(true);
   };
 
-  const handleModalCancel = () => {
+  const handleSaveTheme = (values) => {
+    console.log('Theme values:', values);
+    // TODO: Implement theme creation logic
     setIsModalOpen(false);
-    form.resetFields();
-  };
-
-  const handleModalOk = async () => {
-    try {
-      const values = await form.validateFields();
-      console.log('Form values:', values);
-      // TODO: Implement theme creation logic
-      setIsModalOpen(false);
-      form.resetFields();
-    } catch (error) {
-      console.error('Validation failed:', error);
-    }
   };
 
   return (
@@ -209,28 +220,50 @@ const Dashboard = () => {
           showTotal: (total) => `Total ${total} items`
         }}
       />
-      <Modal
-        title="Add New Theme"
-        open={isModalOpen}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-        width={600}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          name="add_theme_form"
-        >
-          <Form.Item
-            name="themeName"
-            label="Theme Name"
-            rules={[{ required: true, message: 'Please enter theme name' }]}
-          >
-            <Input placeholder="Enter theme name" />
-          </Form.Item>
-          {/* Add more form fields for theme customization */}
-        </Form>
-      </Modal>
+
+      {/* Theme Properties Section */}
+      <div style={{ marginTop: 24 }}>
+        <Title level={4}>Theme Properties</Title>
+        <Table
+          dataSource={tableData}
+          columns={[
+            {
+              title: 'Property',
+              dataIndex: 'property',
+              key: 'property',
+              width: '20%'
+            },
+            {
+              title: 'Description',
+              dataIndex: 'description',
+              key: 'description',
+              width: '40%'
+            },
+            {
+              title: 'Type',
+              dataIndex: 'type',
+              key: 'type',
+              width: '20%'
+            },
+            {
+              title: 'Default Value',
+              dataIndex: 'defaultValue',
+              key: 'defaultValue',
+              width: '20%'
+            }
+          ]}
+          pagination={false}
+          size="small"
+          bordered
+          loading={themePropertiesLoading}
+        />
+      </div>
+
+      <ThemeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveTheme}
+      />
     </div>
   );
 };
