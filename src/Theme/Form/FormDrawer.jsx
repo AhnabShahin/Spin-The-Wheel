@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Drawer, Space } from "antd";
+import ThemeForm from "./ThemeForm";
 const FormDrawer = ({ open, onClose, record }) => {
   return (
     <>
@@ -19,9 +20,7 @@ const FormDrawer = ({ open, onClose, record }) => {
           </Space>
         }
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <ThemeForm />
       </Drawer>
     </>
   );
