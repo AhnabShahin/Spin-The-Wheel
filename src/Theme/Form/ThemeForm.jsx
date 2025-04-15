@@ -8,17 +8,16 @@ import {
   Card,
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { AntdConfigProvider } from "../config/antd.config";
-
-// Form layout is controlled by AntdConfigProvider
+import AntdConfig from "../config/AntdConfig";
+import { Row, Col } from "antd";
 
 const onFinish = (values) => {
   console.log("Received values of form: ", values);
 };
 
 const ThemeForm = () => (
-  <AntdConfigProvider>
   <Form
+    {...AntdConfig().form}
     name="spin_wheel_theme"
     onFinish={onFinish}
     initialValues={{
@@ -43,13 +42,10 @@ const ThemeForm = () => (
       disableInitialAnimation: false,
       items: [],
     }}
-    style={{
-      maxWidth: 600
-    }}
   >
     <Form.Item
       name="theme_name"
-      label="Theme Name"
+      label="Theme Names"
       rules={[
         {
           required: true,
@@ -85,7 +81,11 @@ const ThemeForm = () => (
       ]}
       extra="Sets the winning option. Value must be between 0 and data.length-1"
     >
-      <InputNumber min={0} placeholder="Enter prize number" />
+      <InputNumber
+        min={0}
+        placeholder="Enter prize number"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -141,7 +141,11 @@ const ThemeForm = () => (
       ]}
       extra="Width of the roulette's outer border line (0 represents no outer border line)"
     >
-      <InputNumber min={0} placeholder="Enter outer border width" />
+      <InputNumber
+        min={0}
+        placeholder="Enter outer border width"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -155,7 +159,12 @@ const ThemeForm = () => (
       ]}
       extra="Distance of the inner radius from the center of the roulette"
     >
-      <InputNumber min={0} max={100} placeholder="Enter inner radius" />
+      <InputNumber
+        min={0}
+        max={100}
+        placeholder="Enter inner radius"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -183,7 +192,11 @@ const ThemeForm = () => (
       ]}
       extra="Width of the roulette's inner border line (0 represents no inner border line)"
     >
-      <InputNumber min={0} placeholder="Enter inner border width" />
+      <InputNumber
+        min={0}
+        placeholder="Enter inner border width"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -211,7 +224,11 @@ const ThemeForm = () => (
       ]}
       extra="Width of the radial lines that separate each option (0 represents no radial lines)"
     >
-      <InputNumber min={0} placeholder="Enter radius line width" />
+      <InputNumber
+        min={0}
+        placeholder="Enter radius line width"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -239,7 +256,12 @@ const ThemeForm = () => (
       ]}
       extra="Global font size of the option string"
     >
-      <InputNumber min={1} defaultValue={20} placeholder="Enter font size" />
+      <InputNumber
+        min={1}
+        defaultValue={20}
+        placeholder="Enter font size"
+        style={{ width: "100%" }}
+      />
     </Form.Item>
 
     <Form.Item
@@ -300,6 +322,7 @@ const ThemeForm = () => (
         max={100}
         defaultValue={60}
         placeholder="Enter text distance"
+        style={{ width: "100%" }}
       />
     </Form.Item>
 
@@ -319,6 +342,7 @@ const ThemeForm = () => (
         step={0.1}
         defaultValue={1.0}
         placeholder="Enter spin duration"
+        style={{ width: "100%" }}
       />
     </Form.Item>
 
@@ -339,31 +363,199 @@ const ThemeForm = () => (
     <Form.Item label="Wheel Data">
       <Form.List name="data">
         {(fields, { add, remove }) => (
-          <div
-            style={{
-              display: "flex",
-              rowGap: 16,
-              flexDirection: "column",
-            }}
-          >
+          <div>
             {fields.map((field) => (
-              <Card
-                size="small"
-                key={field.key}
-                extra={
-                  <CloseOutlined
-                    onClick={() => {
-                      remove(field.name);
-                    }}
-                  />
-                }
-              >
-                <Form.Item label="Option" name={[field.name, 'option']}>
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Option Size" name={[field.name, 'optionSize']}>
-                  <InputNumber />
-                </Form.Item>
+              <Card size="small" key={field.key} type="inner">
+                <CloseOutlined
+                  onClick={() => remove(field.name)}
+                  style={{ float: "right", cursor: "pointer" }}
+                />
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item label="Option" name={[field.name, "option"]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Option Size"
+                      name={[field.name, "optionSize"]}
+                    >
+                      <InputNumber
+                        placeholder="Enter option size (0, 1, 2, 3 ...)"
+                        min={0}
+                        defaultValue={1}
+                        style={{ width: "100%" }}
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={24}>
+                    <Form.Item label="Style Type">
+                      <Form.List name="style">
+                        {(fields, { add, remove }) => (
+                          <div>
+                            {fields.map((field) => (
+                              <Card
+                                size="small"
+                                key={field.key}
+                                type="inner"
+                              >
+                                <CloseOutlined
+                                  onClick={() => remove(field.name)}
+                                  style={{ float: "right", cursor: "pointer" }}
+                                />
+                                <Row gutter={16}>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Background Color"
+                                      name={[field.name, "backgroundColor"]}
+                                    >
+                                      <ColorPicker showText />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Text Color"
+                                      name={[field.name, "textColor"]}
+                                    >
+                                      <ColorPicker showText />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Font Family"
+                                      name={[field.name, "fontFamily"]}
+                                    >
+                                      <Input placeholder="Enter font family" />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Font Size"
+                                      name={[field.name, "fontSize"]}
+                                    >
+                                      <InputNumber min={1} placeholder="Enter font size" style={{ width: "100%" }} />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Font Weight"
+                                      name={[field.name, "fontWeight"]}
+                                    >
+                                      <Input placeholder="Enter font weight (e.g., bold, 400)" />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Font Style"
+                                      name={[field.name, "fontStyle"]}
+                                    >
+                                      <Input placeholder="Enter font style (e.g., normal, italic)" />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+                              </Card>
+                            ))}
+
+                            {fields.length < 1 && (
+                              <Button type="dashed" onClick={() => add()} block>
+                                + Add Item
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </Form.List>
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={24}>
+                    <Form.Item label="Image Props">
+                      <Form.List name="image">
+                        {(fields, { add, remove }) => (
+                          <div>
+                            {fields.map((field) => (
+                              <Card
+                                size="small"
+                                key={field.key}
+                                type="inner"
+                              >
+                                <CloseOutlined
+                                  onClick={() => remove(field.name)}
+                                  style={{ float: "right", cursor: "pointer" }}
+                                />
+                                <Row gutter={16}>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Image URI"
+                                      name={[field.name, "uri"]}
+                                      rules={[{ required: true, message: "Please input image URI" }]}
+                                      extra="Image source. It can be url or path."
+                                    >
+                                      <Input placeholder="Enter image URI" />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Offset X"
+                                      name={[field.name, "offsetX"]}
+                                      initialValue={0}
+                                      extra="Image offset in its X axis"
+                                    >
+                                      <InputNumber placeholder="Enter X offset" style={{ width: "100%" }} />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Offset Y"
+                                      name={[field.name, "offsetY"]}
+                                      initialValue={0}
+                                      extra="Image offset in its Y axis"
+                                    >
+                                      <InputNumber placeholder="Enter Y offset" style={{ width: "100%" }} />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Size Multiplier"
+                                      name={[field.name, "sizeMultiplier"]}
+                                      initialValue={1}
+                                      extra="Image height is calculated as 200px * sizeMultiplier"
+                                    >
+                                      <InputNumber
+                                        min={0}
+                                        step={0.1}
+                                        placeholder="Enter size multiplier"
+                                        style={{ width: "100%" }}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      label="Landscape"
+                                      name={[field.name, "landscape"]}
+                                      valuePropName="checked"
+                                      initialValue={false}
+                                      extra="Rotate image 90 degrees for landscape orientation"
+                                    >
+                                      <Switch />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+                              </Card>
+                            ))}
+
+                            {fields.length < 1 && (
+                              <Button type="dashed" onClick={() => add()} block>
+                                + Add Item
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </Form.List>
+                    </Form.Item>
+                  </Col>
+                </Row>
               </Card>
             ))}
 
@@ -383,7 +575,6 @@ const ThemeForm = () => (
       </Button>
     </Form.Item>
   </Form>
-  </AntdConfigProvider>
 );
 
 export default ThemeForm;
