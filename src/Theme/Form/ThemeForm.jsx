@@ -6,13 +6,20 @@ import {
   InputNumber,
   ColorPicker,
   Card,
+  Upload,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
 import AntdConfig from "../config/AntdConfig";
 import { Row, Col } from "antd";
 
 const onFinish = (values) => {
-  console.log("Received values of form: ", values);
+  // Convert single color values to arrays if needed
+  const formattedValues = {
+    ...values,
+    backgroundColors: Array.isArray(values.backgroundColors) ? values.backgroundColors : [values.backgroundColors],
+    textColors: Array.isArray(values.textColors) ? values.textColors : [values.textColors],
+  };
+  console.log("Received values of form: ", formattedValues);
 };
 
 const ThemeForm = () => (
@@ -40,7 +47,12 @@ const ThemeForm = () => (
       textDistance: 60,
       spinDuration: 1.0,
       disableInitialAnimation: false,
-      items: [],
+      data: [],
+      startingOptionIndex: 0,
+      pointerProps: {
+        src: '',
+        style: {}
+      },
     }}
   >
     <Form.Item
@@ -360,6 +372,38 @@ const ThemeForm = () => (
       <Switch defaultChecked={false} />
     </Form.Item>
 
+    <Form.Item
+      name="startingOptionIndex"
+      label="Starting Option Index"
+      extra="Set which option will be initially selected by the roulette (before spinning)"
+    >
+      <InputNumber
+        min={0}
+        placeholder="Enter starting option index"
+        style={{ width: "100%" }}
+      />
+    </Form.Item>
+
+    <Form.Item label="Pointer Properties" style={{ marginBottom: 0 }}>
+      <Form.Item
+        name={["pointerProps", "src"]}
+        label="Pointer Image Source"
+        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+      >
+        <Input placeholder="Enter pointer image URL" />
+      </Form.Item>
+      <Form.Item
+        name={["pointerProps", "style"]}
+        label="Pointer CSS Style"
+        style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
+      >
+        <Input.TextArea
+          placeholder="Enter CSS style object"
+          autoSize={{ minRows: 2, maxRows: 6 }}
+        />
+      </Form.Item>
+    </Form.Item>
+
     <Form.Item label="Wheel Data">
       <Form.List name="data">
         {(fields, { add, remove }) => (
@@ -392,7 +436,7 @@ const ThemeForm = () => (
 
                   <Col span={24}>
                     <Form.Item label="Style Type">
-                      <Form.List name="style">
+                      <Form.List name={[field.name, "style"]}>
                         {(fields, { add, remove }) => (
                           <div>
                             {fields.map((field) => (
@@ -471,7 +515,7 @@ const ThemeForm = () => (
 
                   <Col span={24}>
                     <Form.Item label="Image Props">
-                      <Form.List name="image">
+                      <Form.List name={[field.name, "image"]}>
                         {(fields, { add, remove }) => (
                           <div>
                             {fields.map((field) => (
