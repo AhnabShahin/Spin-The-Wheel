@@ -18,10 +18,11 @@ class Enqueue
 
     public function enqueue_admin_scripts($hook)
     {
-
+        wp_enqueue_script('wp-element');
+        
         wp_enqueue_style(
             'spin-the-wheel-admin-style',
-            STW_PLUGIN_URL . 'dist/assets/main.css',
+            STW_PLUGIN_URL . 'build/index.css',
             array(),
             null
         );
@@ -29,7 +30,7 @@ class Enqueue
 
         wp_enqueue_script(
             'spin-the-wheel-admin-script',
-            STW_PLUGIN_URL . 'dist/assets/main.js',
+            STW_PLUGIN_URL . 'build/index.js',
             array(),
             null,
             true
