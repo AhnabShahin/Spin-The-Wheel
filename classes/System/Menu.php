@@ -13,6 +13,7 @@ class Menu
     public function __construct()
     {
         add_action('admin_menu', [$this, 'register_admin_menu']);
+        add_action('wp_footer', [$this, 'render_user_page']);
         $this->theme_selector = new \AhnabShahin\SpinTheWheel\Components\ThemeSelector();
     }
 
@@ -55,5 +56,10 @@ class Menu
     public function render_theme_settings()
     {
         $this->theme_selector->render_theme_selector();
+    }
+
+    public function render_user_page()
+    {
+        echo '<div id="spin-the-wheel-user"></div>';
     }
 }
