@@ -22,12 +22,12 @@ class Enqueue
     {
         wp_enqueue_script('wp-element');
         
-        wp_enqueue_style(
-            'spin-the-wheel-admin-style',
-            STW_PLUGIN_URL . 'build/index.css',
-            array(),
-            null
-        );
+        // wp_enqueue_style(
+        //     'spin-the-wheel-admin-style',
+        //     STW_PLUGIN_URL . 'build/index.css',
+        //     array(),
+        //     null
+        // );
 
         wp_enqueue_script(
             'spin-the-wheel-admin-script',
