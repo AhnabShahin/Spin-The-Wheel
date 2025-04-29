@@ -121,6 +121,7 @@
       "marginXS": 0
     },
     "Form": {
+      "layout": "horizontal",
       "fontFamily": "'Inter', sans-serif;",
       "screenXSMax": 320,
       "verticalLabelPadding": "0 0 2px",

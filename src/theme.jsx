@@ -1,7 +1,7 @@
 import { StrictMode } from '@wordpress/element';
 import { createRoot } from '@wordpress/element';
 import { ConfigProvider } from 'antd';
-import AntdConfig from './Theme/config/AntdConfig.jsx';
+import themeConfig from './Theme/config/themeConfig.json';
 import Display from './Showcase/Display.jsx';
 
 const container = document.getElementById('spin-the-wheel-user');
@@ -9,7 +9,7 @@ const container = document.getElementById('spin-the-wheel-user');
 if (container) {
   createRoot(container).render(
     <StrictMode>
-      <ConfigProvider {...AntdConfig()}>
+      <ConfigProvider theme={themeConfig}>
         <Display />
       </ConfigProvider>
     </StrictMode>
