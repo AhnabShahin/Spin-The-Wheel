@@ -1,35 +1,22 @@
 <?php
 
-namespace SyntheticCore\Supports\Traits;
+namespace AhnabShahin\SpinTheWheel\Traits;
 
-use Illuminate\Http\JsonResponse;
+use WP_HTTP_Response;
 
 trait ResponseTrait
 {
     protected $responseMessages = [];
 
-    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null): JsonResponse
+    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null) :WP_HTTP_Response
     {
-        if(is_object($data) && \method_exists($data, 'toArray')){
-            $data = $data->toArray();
-        }
-
         $response = [
             'message' => $this->responseMessages,
             'tracer'  => $tracer,
-            'data'    => null,
+            'data'    => $data
         ];
-        if (is_array($data) && isset($data['data'])) {
-            $response = array_merge($response, $data);
-        } else {
-            $response['data'] = $data;
-        }
-
-        if (empty($response['data'])) {
-            $response['data'] = (object) $response['data'];
-        }
-
-        return response()->json($response, $status, $headers);
+        
+        return new WP_HTTP_Response($response, $status, $headers);
     }
 
     protected function addResponseMessage($type, $message)

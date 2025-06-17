@@ -4,7 +4,11 @@
     "psr-4": {
       "AhnabShahin\\SpinTheWheel\\": "classes/",
       "AhnabShahin\\SpinTheWheel\\ROOT\\": ""
-    }
+    },
+    "files": [
+      "includes/log.php",
+      "includes/plugin-constants.php"
+    ]
   },
   "authors": [
     {

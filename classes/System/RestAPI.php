@@ -2,41 +2,55 @@
 
 namespace AhnabShahin\SpinTheWheel\System;
 
-class RestAPI {
+use AhnabShahin\SpinTheWheel\Traits\ResponseTrait;
+
+class RestAPI
+{
+    use ResponseTrait;
     private $database;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->database = new Database();
         add_action('rest_api_init', [$this, 'register_routes']);
     }
 
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route('stw/v1', '/settings/template', [
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_template'],
-                'permission_callback' => function() {
-                    return current_user_can('manage_options');
+                'permission_callback' => function () {
+                    // return current_user_can('manage_options');
+                    return true; // Allow public access for testing purposes
                 }
             ],
             [
                 'methods' => 'POST',
                 'callback' => [$this, 'update_template'],
-                'permission_callback' => function() {
+                'permission_callback' => function () {
                     return current_user_can('manage_options');
                 }
             ]
         ]);
     }
 
-    public function get_template() {
+    public function get_template()
+    {
+        $this->addResponseMessage('success', 'Retrieving wheel template settings');
+        return $this->responseSuccess(
+            ['template' =>'sad'],
+            'Template retrieved successfully'
+        );
+        return 'asd';
         $template = $this->database->get_setting('wheel_template') ?: 'classic';
-        return new \WP_REST_Response(['template' => $template], 200);
     }
 
-    public function update_template($request) {
+    public function update_template($request)
+    {
         $template = $request->get_param('template');
-        
+
         if (!in_array($template, ['classic', 'modern'])) {
             return new \WP_Error(
                 'invalid_template',

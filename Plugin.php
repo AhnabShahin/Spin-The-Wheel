@@ -10,11 +10,11 @@ if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class Plugin
+final class Plugin
 {
     public function __construct()
     {
-        add_action('init', [$this, 'load_plugin_constants']);
+        // add_action('init', [$this, 'load_plugin_constants']);
         add_action('plugins_loaded', [$this, 'stw_init']);
     }
 
