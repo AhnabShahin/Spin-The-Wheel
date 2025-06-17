@@ -4,6 +4,7 @@ namespace AhnabShahin\SpinTheWheel\ROOT;
 
 use AhnabShahin\SpinTheWheel\System\Menu;
 use AhnabShahin\SpinTheWheel\System\Enqueue;
+use AhnabShahin\SpinTheWheel\System\RestAPI;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -21,6 +22,7 @@ class Plugin
     {
         new Menu();
         new Enqueue();
+        new RestAPI();
     }
 
     public function load_plugin_constants()

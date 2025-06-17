@@ -22,18 +22,11 @@ class Enqueue
     {
         wp_enqueue_script('wp-element');
         
-        // wp_enqueue_style(
-        //     'spin-the-wheel-admin-style',
-        //     STW_PLUGIN_URL . 'build/index.css',
-        //     array(),
-        //     null
-        // );
-
         wp_enqueue_script(
             'spin-the-wheel-admin-script',
-            STW_PLUGIN_URL . 'build/index.js',
+            STW_PLUGIN_URL . 'ui-resources/index.js',
             array(),
-            null,
+            time(),  // Using time() as version to prevent caching
             true
         );
     }
@@ -44,9 +37,9 @@ class Enqueue
     
         wp_enqueue_script(
             'spin-the-wheel-user-script',
-            STW_PLUGIN_URL . 'build/user.js',
+            STW_PLUGIN_URL . 'ui-resources/user.js',
             array('wp-element'),
-            null,
+            time(),  // Using time() as version to prevent caching
             true
         );
 
