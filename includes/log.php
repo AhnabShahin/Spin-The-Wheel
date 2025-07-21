@@ -26,3 +26,22 @@ if (!function_exists('stw_log')) {
         file_put_contents($plugin_root . $filename, $log_entry, FILE_APPEND | LOCK_EX);
     }
 }
+
+if (!function_exists('write_log')) {
+    /**
+     * Log debug messages to saf.log in the plugin root with an optional tracer.
+     *
+     * @param string|array|object $message The message to log.
+     * @param string|null $tracer Optional tracer string. Will show empty if null.
+     */
+    function write_log($data)
+    {
+        if (true === WP_DEBUG) {
+            if (is_array($data) || is_object($data)) {
+                error_log(print_r($data, true));
+            } else {
+                error_log($data);
+            }
+        }
+    }
+}

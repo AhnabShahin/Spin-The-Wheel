@@ -2,6 +2,7 @@
 
 namespace AhnabShahin\SpinTheWheel\ROOT;
 
+use AhnabShahin\SpinTheWheel\Components\RouletteTheme\Api as RouletteThemeAPI;
 use AhnabShahin\SpinTheWheel\System\Menu;
 use AhnabShahin\SpinTheWheel\System\Enqueue;
 use AhnabShahin\SpinTheWheel\System\RestAPI;
@@ -22,7 +23,7 @@ final class Plugin
     {
         new Menu();
         new Enqueue();
-        new RestAPI();
+        new RouletteThemeAPI();
     }
 
     public function load_plugin_constants()

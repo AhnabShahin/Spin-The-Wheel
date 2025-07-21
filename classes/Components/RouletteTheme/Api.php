@@ -1,17 +1,17 @@
 <?php
-namespace AhnabShahin\SpinTheWheel\Components;
+namespace AhnabShahin\SpinTheWheel\Components\RouletteTheme;
 
 use AhnabShahin\SpinTheWheel\System\RestAPI;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-class Roulette extends RestAPI
+class Api extends RestAPI
 {
 
-    public function __construct()
+    public function config(): void
     {
-        parent::__construct();
+        $this->prefix = 'template';
     }
 
     public function getRouletteList()
