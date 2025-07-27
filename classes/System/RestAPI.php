@@ -10,7 +10,7 @@ abstract class RestAPI
 {
     use ResponseTrait;
     private string $projectPrefix           = 'stw';
-    protected abstract string $prefix       = '';
+    protected string|null $apiBasePrefix    = null;
     protected string|null $postActionParam  = null;
     protected string $version               = 'v1';
     protected WP_REST_Request|null $request = null;
@@ -25,10 +25,14 @@ abstract class RestAPI
 
     protected function init(): void
     {
+        if (is_null($this->apiBasePrefix)) {
+            $this->addResponseMessage('error', 'API prefix is not set.');
+        }
+
         add_action('rest_api_init', function () {
             register_rest_route(
-                untrailingslashit($this->projectPrefix . '/' . $this->version . '/' . $this->prefix),
-                '/(?P<action>\w+)' . ($this->postActionParam ? '/' . ltrim($this->postActionParam, '/') : ''),
+                untrailingslashit($this->projectPrefix . '/' . $this->version . '/' . $this->apiBasePrefix),
+                '/(?P<action>[a-zA-Z0-9_-]+)' . ($this->postActionParam ? '/' . ltrim($this->postActionParam, '/') : ''),
                 [
                     'methods'             => WP_REST_Server::ALLMETHODS,
                     'callback'            => [$this, 'dispatch'],
@@ -60,7 +64,7 @@ abstract class RestAPI
     public function dispatch(WP_REST_Request $request)
     {
         $this->request = $request;
-        $action     = sanitize_key($request->get_url_params()['action']);
+        $action     = sanitize_key(str_replace('-', '_', $request->get_url_params()['action']));
         $httpMethod = strtolower($request->get_method());
         $method     = "{$httpMethod}_{$action}";
 

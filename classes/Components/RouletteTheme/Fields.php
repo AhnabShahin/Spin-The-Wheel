@@ -13,10 +13,10 @@ class Fields
         return [
             'mustStartSpinning' => 'boolean|required',
             'prizeNumber' => 'number|required',
-            'data' => [
-                'option' => 'string',
+            'data' => [[
+                'option' => 'string|required',
                 'image' => [
-                    'uri' => 'string',
+                    'uri' => 'string|required',
                     'offsetX' => 'number',
                     'offsetY' => 'number',
                     'sizeMultiplier' => 'number',
@@ -31,7 +31,7 @@ class Fields
                     'fontStyle' => 'string'
                 ],
                 'optionSize' => 'number'
-            ],
+            ]],
             'backgroundColors' => 'array',
             'textColors' => 'array',
             'outerBorderColor' => 'string',
