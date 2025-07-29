@@ -2,8 +2,14 @@
 
 namespace AhnabShahin\SpinTheWheel\System;
 
+use AhnabShahin\SpinTheWheel\Traits\SingletonTrait;
+
 class Validator
 {
+    use SingletonTrait;
+
+    private array $errors         = [];
+    private array $fillableFields = [];
     /**
      * Validate data based on rules.
      *
@@ -12,62 +18,78 @@ class Validator
      * @param string $path Current path in dot notation for error tracking.
      * @return array List of validation errors.
      */
-    public static function make(array $data, array $rules, string $path = ''): array
+    public function make(array $data, array $rules, string $path = ''): array
     {
-        $errors = [];
-
         foreach ($rules ?? [] as $key => $rule) {
             $currentPath = $path ? "$path.$key" : $key;
 
-            // Nested rule set — recurse
-            if (is_array($rule) && !self::is_type_rule_array($rule)) {
+            if (!array_key_exists($key, $data)) {
+                if (is_string($rule) && str_contains($rule, 'required')) {
+                    $this->errors [$currentPath] = "$currentPath is required.";
+                }
+                continue;
+            }
 
-                if (!isset($data[$key]) || !is_array($data[$key])) {
-                    $errors[$currentPath] = "$currentPath must be an object/array.";
+            $value = $data[$key];
+
+            // Case 1: rule is a single nested object schema
+            if (is_array($rule) && self::is_assoc($rule)) {
+                if (!is_array($value)) {
+                    $this->errors [$currentPath] = "$currentPath must be an object.";
+                    continue;
+                }
+                $subErrors = self::make($value, $rule, $currentPath);
+                $this->errors = array_merge($this->errors, $subErrors);
+                continue;
+            }
+
+            // Case 2: rule is an array of one schema → validate each item in array
+            if (is_array($rule) && isset($rule[0]) && is_array($rule[0])) {
+                if (!is_array($value)) {
+                    $this->errors [$currentPath] = "$currentPath must be an array.";
                     continue;
                 }
 
-                if (empty($data[$key])) {
-                    continue; // Skip empty arrays unless required
+                foreach ($value as $index => $item) {
+                    if (!is_array($item)) {
+                        $this->errors ["{$currentPath}[$index]"] = "{$currentPath}[$index] must be an object.";
+                        continue;
+                    }
+
+                    $subPath = "{$currentPath}[$index]";
+                    $subErrors = self::make($item, $rule[0], $subPath);
+                    $this->errors = array_merge($this->errors , $subErrors);
                 }
 
-
-                $subErrors = self::make($data[$key], $rule, $currentPath);
-                $errors = array_merge($errors, $subErrors);
                 continue;
             }
 
-            // Leaf rule (e.g. "string|required")
-            if (!is_string($rule)) {
-                $errors[$currentPath] = "$currentPath has an invalid rule definition.";
-                continue;
-            }
+            // Case 3: leaf field like "string|required"
+            if (is_string($rule)) {
+                $ruleParts = explode('|', $rule);
+                $type = null;
+                $isRequired = false;
 
-            // Parse rule parts
-            $ruleParts = explode('|', $rule);
-            $type = null;
-            $isRequired = false;
-
-            foreach ($ruleParts as $part) {
-                if ($part === 'required') {
-                    $isRequired = true;
-                } else {
-                    $type = $part;
+                foreach ($ruleParts as $part) {
+                    if ($part === 'required') {
+                        $isRequired = true;
+                    } else {
+                        $type = $part;
+                    }
                 }
-            }
 
-            // Check required
-            if ($isRequired && !isset($data[$key])) {
-                $errors[$currentPath] = "$currentPath is required.";
-                continue;
-            }
+                if ($isRequired && $value === null) {
+                    $this->errors [$currentPath] = "$currentPath is required.";
+                    continue;
+                }
 
-            // Check type only if the key is set
-            if (isset($data[$key]) && $type && !self::validate_type($data[$key], $type)) {
-                $errors[$currentPath] = "$currentPath must be of type $type.";
+                if ($value !== null && $type && !self::validate_type($value, $type)) {
+                    $this->errors [$currentPath] = "$currentPath must be of type $type.";
+                }
             }
         }
-
+        $errors = $this->errors;
+        $this->errors = []; // Clear errors after retrieval
         return $errors;
     }
 
@@ -94,5 +116,11 @@ class Validator
             if (!is_string($value)) return false;
         }
         return true;
+    }
+
+    private static function is_assoc(array $arr): bool
+    {
+        if ([] === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
     }
 }

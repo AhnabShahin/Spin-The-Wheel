@@ -63393,24 +63393,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const FormDrawer = ({
-  open,
+  drawerOpen,
+  setDrawerOpen,
   onClose,
   record
 }) => {
+  function handleSubmit(values) {
+    // submit the form data in the api http://wordpress.test/wp-json/stw/v1/template/roulette-theme
+  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"], {
     title: "Edit Theme",
     placement: "right",
     size: "large",
-    onClose: onClose,
-    open: open,
+    onClose: () => {},
+    open: drawerOpen,
     zIndex: 99999,
     extra: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      onClick: onClose
+      onClick: () => setDrawerOpen(false)
     }, "Cancel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
       type: "primary",
-      onClick: onClose
-    }, "OK"))
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeForm__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+      onClick: handleSubmit
+    }, "Submit"))
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    handleSubmit: handleSubmit
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormDrawer);
 
@@ -63445,21 +63451,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const onFinish = values => {
-  // Convert single color values to arrays if needed
-  const formattedValues = {
-    ...values,
-    backgroundColors: Array.isArray(values.backgroundColors) ? values.backgroundColors : [values.backgroundColors],
-    textColors: Array.isArray(values.textColors) ? values.textColors : [values.textColors]
-  };
-  console.log("Received values of form: ", formattedValues);
-};
-const ThemeForm = () => {
+const ThemeForm = handleSubmit => {
   const formConfig = _config_themeConfig_json__WEBPACK_IMPORTED_MODULE_1__.components?.Form || {};
-  console.log(formConfig.layout);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "spin_wheel_theme",
-    onFinish: onFinish,
+    onFinish: handleSubmit,
     layout: formConfig.layout || 'horizontal',
     size: formConfig.size || 'middle',
     style: {

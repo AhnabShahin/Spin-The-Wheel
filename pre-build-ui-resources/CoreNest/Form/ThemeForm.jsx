@@ -13,24 +13,15 @@ import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 import themeConfig from '../config/themeConfig.json';
 
-const onFinish = (values) => {
-  // Convert single color values to arrays if needed
-  const formattedValues = {
-    ...values,
-    backgroundColors: Array.isArray(values.backgroundColors) ? values.backgroundColors : [values.backgroundColors],
-    textColors: Array.isArray(values.textColors) ? values.textColors : [values.textColors],
-  };
-  console.log("Received values of form: ", formattedValues);
-};
 
-const ThemeForm = () => {
+const ThemeForm = (handleSubmit) => {
   const formConfig = themeConfig.components?.Form || {};
-console.log(formConfig.layout);
+
   return (
     <>
       <Form
         name="spin_wheel_theme"
-        onFinish={onFinish}
+        onFinish={handleSubmit}
         layout={formConfig.layout || 'horizontal'}
         size={formConfig.size || 'middle'}
         style={{

@@ -32,12 +32,15 @@ abstract class RestAPI
         add_action('rest_api_init', function () {
             register_rest_route(
                 untrailingslashit($this->projectPrefix . '/' . $this->version . '/' . $this->apiBasePrefix),
-                '/(?P<action>[a-zA-Z0-9_-]+)' . ($this->postActionParam ? '/' . ltrim($this->postActionParam, '/') : ''),
+                '/(?P<action>[a-zA-Z0-9_-]+)(?:/(?P<id>\d+))?' . ($this->postActionParam ? '/' . ltrim($this->postActionParam, '/') : ''),
                 [
                     'methods'             => WP_REST_Server::ALLMETHODS,
                     'callback'            => [$this, 'dispatch'],
                     'permission_callback' => [$this, 'has_permission'],
-                    'args'                => [
+                    'args' => [
+                        'id' => [
+                            'validate_callback' => fn($param) => is_numeric($param),
+                        ],
                         'page'  => [
                             'validate_callback' => fn($param) => is_numeric($param),
                         ],
@@ -65,11 +68,12 @@ abstract class RestAPI
     {
         $this->request = $request;
         $action     = sanitize_key(str_replace('-', '_', $request->get_url_params()['action']));
+        $id         = $request->get_url_params()['id'] ?? null;
         $httpMethod = strtolower($request->get_method());
         $method     = "{$httpMethod}_{$action}";
 
         if (method_exists($this, $method)) {
-            return $this->{$method}($request);
+            return $this->{$method}($request, $id);
         }
 
         return $this->responseError("Action '$method' not implemented.", 404);

@@ -8,14 +8,14 @@ trait ResponseTrait
 {
     protected $responseMessages = [];
 
-    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null) :WP_HTTP_Response
+    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null): WP_HTTP_Response
     {
         $response = [
             'message' => $this->responseMessages,
             'tracer'  => $tracer,
             'data'    => $data
         ];
-        
+
         return new WP_HTTP_Response($response, $status, $headers);
     }
 
@@ -60,6 +60,12 @@ trait ResponseTrait
     protected function responseError($message = 'Data Retrieval Failed')
     {
         $this->addResponseMessage('error', $message);
+        return $this->response(422, []);
+    }
+
+    protected function responseErrors($errors = [])
+    {
+        $this->responseMessages['error'] = array_values($errors);
         return $this->response(422, []);
     }
 
