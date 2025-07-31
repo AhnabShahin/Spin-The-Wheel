@@ -21,7 +21,6 @@ class Enqueue
     public function enqueue_admin_scripts($hook)
     {
         wp_enqueue_script('wp-element');
-        
         wp_enqueue_script(
             'spin-the-wheel-admin-script',
             STW_PLUGIN_URL . 'ui-resources/index.js',
@@ -29,12 +28,23 @@ class Enqueue
             time(),  // Using time() as version to prevent caching
             true
         );
+
+        // Localize *that* same script
+        wp_localize_script(
+            'spin-the-wheel-admin-script', // must match the enqueued script handle
+            'SpinTheWheelData',
+            array(
+                'rest_url'   => get_rest_url(),
+                'rest_nonce' => wp_create_nonce('wp_rest'),
+                'site_url'   => get_option('siteurl'),
+            )
+        );
     }
 
     public function enqueue_user_scripts($hook)
     {
         wp_enqueue_script('wp-element');
-    
+
         wp_enqueue_script(
             'spin-the-wheel-user-script',
             STW_PLUGIN_URL . 'ui-resources/user.js',

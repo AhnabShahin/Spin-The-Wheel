@@ -190,7 +190,9 @@
       "colorTextTertiary": "rgb(186, 185, 197)"
     },
     "Notification": {
-      "zIndexPopup": 9999999
+      "zIndexPopup": 99999,
+      "placement": "bottomRight",
+      "duration": 4.5
     },
     "Modal": {
       "zIndexPopupBase": 9999,

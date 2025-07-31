@@ -63384,13 +63384,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/drawer/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/drawer/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
 /* harmony import */ var _ThemeForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ThemeForm */ "./pre-build-ui-resources/CoreNest/Form/ThemeForm.jsx");
 
 
-
+ // Import notification
 
 const FormDrawer = ({
   drawerOpen,
@@ -63398,25 +63399,90 @@ const FormDrawer = ({
   onClose,
   record
 }) => {
-  function handleSubmit(values) {
-    // submit the form data in the api http://wordpress.test/wp-json/stw/v1/template/roulette-theme
-  }
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    title: "Edit Theme",
+  const [form] = antd__WEBPACK_IMPORTED_MODULE_2__["default"].useForm();
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const {
+    notification
+  } = App.useApp();
+  const handleExternalSubmit = () => form.submit();
+  const handleSubmit = async values => {
+    setLoading(true);
+    try {
+      const response = await fetch(window.SpinTheWheelData.rest_url + "stw/v1/template/roulette-theme", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-WP-Nonce": window.SpinTheWheelData.rest_nonce
+        },
+        body: JSON.stringify(values)
+      });
+      const data = await response.json();
+      // Check for validation errors
+      if (data.message && data.message.error) {
+        data.message.error.forEach(err => {
+          notification.error({
+            message: "Validation Error",
+            description: err,
+            duration: 0 // Keep duration: 0 if you want them to stay forever
+            // zIndexPopup is automatically applied via ConfigProvider
+          });
+        });
+        // If there are errors, keep the drawer open so the user can fix them.
+        // So, do NOT setDrawerOpen(false) here.
+        return; // Important: Return after showing validation errors
+      }
+
+      // Show success messages
+      if (data.message && data.message.success) {
+        data.message.success.forEach(msg => {
+          notification.success({
+            // <--- CORRECT USAGE
+            message: "Success",
+            description: msg,
+            duration: 0 // Keep duration: 0 if you want them to stay forever
+            // zIndexPopup is automatically applied via ConfigProvider
+          });
+        });
+      }
+
+      // If no errors, reset fields and close the drawer
+      form.resetFields();
+      setDrawerOpen(false); // <--- Move this here to close only on success
+      onClose();
+    } catch (error) {
+      notification.error({
+        // <--- CORRECT USAGE
+        message: "Submission Failed",
+        description: error.message || "Something went wrong."
+        // zIndexPopup is automatically applied via ConfigProvider
+      });
+      // Do not close the drawer on submission failure unless desired.
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: record ? "Edit Theme" : "Create Theme",
     placement: "right",
     size: "large",
-    onClose: () => {},
+    onClose: () => setDrawerOpen(false),
     open: drawerOpen,
-    zIndex: 99999,
-    extra: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    zIndex: 99999 // This zIndex is for the Drawer component itself.
+    ,
+    extra: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
       onClick: () => setDrawerOpen(false)
-    }, "Cancel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }, "Cancel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
       type: "primary",
-      onClick: handleSubmit
+      style: {
+        marginLeft: "8px"
+      },
+      onClick: handleExternalSubmit,
+      loading: loading
     }, "Submit"))
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    handleSubmit: handleSubmit
-  })));
+    handleSubmit: handleSubmit,
+    form: form
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormDrawer);
 
@@ -63451,15 +63517,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ThemeForm = handleSubmit => {
+const ThemeForm = ({
+  handleSubmit,
+  form
+}) => {
   const formConfig = _config_themeConfig_json__WEBPACK_IMPORTED_MODULE_1__.components?.Form || {};
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    form: form,
     name: "spin_wheel_theme",
     onFinish: handleSubmit,
-    layout: formConfig.layout || 'horizontal',
-    size: formConfig.size || 'middle',
+    layout: formConfig.layout || "horizontal",
+    size: formConfig.size || "middle",
     style: {
-      fontFamily: formConfig.fontFamily || 'Inter, sans-serif',
+      fontFamily: formConfig.fontFamily || "Inter, sans-serif",
       marginBottom: formConfig.itemMarginBottom || 10
     },
     initialValues: {
@@ -63485,7 +63555,7 @@ const ThemeForm = handleSubmit => {
       data: [],
       startingOptionIndex: 0,
       pointerProps: {
-        src: '',
+        src: "",
         style: {}
       }
     }
@@ -63746,8 +63816,8 @@ const ThemeForm = handleSubmit => {
     name: ["pointerProps", "src"],
     label: "Pointer Image Source",
     style: {
-      display: 'inline-block',
-      width: 'calc(50% - 8px)'
+      display: "inline-block",
+      width: "calc(50% - 8px)"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
     placeholder: "Enter pointer image URL"
@@ -63755,9 +63825,9 @@ const ThemeForm = handleSubmit => {
     name: ["pointerProps", "style"],
     label: "Pointer CSS Style",
     style: {
-      display: 'inline-block',
-      width: 'calc(50% - 8px)',
-      margin: '0 8px'
+      display: "inline-block",
+      width: "calc(50% - 8px)",
+      margin: "0 8px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].TextArea, {
     placeholder: "Enter CSS style object",
@@ -63959,10 +64029,7 @@ const ThemeForm = handleSubmit => {
     type: "dashed",
     onClick: () => add(),
     block: true
-  }, "+ Add Item")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"].Item, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    type: "primary",
-    htmlType: "submit"
-  }, "Submit"))));
+  }, "+ Add Item"))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeForm);
 
@@ -63975,7 +64042,7 @@ const ThemeForm = handleSubmit => {
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"token":{"colorPrimary":"#5148ea","colorSuccess":"#4bc210","colorWarning":"#fdaa08","colorError":"#fc4143","colorTextBase":"#191822","fontSizeHeading1":40,"lineHeightHeading1":1.15,"fontSizeHeading2":28,"fontSizeHeading3":20,"fontSizeHeading4":16,"fontSizeHeading5":14,"lineHeightHeading2":1.24,"lineHeightHeading3":1.4,"lineHeightHeading4":1.5,"lineHeightHeading5":1.571,"lineHeight":1.414,"wireframe":false,"colorTextSecondary":"rgba(87, 87, 90, 1)","fontFamily":"\'Inter\', sans-serif;","colorPrimaryHover":"#625aec","colorInfo":"#5148ea","colorPrimaryActive":"#625aec"},"components":{"Typography":{"fontFamilyCode":"\'Inter\';"},"Message":{"zIndexPopup":9999999},"Avatar":{"groupBorderColor":"#BFBFBF"},"Button":{"colorTextDisabled":"rgb(208,213,221)","colorBgContainerDisabled":"rgb(255,255,255)","borderColorDisabled":"rgb(234,236,240)","paddingInline":24,"paddingInlineLG":24,"primaryShadow":"none","defaultShadow":"none"},"Radio":{"wireframe":true,"radioSize":20,"fontSize":16,"fontSizeLG":18,"fontFamily":"Inter","colorText":"rgb(52,64,84)","borderRadius":8,"buttonSolidCheckedBg":"rgb(244,238,255)","buttonSolidCheckedColor":"rgb(81,72,234)","buttonSolidCheckedHoverBg":"rgba(244,238,255,0.71)","buttonSolidCheckedActiveBg":"rgb(244,238,255)","buttonBg":"rgb(243,243,243)","buttonColor":"rgb(100,116,139)"},"Select":{"controlItemBgActive":"#F4F4F7","colorBorder":"#D9D9D9","colorIcon":"#263043","controlPaddingHorizontalSM":8,"controlOutlineWidth":2,"controlPaddingHorizontal":24,"lineWidth":1,"fontFamily":"\'Inter\'","multipleItemBg":"rgba(255,255,255,0)","fontSize":16,"multipleItemBorderColor":"rgb(208,213,221)","borderRadius":8,"colorTextPlaceholder":"rgb(146,157,178)"},"Input":{"fontFamily":"Inter","colorBgContainer":"transparent","hoverBorderColor":"rgb(81, 72, 234)","activeShadow":"0px 1px 2px 0px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #ECEBFF","colorBorder":"rgb(208,213,221)","colorTextPlaceholder":"rgb(146,157,178)","inputFontSizeSM":12,"paddingInline":12,"paddingInlineLG":12,"borderRadius":8},"InputNumber":{"fontFamily":"Inter","borderRadius":8,"inputFontSizeSM":12},"Checkbox":{"controlInteractiveSize":20,"fontFamily":"Inter","fontSize":16,"fontSizeLG":18,"colorText":"rgb(52,64,84)"},"Tabs":{"titleFontSize":12,"titleFontSizeSM":10,"titleFontSizeLG":14,"inkBarColor":"#5148EA","horizontalMargin":"0 0 24px 0","horizontalItemGutter":30,"horizontalItemMargin":"","horizontalItemPadding":"20px 0","verticalItemMargin":"16px 0 0 0","verticalItemPadding":"8px 24px","itemSelectedColor":"#5148EA","itemColor":"#191822","itemHoverColor":"#5148EA","borderRadius":4,"colorBgContainer":"#ffffff"},"Breadcrumb":{"itemColor":"rgba(147, 147, 151, 1)","lastItemColor":"rgba(25, 24, 34, 1)"},"Tag":{"marginXS":0},"Form":{"layout":"vertical","fontFamily":"\'Inter\', sans-serif;","screenXSMax":320,"verticalLabelPadding":"0 0 2px","itemMarginBottom":10},"Slider":{"trackBg":"rgb(81, 72, 234)","handleColor":"rgb(81, 72, 234)","handleActiveColor":"rgb(98, 90, 236)","trackHoverBg":"rgb(98, 90, 236)","dotActiveBorderColor":"rgb(98, 90, 236)","colorPrimaryBorderHover":"rgb(98, 90, 236)"},"Menu":{"fontSize":14,"itemSelectedBg":"#5148EA","itemSelectedColor":"#5148EA","motionDurationSlow":"0","itemHoverBg":"rgb(244, 244, 247)","itemActiveBg":"rgb(244, 244, 247)","itemBorderRadius":4,"borderRadius":4,"lineWidth":1,"iconMarginInlineEnd":9,"subMenuItemBg":"rgb(255, 255, 255)","groupTitleColor":"rgba(0, 0, 0, 0.65)","itemMarginBlock":2},"Drawer":{"colorBgMask":"rgba(16, 16, 22, 0.4)","zIndexPopup":2040},"Collapse":{"motionDurationMid":"0.4s","headerBg":"rgb(239,242,252)"},"Pagination":{"colorText":"rgb(25, 24, 34)","borderRadius":74,"colorPrimaryHover":"rgb(255, 255, 255)","fontWeightStrong":500,"colorTextDisabled":"rgb(185, 185, 188)","itemActiveBg":"rgb(81,72,234)","itemBg":"rgba(230,52,52,0)","colorPrimary":"rgb(255,255,255)","borderRadiusLG":74,"borderRadiusSM":74,"fontSize":12,"controlHeight":24},"Upload":{"motionDurationSlow":"0"},"Divider":{"colorSplit":"rgb(229, 229, 234)","margin":0,"marginLG":0,"marginXS":0},"Tooltip":{"zIndexPopupBase":9999999,"motionDurationFast":"0.3s"},"Switch":{"colorTextQuaternary":"rgb(201, 199, 216)","colorTextTertiary":"rgb(186, 185, 197)"},"Notification":{"zIndexPopup":9999999},"Modal":{"zIndexPopupBase":9999,"colorBgMask":"rgba(0, 0, 0, 0.85)"},"Table":{"headerBg":"#EEF2FE","headerSortActiveBg":"rgb(247,247,247)","colorText":"rgb(25,24,34)","borderColor":"#DCE1F0","borderRadius":16,"headerBorderRadius":16},"Segmented":{"borderRadius":4,"itemSelectedBg":"#57575A","itemSelectedColor":"#FFFFFF","trackBg":"#F7F7FA !important","fontSize":15,"fontFamily":"Roboto","itemColor":"#57575A"},"DatePicker":{"fontSize":16,"colorTextPlaceholder":"rgb(146,157,178)","fontWeightStrong":400,"inputFontSizeSM":12,"borderRadius":8}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"token":{"colorPrimary":"#5148ea","colorSuccess":"#4bc210","colorWarning":"#fdaa08","colorError":"#fc4143","colorTextBase":"#191822","fontSizeHeading1":40,"lineHeightHeading1":1.15,"fontSizeHeading2":28,"fontSizeHeading3":20,"fontSizeHeading4":16,"fontSizeHeading5":14,"lineHeightHeading2":1.24,"lineHeightHeading3":1.4,"lineHeightHeading4":1.5,"lineHeightHeading5":1.571,"lineHeight":1.414,"wireframe":false,"colorTextSecondary":"rgba(87, 87, 90, 1)","fontFamily":"\'Inter\', sans-serif;","colorPrimaryHover":"#625aec","colorInfo":"#5148ea","colorPrimaryActive":"#625aec"},"components":{"Typography":{"fontFamilyCode":"\'Inter\';"},"Message":{"zIndexPopup":9999999},"Avatar":{"groupBorderColor":"#BFBFBF"},"Button":{"colorTextDisabled":"rgb(208,213,221)","colorBgContainerDisabled":"rgb(255,255,255)","borderColorDisabled":"rgb(234,236,240)","paddingInline":24,"paddingInlineLG":24,"primaryShadow":"none","defaultShadow":"none"},"Radio":{"wireframe":true,"radioSize":20,"fontSize":16,"fontSizeLG":18,"fontFamily":"Inter","colorText":"rgb(52,64,84)","borderRadius":8,"buttonSolidCheckedBg":"rgb(244,238,255)","buttonSolidCheckedColor":"rgb(81,72,234)","buttonSolidCheckedHoverBg":"rgba(244,238,255,0.71)","buttonSolidCheckedActiveBg":"rgb(244,238,255)","buttonBg":"rgb(243,243,243)","buttonColor":"rgb(100,116,139)"},"Select":{"controlItemBgActive":"#F4F4F7","colorBorder":"#D9D9D9","colorIcon":"#263043","controlPaddingHorizontalSM":8,"controlOutlineWidth":2,"controlPaddingHorizontal":24,"lineWidth":1,"fontFamily":"\'Inter\'","multipleItemBg":"rgba(255,255,255,0)","fontSize":16,"multipleItemBorderColor":"rgb(208,213,221)","borderRadius":8,"colorTextPlaceholder":"rgb(146,157,178)"},"Input":{"fontFamily":"Inter","colorBgContainer":"transparent","hoverBorderColor":"rgb(81, 72, 234)","activeShadow":"0px 1px 2px 0px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #ECEBFF","colorBorder":"rgb(208,213,221)","colorTextPlaceholder":"rgb(146,157,178)","inputFontSizeSM":12,"paddingInline":12,"paddingInlineLG":12,"borderRadius":8},"InputNumber":{"fontFamily":"Inter","borderRadius":8,"inputFontSizeSM":12},"Checkbox":{"controlInteractiveSize":20,"fontFamily":"Inter","fontSize":16,"fontSizeLG":18,"colorText":"rgb(52,64,84)"},"Tabs":{"titleFontSize":12,"titleFontSizeSM":10,"titleFontSizeLG":14,"inkBarColor":"#5148EA","horizontalMargin":"0 0 24px 0","horizontalItemGutter":30,"horizontalItemMargin":"","horizontalItemPadding":"20px 0","verticalItemMargin":"16px 0 0 0","verticalItemPadding":"8px 24px","itemSelectedColor":"#5148EA","itemColor":"#191822","itemHoverColor":"#5148EA","borderRadius":4,"colorBgContainer":"#ffffff"},"Breadcrumb":{"itemColor":"rgba(147, 147, 151, 1)","lastItemColor":"rgba(25, 24, 34, 1)"},"Tag":{"marginXS":0},"Form":{"layout":"vertical","fontFamily":"\'Inter\', sans-serif;","screenXSMax":320,"verticalLabelPadding":"0 0 2px","itemMarginBottom":10},"Slider":{"trackBg":"rgb(81, 72, 234)","handleColor":"rgb(81, 72, 234)","handleActiveColor":"rgb(98, 90, 236)","trackHoverBg":"rgb(98, 90, 236)","dotActiveBorderColor":"rgb(98, 90, 236)","colorPrimaryBorderHover":"rgb(98, 90, 236)"},"Menu":{"fontSize":14,"itemSelectedBg":"#5148EA","itemSelectedColor":"#5148EA","motionDurationSlow":"0","itemHoverBg":"rgb(244, 244, 247)","itemActiveBg":"rgb(244, 244, 247)","itemBorderRadius":4,"borderRadius":4,"lineWidth":1,"iconMarginInlineEnd":9,"subMenuItemBg":"rgb(255, 255, 255)","groupTitleColor":"rgba(0, 0, 0, 0.65)","itemMarginBlock":2},"Drawer":{"colorBgMask":"rgba(16, 16, 22, 0.4)","zIndexPopup":2040},"Collapse":{"motionDurationMid":"0.4s","headerBg":"rgb(239,242,252)"},"Pagination":{"colorText":"rgb(25, 24, 34)","borderRadius":74,"colorPrimaryHover":"rgb(255, 255, 255)","fontWeightStrong":500,"colorTextDisabled":"rgb(185, 185, 188)","itemActiveBg":"rgb(81,72,234)","itemBg":"rgba(230,52,52,0)","colorPrimary":"rgb(255,255,255)","borderRadiusLG":74,"borderRadiusSM":74,"fontSize":12,"controlHeight":24},"Upload":{"motionDurationSlow":"0"},"Divider":{"colorSplit":"rgb(229, 229, 234)","margin":0,"marginLG":0,"marginXS":0},"Tooltip":{"zIndexPopupBase":9999999,"motionDurationFast":"0.3s"},"Switch":{"colorTextQuaternary":"rgb(201, 199, 216)","colorTextTertiary":"rgb(186, 185, 197)"},"Notification":{"zIndexPopup":99999,"placement":"bottomRight","duration":4.5},"Modal":{"zIndexPopupBase":9999,"colorBgMask":"rgba(0, 0, 0, 0.85)"},"Table":{"headerBg":"#EEF2FE","headerSortActiveBg":"rgb(247,247,247)","colorText":"rgb(25,24,34)","borderColor":"#DCE1F0","borderRadius":16,"headerBorderRadius":16},"Segmented":{"borderRadius":4,"itemSelectedBg":"#57575A","itemSelectedColor":"#FFFFFF","trackBg":"#F7F7FA !important","fontSize":15,"fontFamily":"Roboto","itemColor":"#57575A"},"DatePicker":{"fontSize":16,"colorTextPlaceholder":"rgb(146,157,178)","fontWeightStrong":400,"inputFontSizeSM":12,"borderRadius":8}}}');
 
 /***/ }),
 

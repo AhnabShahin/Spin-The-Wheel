@@ -24,7 +24,7 @@ class ThemeApi extends RestAPI
         $errors = Validator::instance()->make($data, $rules);
 
         if (!empty($errors)) {
-            return $this->responseErrors($errors);
+            return $this->responseBadRequest(array_values($errors));
         }
 
         // insert the roulette theme data into the post meta table for every key before that creating a new post id $id have if not been provided the creation of a new post 

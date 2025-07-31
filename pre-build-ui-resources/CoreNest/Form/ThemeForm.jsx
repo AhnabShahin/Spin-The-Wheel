@@ -6,27 +6,26 @@ import {
   InputNumber,
   ColorPicker,
   Card,
-  Upload,
 } from "antd";
 import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
 
 import { Row, Col } from "antd";
-import themeConfig from '../config/themeConfig.json';
+import themeConfig from "../config/themeConfig.json";
 
-
-const ThemeForm = (handleSubmit) => {
+const ThemeForm = ({ handleSubmit, form }) => {
   const formConfig = themeConfig.components?.Form || {};
 
   return (
     <>
       <Form
+        form={form}
         name="spin_wheel_theme"
         onFinish={handleSubmit}
-        layout={formConfig.layout || 'horizontal'}
-        size={formConfig.size || 'middle'}
+        layout={formConfig.layout || "horizontal"}
+        size={formConfig.size || "middle"}
         style={{
-          fontFamily: formConfig.fontFamily || 'Inter, sans-serif',
-          marginBottom: formConfig.itemMarginBottom || 10
+          fontFamily: formConfig.fontFamily || "Inter, sans-serif",
+          marginBottom: formConfig.itemMarginBottom || 10,
         }}
         initialValues={{
           mustStartSpinning: false,
@@ -51,8 +50,8 @@ const ThemeForm = (handleSubmit) => {
           data: [],
           startingOptionIndex: 0,
           pointerProps: {
-            src: '',
-            style: {}
+            src: "",
+            style: {},
           },
         }}
       >
@@ -255,7 +254,10 @@ const ThemeForm = (handleSubmit) => {
           ]}
           extra="Global font family of the option string. Non-Web safe fonts are fetched from https://fonts.google.com/"
         >
-          <Input placeholder="Enter font family" defaultValue="Helvetica, Arial" />
+          <Input
+            placeholder="Enter font family"
+            defaultValue="Helvetica, Arial"
+          />
         </Form.Item>
 
         <Form.Item
@@ -389,14 +391,18 @@ const ThemeForm = (handleSubmit) => {
           <Form.Item
             name={["pointerProps", "src"]}
             label="Pointer Image Source"
-            style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+            style={{ display: "inline-block", width: "calc(50% - 8px)" }}
           >
             <Input placeholder="Enter pointer image URL" />
           </Form.Item>
           <Form.Item
             name={["pointerProps", "style"]}
             label="Pointer CSS Style"
-            style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              margin: "0 8px",
+            }}
           >
             <Input.TextArea
               placeholder="Enter CSS style object"
@@ -448,7 +454,10 @@ const ThemeForm = (handleSubmit) => {
                                   >
                                     <CloseOutlined
                                       onClick={() => remove(field.name)}
-                                      style={{ float: "right", cursor: "pointer" }}
+                                      style={{
+                                        float: "right",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                     <Row gutter={16}>
                                       <Col span={12}>
@@ -480,7 +489,11 @@ const ThemeForm = (handleSubmit) => {
                                           label="Font Size"
                                           name={[field.name, "fontSize"]}
                                         >
-                                          <InputNumber min={1} placeholder="Enter font size" style={{ width: "100%" }} />
+                                          <InputNumber
+                                            min={1}
+                                            placeholder="Enter font size"
+                                            style={{ width: "100%" }}
+                                          />
                                         </Form.Item>
                                       </Col>
                                       <Col span={12}>
@@ -504,7 +517,11 @@ const ThemeForm = (handleSubmit) => {
                                 ))}
 
                                 {fields.length < 1 && (
-                                  <Button type="dashed" onClick={() => add()} block>
+                                  <Button
+                                    type="dashed"
+                                    onClick={() => add()}
+                                    block
+                                  >
                                     + Add Item
                                   </Button>
                                 )}
@@ -527,14 +544,22 @@ const ThemeForm = (handleSubmit) => {
                                   >
                                     <CloseOutlined
                                       onClick={() => remove(field.name)}
-                                      style={{ float: "right", cursor: "pointer" }}
+                                      style={{
+                                        float: "right",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                     <Row gutter={16}>
                                       <Col span={12}>
                                         <Form.Item
                                           label="Image URI"
                                           name={[field.name, "uri"]}
-                                          rules={[{ required: true, message: "Please input image URI" }]}
+                                          rules={[
+                                            {
+                                              required: true,
+                                              message: "Please input image URI",
+                                            },
+                                          ]}
                                           extra="Image source. It can be url or path."
                                         >
                                           <Input placeholder="Enter image URI" />
@@ -547,7 +572,10 @@ const ThemeForm = (handleSubmit) => {
                                           initialValue={0}
                                           extra="Image offset in its X axis"
                                         >
-                                          <InputNumber placeholder="Enter X offset" style={{ width: "100%" }} />
+                                          <InputNumber
+                                            placeholder="Enter X offset"
+                                            style={{ width: "100%" }}
+                                          />
                                         </Form.Item>
                                       </Col>
                                       <Col span={12}>
@@ -557,7 +585,10 @@ const ThemeForm = (handleSubmit) => {
                                           initialValue={0}
                                           extra="Image offset in its Y axis"
                                         >
-                                          <InputNumber placeholder="Enter Y offset" style={{ width: "100%" }} />
+                                          <InputNumber
+                                            placeholder="Enter Y offset"
+                                            style={{ width: "100%" }}
+                                          />
                                         </Form.Item>
                                       </Col>
                                       <Col span={12}>
@@ -591,7 +622,11 @@ const ThemeForm = (handleSubmit) => {
                                 ))}
 
                                 {fields.length < 1 && (
-                                  <Button type="dashed" onClick={() => add()} block>
+                                  <Button
+                                    type="dashed"
+                                    onClick={() => add()}
+                                    block
+                                  >
                                     + Add Item
                                   </Button>
                                 )}
@@ -613,15 +648,9 @@ const ThemeForm = (handleSubmit) => {
             )}
           </Form.List>
         </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
       </Form>
     </>
-    );
-}
+  );
+};
 
 export default ThemeForm;
