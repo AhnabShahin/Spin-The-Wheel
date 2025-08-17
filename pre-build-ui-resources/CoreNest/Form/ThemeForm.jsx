@@ -7,49 +7,49 @@ import {
   ColorPicker,
   Card,
 } from "antd";
-import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
-
+import { CloseOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
-import themeConfig from "../config/themeConfig.json";
-
-const ThemeForm = ({ handleSubmit, form }) => {
-  const formConfig = themeConfig.components?.Form || {};
-
+const ThemeForm = ({ record, handleSubmit, form }) => {
+  console.log("ThemeForm Record:", record); // Debugging: Check the record being passed
   return (
     <>
       <Form
         form={form}
         name="spin_wheel_theme"
         onFinish={handleSubmit}
-        layout={formConfig.layout || "horizontal"}
-        size={formConfig.size || "middle"}
-        style={{
-          fontFamily: formConfig.fontFamily || "Inter, sans-serif",
-          marginBottom: formConfig.itemMarginBottom || 10,
-        }}
+        // layout={formConfig.layout || "horizontal"}
+        // size={formConfig.size || "middle"}
+        // style={{
+        //   fontFamily: formConfig.fontFamily || "Inter, sans-serif",
+        //   marginBottom: formConfig.itemMarginBottom || 10,
+        // }}
         initialValues={{
-          mustStartSpinning: false,
-          prizeNumber: 0,
-          backgroundColors: ["#darkgrey", "#lightgrey"],
-          textColors: ["#black"],
-          outerBorderColor: "#black",
-          outerBorderWidth: 5,
-          innerRadius: 0,
-          innerBorderColor: "#black",
-          innerBorderWidth: 0,
-          radiusLineColor: "#black",
-          radiusLineWidth: 5,
-          fontFamily: "Helvetica, Arial",
-          fontSize: 20,
-          fontWeight: "bold",
-          fontStyle: "normal",
-          perpendicularText: false,
-          textDistance: 60,
-          spinDuration: 1.0,
-          disableInitialAnimation: false,
-          data: [],
-          startingOptionIndex: 0,
-          pointerProps: {
+          theme_name: record.theme_name || "b",
+          mustStartSpinning: record.mustStartSpinning || false,
+          prizeNumber: record.prizeNumber || 0,
+          backgroundColors: record.backgroundColors || [
+            "#darkgrey",
+            "#lightgrey",
+          ],
+          textColors: record.textColors || ["#black"],
+          outerBorderColor: record.outerBorderColor || "#black",
+          outerBorderWidth: record.outerBorderWidth || 5,
+          innerRadius: record.innerRadius || 50,
+          innerBorderColor: record.innerBorderColor || "#black",
+          innerBorderWidth: record.innerBorderWidth || 5,
+          radiusLineColor: record.radiusLineColor || "#black",
+          radiusLineWidth: record.radiusLineWidth || 5,
+          fontFamily: record.fontFamily || "Helvetica, Arial",
+          fontSize: record.fontSize || 20,
+          fontWeight: record.fontWeight || 400,
+          fontStyle: record.fontStyle || "normal",
+          perpendicularText: record.perpendicularText || false,
+          textDistance: record.textDistance || 60,
+          spinDuration: record.spinDuration || 1.0,
+          disableInitialAnimation: record.disableInitialAnimation || false,
+          data: record.data || [],
+          startingOptionIndex: record.startingOptionIndex || 0,
+          pointerProps: record.pointerProps || {
             src: "",
             style: {},
           },
@@ -282,6 +282,7 @@ const ThemeForm = ({ handleSubmit, form }) => {
         <Form.Item
           name="fontWeight"
           label="Font Weight"
+          defaultValue={400}
           rules={[
             {
               required: true,

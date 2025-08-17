@@ -1,18 +1,24 @@
 import { useState } from "react";
-import { Button, Drawer, Space, Form } from "antd"; // Import notification
+import { Button, Drawer, Space, Form, App } from "antd"; // Import notification
 import ThemeForm from "./ThemeForm";
 
-const FormDrawer = ({ drawerOpen, setDrawerOpen, onClose, record }) => {
+const FormDrawer = ({ open, setOpen, record, setRecord }) => {
+  console.log(record); // Debugging: Check the record being passed
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const { notification } = App.useApp();
 
-  const handleExternalSubmit = () => form.submit();
+  const afterCloseDrawer = () => {
+    setOpen(false);
+    setRecord({});
+    form.resetFields();
+  };
+
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       const response = await fetch(
-        window.SpinTheWheelData.rest_url + "stw/v1/template/roulette-theme",
+        window.SpinTheWheelData.rest_url + "stw/v1/template/roulette-theme" + (record.theme_id ? `/${record.theme_id}` : ""),
         {
           method: "POST",
           headers: {
@@ -54,14 +60,11 @@ const FormDrawer = ({ drawerOpen, setDrawerOpen, onClose, record }) => {
 
       // If no errors, reset fields and close the drawer
       form.resetFields();
-      setDrawerOpen(false); // <--- Move this here to close only on success
-      onClose();
+      setOpen(false); // <--- Move this here to close only on success
     } catch (error) {
       notification.error({
-        // <--- CORRECT USAGE
         message: "Submission Failed",
         description: error.message || "Something went wrong.",
-        // zIndexPopup is automatically applied via ConfigProvider
       });
       // Do not close the drawer on submission failure unless desired.
     } finally {
@@ -71,19 +74,19 @@ const FormDrawer = ({ drawerOpen, setDrawerOpen, onClose, record }) => {
 
   return (
     <Drawer
-      title={record ? "Edit Theme" : "Create Theme"}
+      title={Object.keys(record).length > 0 ? "Edit Theme" : "Create Theme"}
       placement="right"
       size="large"
-      onClose={() => setDrawerOpen(false)}
-      open={drawerOpen}
+      // onClose={}
+      open={open}
       zIndex={99999} // This zIndex is for the Drawer component itself.
       extra={
         <Space>
-          <Button onClick={() => setDrawerOpen(false)}>Cancel</Button>
+          <Button onClick={() => afterCloseDrawer()}>Cancel</Button>
           <Button
             type="primary"
             style={{ marginLeft: "8px" }}
-            onClick={handleExternalSubmit}
+            onClick={() => form.submit()}
             loading={loading}
           >
             Submit
@@ -91,7 +94,7 @@ const FormDrawer = ({ drawerOpen, setDrawerOpen, onClose, record }) => {
         </Space>
       }
     >
-      <ThemeForm handleSubmit={handleSubmit} form={form} />
+      <ThemeForm record={record} handleSubmit={handleSubmit} form={form} />
     </Drawer>
   );
 };

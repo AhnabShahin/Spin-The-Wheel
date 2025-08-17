@@ -8,12 +8,12 @@ const container = document.getElementById("spin-the-wheel-admin");
 
 if (container) {
   createRoot(container).render(
-    <StrictMode>
-      <ConfigProvider locale={enUS} theme={themeConfig}>
-        <App>
-          <Init />
+    // <StrictMode>
+      <ConfigProvider locale={enUS} theme={themeConfig} >
+        <App >
+          <Init/>
         </App>
       </ConfigProvider>
-    </StrictMode>
+    // </StrictMode>
   );
 }

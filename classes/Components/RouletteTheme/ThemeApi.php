@@ -77,7 +77,7 @@ class ThemeApi extends RestAPI
         if (is_null($id)) {
             return $this->responseError('Theme ID is required.');
         }
-    
+
         $themeData = get_post($id);
         if (!$themeData) {
             return $this->responseError('Theme not found.');
@@ -93,5 +93,49 @@ class ThemeApi extends RestAPI
             'theme_data' => $themeData,
             'theme_meta' => $themeMeta
         ]);
+    }
+
+    public function get_roulette_theme_list(WP_REST_Request $request)
+    {
+        $args = [
+            'post_type'      => self::POST_TYPE,
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+        ];
+
+        $query = new \WP_Query($args);
+        $themes = [];
+
+        foreach ($query->posts as $post) {
+
+            $themes[] = [
+                'theme_id'  => $post->ID,
+                "theme_name" => $post->post_title,
+                "mustStartSpinning" => get_post_meta($post->ID, 'mustStartSpinning', true) ?: false,
+                "prizeNumber" => get_post_meta($post->ID, 'prizeNumber', true) ?: 0,
+                "data" => get_post_meta($post->ID, 'data', true) ?: [],
+                "backgroundColors" => get_post_meta($post->ID, 'backgroundColors', true) ?: [],
+                "textColors" => get_post_meta($post->ID, 'textColors', true) ?: [],
+                "outerBorderColor" => get_post_meta($post->ID, 'outerBorderColor', true) ?: '#000000',
+                "outerBorderWidth" => get_post_meta($post->ID, 'outerBorderWidth', true) ?: 5,
+                "innerRadius" => get_post_meta($post->ID, 'innerRadius', true) ?: 0,
+                "innerBorderColor" => get_post_meta($post->ID, 'innerBorderColor', true) ?: '#000000',
+                "innerBorderWidth" => get_post_meta($post->ID, 'innerBorderWidth', true) ?: 0,
+                "radiusLineColor" => get_post_meta($post->ID, 'radiusLineColor', true) ?: '#000000',
+                "radiusLineWidth" => get_post_meta($post->ID, 'radiusLineWidth', true) ?: 5,
+                "fontFamily" => get_post_meta($post->ID, 'fontFamily', true) ?: 'Helvetica, Arial',
+                "fontSize" => get_post_meta($post->ID, 'fontSize', true) ?: 20,
+                "fontWeight" => get_post_meta($post->ID, 'fontWeight', true) ?: 'bold',
+                "fontStyle" => get_post_meta($post->ID, 'fontStyle', true) ?: 'normal',
+                "perpendicularText" => get_post_meta($post->ID, 'perpendicularText', true) ?: false,
+                "textDistance" => get_post_meta($post->ID, 'textDistance', true) ?: 60,
+                "spinDuration" => get_post_meta($post->ID, 'spinDuration', true) ?: 1,
+                "startingOptionIndex" => get_post_meta($post->ID, 'startingOptionIndex', true) ?: 0,
+                "pointerProps" => get_post_meta($post->ID, 'pointerProps', true) ?: [],
+                "disableInitialAnimation" => get_post_meta($post->ID, 'disableInitialAnimation', true) ?: false
+            ];
+        }
+
+        return $this->responseSuccess($themes);
     }
 }

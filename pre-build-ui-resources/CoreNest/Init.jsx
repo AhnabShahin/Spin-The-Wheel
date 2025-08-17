@@ -5,7 +5,7 @@ import ThemeList from "./List/ThemeList";
 import { Flex } from "antd";
 
 function Init() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   return (
@@ -18,10 +18,7 @@ function Init() {
             <button
               className="button button-primary"
               style={{ marginLeft: "16px" }}
-              onClick={() => {
-                setOpen(true);
-                setSelectedRecord(null);
-              }}
+              onClick={() => {}}
             >
               Add New Theme
             </button>
@@ -29,7 +26,7 @@ function Init() {
               className="button button-secondary"
               style={{ marginLeft: "16px" }}
               onClick={() => {
-                setDrawerOpen(true);
+                setOpen(true);
               }}
             >
               Add New Theme
@@ -37,13 +34,10 @@ function Init() {
           </div>
         </Flex>
 
-        <ThemeList />
-        <FormDrawer
-          drawerOpen={drawerOpen}
-          setDrawerOpen={setDrawerOpen}
-        />
+        <ThemeList open={open} setOpen={setOpen} />
+        {/* <FormDrawer open={open} setOpen={setOpen} /> */}
       </div>
-    </div>
+    </div> 
   );
 }
 
