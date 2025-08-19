@@ -880,7 +880,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/collapse/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
@@ -891,23 +892,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/table/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/modal/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/select/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input-number/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/switch/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/color-picker/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/divider/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/select/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/color-picker/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input-number/index.js");
 /* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/EditOutlined.js");
 /* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/DeleteOutlined.js");
 /* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
-/* harmony import */ var _shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/providers/ApiProvider */ "./src/shared/providers/ApiProvider.jsx");
-
 
 
 
 
 const {
   Title
+} = antd__WEBPACK_IMPORTED_MODULE_2__["default"];
+const {
+  Panel
 } = antd__WEBPACK_IMPORTED_MODULE_3__["default"];
 const WheelDataManager = () => {
   const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
@@ -915,95 +917,66 @@ const WheelDataManager = () => {
   const [modalVisible, setModalVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [editingData, setEditingData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_4__["default"].useForm();
-  const api = (0,_shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__.useApi)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     loadWheelData();
   }, []);
   const loadWheelData = async () => {
     setLoading(true);
     try {
-      // For now, we'll create some sample data since the API might not be fully implemented
+      const response = await fetch("http://api.yosuite.com/data-segments");
+      if (response.ok) {
+        const data = await response.json();
+        setWheelData(data);
+      } else {
+        throw new Error("Failed to fetch wheel data");
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      // Fallback to sample data for development
       const sampleData = [{
         id: 1,
-        name: 'Default Wheel',
+        name: "Default Wheel",
         data: [{
-          option: 'Prize 1',
+          option: "Prize 1",
           image: {
-            uri: '',
+            uri: "",
             offsetX: 0,
             offsetY: 0,
             sizeMultiplier: 1,
             landscape: false
           },
           style: {
-            backgroundColor: '#ff8f43',
-            textColor: '#ffffff',
-            fontFamily: 'Arial',
+            backgroundColor: "#ff8f43",
+            textColor: "#ffffff",
+            fontFamily: "Arial",
             fontSize: 16,
             fontWeight: 400,
-            fontStyle: 'normal'
+            fontStyle: "normal"
           },
           optionSize: 1
         }, {
-          option: 'Prize 2',
+          option: "Prize 2",
           image: {
-            uri: '',
+            uri: "",
             offsetX: 0,
             offsetY: 0,
             sizeMultiplier: 1,
             landscape: false
           },
           style: {
-            backgroundColor: '#70bbe0',
-            textColor: '#ffffff',
-            fontFamily: 'Arial',
+            backgroundColor: "#70bbe0",
+            textColor: "#ffffff",
+            fontFamily: "Arial",
             fontSize: 16,
             fontWeight: 400,
-            fontStyle: 'normal'
+            fontStyle: "normal"
           },
           optionSize: 1
-        }, {
-          option: 'Prize 3',
-          image: {
-            uri: '',
-            offsetX: 0,
-            offsetY: 0,
-            sizeMultiplier: 1,
-            landscape: false
-          },
-          style: {
-            backgroundColor: '#0b7ec8',
-            textColor: '#ffffff',
-            fontFamily: 'Arial',
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: 'normal'
-          },
-          optionSize: 1
-        }, {
-          option: 'Try Again',
-          image: {
-            uri: '',
-            offsetX: 0,
-            offsetY: 0,
-            sizeMultiplier: 1,
-            landscape: false
-          },
-          style: {
-            backgroundColor: '#ffd23f',
-            textColor: '#000000',
-            fontFamily: 'Arial',
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: 'normal'
-          },
-          optionSize: 2
         }],
         created_at: new Date().toISOString()
       }];
       setWheelData(sampleData);
-    } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error('Failed to load wheel data: ' + error.message);
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].warning("Using sample data. API connection failed.");
     } finally {
       setLoading(false);
     }
@@ -1012,78 +985,25 @@ const WheelDataManager = () => {
     setEditingData(null);
     form.resetFields();
     form.setFieldsValue({
+      name: "",
       data: [{
-        option: 'Prize 1',
+        option: "Prize 1",
         image: {
-          uri: '',
+          uri: "",
           offsetX: 0,
           offsetY: 0,
           sizeMultiplier: 1,
           landscape: false
         },
         style: {
-          backgroundColor: '#ff8f43',
-          textColor: '#ffffff',
-          fontFamily: 'Arial',
+          backgroundColor: "#ff8f43",
+          textColor: "#ffffff",
+          fontFamily: "Arial",
           fontSize: 16,
           fontWeight: 400,
-          fontStyle: 'normal'
+          fontStyle: "normal"
         },
         optionSize: 1
-      }, {
-        option: 'Prize 2',
-        image: {
-          uri: '',
-          offsetX: 0,
-          offsetY: 0,
-          sizeMultiplier: 1,
-          landscape: false
-        },
-        style: {
-          backgroundColor: '#70bbe0',
-          textColor: '#ffffff',
-          fontFamily: 'Arial',
-          fontSize: 16,
-          fontWeight: 400,
-          fontStyle: 'normal'
-        },
-        optionSize: 1
-      }, {
-        option: 'Prize 3',
-        image: {
-          uri: '',
-          offsetX: 0,
-          offsetY: 0,
-          sizeMultiplier: 1,
-          landscape: false
-        },
-        style: {
-          backgroundColor: '#0b7ec8',
-          textColor: '#ffffff',
-          fontFamily: 'Arial',
-          fontSize: 16,
-          fontWeight: 400,
-          fontStyle: 'normal'
-        },
-        optionSize: 1
-      }, {
-        option: 'Try Again',
-        image: {
-          uri: '',
-          offsetX: 0,
-          offsetY: 0,
-          sizeMultiplier: 1,
-          landscape: false
-        },
-        style: {
-          backgroundColor: '#ffd23f',
-          textColor: '#000000',
-          fontFamily: 'Arial',
-          fontSize: 16,
-          fontWeight: 400,
-          fontStyle: 'normal'
-        },
-        optionSize: 2
       }]
     });
     setModalVisible(true);
@@ -1095,68 +1015,115 @@ const WheelDataManager = () => {
   };
   const handleDeleteData = async dataId => {
     try {
-      // await api.data.deleteWheelData(dataId);
-      setWheelData(prev => prev.filter(item => item.id !== dataId));
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].success('Wheel data deleted successfully');
+      const response = await fetch(`http://api.yosuite.com/data-segments/${dataId}`, {
+        method: "DELETE"
+      });
+      if (response.ok) {
+        setWheelData(prev => prev.filter(item => item.id !== dataId));
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data deleted successfully");
+      } else {
+        throw new Error("Failed to delete data");
+      }
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error('Failed to delete wheel data: ' + error.message);
+      console.error("Delete Error:", error);
+      // Fallback for development
+      setWheelData(prev => prev.filter(item => item.id !== dataId));
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data deleted successfully (local)");
     }
   };
   const handleSubmit = async values => {
     try {
+      const url = editingData ? `http://wordpress.test/wp-json/stw/v1/wheel/data/${editingData.id}` : "http://wordpress.test/wp-json/stw/v1/wheel/data";
+      const method = editingData ? "PUT" : "POST";
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(values)
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        if (editingData) {
+          setWheelData(prev => prev.map(item => item.id === editingData.id ? {
+            ...item,
+            ...responseData
+          } : item));
+          antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data updated successfully");
+        } else {
+          setWheelData(prev => [...prev, responseData]);
+          antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data created successfully");
+        }
+      } else {
+        throw new Error("API request failed");
+      }
+    } catch (error) {
+      console.error("Submit Error:", error);
+      // Fallback for development
       if (editingData) {
-        // await api.data.updateWheelData(editingData.id, values);
         setWheelData(prev => prev.map(item => item.id === editingData.id ? {
           ...item,
           ...values
         } : item));
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success('Wheel data updated successfully');
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data updated successfully (local)");
       } else {
-        // await api.data.createWheelData(values);
         const newData = {
           ...values,
           id: Date.now(),
           created_at: new Date().toISOString()
         };
         setWheelData(prev => [...prev, newData]);
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success('Wheel data created successfully');
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data created successfully (local)");
       }
-      setModalVisible(false);
-    } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error(`Failed to ${editingData ? 'update' : 'create'} wheel data: ` + error.message);
     }
+    setModalVisible(false);
   };
   const columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name'
+    title: "Wheel Name",
+    dataIndex: "name",
+    key: "name",
+    width: "25%"
   }, {
-    title: 'Prizes',
-    dataIndex: 'data',
-    key: 'data',
+    title: "Prizes",
+    dataIndex: "data",
+    key: "data",
+    width: "40%",
     render: data => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      wrap: true
+      wrap: true,
+      size: "small"
     }, data?.slice(0, 3).map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: index,
-      color: "blue"
+      color: item.style?.backgroundColor || "blue",
+      style: {
+        color: item.style?.textColor || "#fff",
+        margin: "2px"
+      }
     }, item.option)), data?.length > 3 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
       color: "default"
-    }, "+", data.length - 3, " more"))
+    }, "+", data.length - 3))
   }, {
-    title: 'Total Segments',
-    dataIndex: 'segments',
-    key: 'count',
-    render: segments => segments?.length || 0
+    title: "Total Prizes",
+    dataIndex: "data",
+    key: "count",
+    width: "15%",
+    render: data => data?.length || 0
   }, {
-    title: 'Actions',
-    key: 'actions',
+    title: "Created",
+    dataIndex: "created_at",
+    key: "created_at",
+    width: "15%",
+    render: date => date ? new Date(date).toLocaleDateString() : "-"
+  }, {
+    title: "Actions",
+    key: "actions",
+    width: "5%",
     render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
       type: "primary",
       size: "small",
       icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["default"], null),
       onClick: () => handleEditData(record)
     }, "Edit"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      title: "Delete this wheel data?",
+      title: "Delete this wheel?",
       description: "This action cannot be undone.",
       onConfirm: () => handleDeleteData(record.id),
       okText: "Yes",
@@ -1169,20 +1136,26 @@ const WheelDataManager = () => {
   }];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
       marginBottom: 16
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
-    level: 3,
+    level: 5,
     style: {
       margin: 0
     }
   }, "Wheel Data Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     type: "primary",
     icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_13__["default"], null),
-    onClick: handleCreateData
+    onClick: handleCreateData,
+    size: "large",
+    style: {
+      fontSize: '16px',
+      height: '40px',
+      padding: '0 24px'
+    }
   }, "Create New Wheel")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
     columns: columns,
     dataSource: wheelData,
@@ -1192,12 +1165,12 @@ const WheelDataManager = () => {
       pageSize: 10
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    title: editingData ? 'Edit Wheel Data' : 'Create New Wheel',
+    title: editingData ? "Edit Wheel Data" : "Create New Wheel",
     open: modalVisible,
     onCancel: () => setModalVisible(false),
     onOk: () => form.submit(),
-    width: 900,
-    okText: editingData ? 'Update' : 'Create'
+    width: 800,
+    okText: editingData ? "Update" : "Create"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     form: form,
     layout: "vertical",
@@ -1207,250 +1180,224 @@ const WheelDataManager = () => {
     label: "Wheel Name",
     rules: [{
       required: true,
-      message: 'Please enter a wheel name'
+      message: "Please enter a wheel name"
     }]
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
     placeholder: "Enter wheel name"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].List, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], null, "Prize Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].List, {
     name: "data"
   }, (fields, {
     add,
     remove
-  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
+      background: '#fafafa',
+      padding: '20px',
+      borderRadius: '8px'
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
-    level: 5
-  }, "Wheel Segments"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, fields.map(({
+    key,
+    name,
+    ...restField
+  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: key,
+    style: {
+      background: '#ffffff',
+      padding: '20px',
+      marginBottom: '16px',
+      borderRadius: '8px',
+      border: '1px solid #d9d9d9'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    gutter: 16,
+    align: "middle"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "option"],
+    label: "Prize Name",
+    rules: [{
+      required: true,
+      message: "Required!"
+    }],
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    placeholder: "Prize name"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 5
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "optionSize"],
+    label: "Size",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    placeholder: "Size",
+    style: {
+      width: "100%"
+    },
+    getPopupContainer: trigger => trigger.parentElement
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: 1
+  }, "One Slice"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: 2
+  }, "Two Slices"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: 3
+  }, "Three Slices")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 5
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "style", "backgroundColor"],
+    label: "Background Color",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    },
+    getPopupContainer: trigger => trigger.parentElement
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 2
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    type: "text",
+    danger: true,
+    onClick: () => remove(name),
+    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_11__["default"], null)
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    ghost: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Advanced Settings",
+    key: "1"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "image", "uri"],
+    label: "Image URL",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    placeholder: "Image URL"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "image", "offsetX"],
+    label: "X Offset",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    placeholder: "X",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "image", "offsetY"],
+    label: "Y Offset",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    placeholder: "Y",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "style", "textColor"],
+    label: "Text Color",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    },
+    getPopupContainer: trigger => trigger.parentElement
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "style", "fontFamily"],
+    label: "Font",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    placeholder: "Font",
+    style: {
+      width: "100%"
+    },
+    getPopupContainer: trigger => trigger.parentElement
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: "Arial"
+  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: "Helvetica"
+  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"].Option, {
+    value: "Georgia"
+  }, "Georgia")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    ...restField,
+    name: [name, "style", "fontSize"],
+    label: "Font Size",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    min: 8,
+    max: 48,
+    style: {
+      width: "100%"
+    }
+  })))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
+    style: {
+      marginTop: 20
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     type: "dashed",
     onClick: () => add({
-      option: 'New Prize',
+      option: "New Prize",
       image: {
-        uri: '',
+        uri: "",
         offsetX: 0,
         offsetY: 0,
         sizeMultiplier: 1,
         landscape: false
       },
       style: {
-        backgroundColor: '#ff8f43',
-        textColor: '#ffffff',
-        fontFamily: 'Arial',
+        backgroundColor: "#ff8f43",
+        textColor: "#ffffff",
+        fontFamily: "Arial",
         fontSize: 16,
         fontWeight: 400,
-        fontStyle: 'normal'
+        fontStyle: "normal"
       },
       optionSize: 1
     }),
+    block: true,
     icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_13__["default"], null)
-  }, "Add Prize")), fields.map(({
-    key,
-    name,
-    ...restField
-  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
-    key: key,
-    size: "small",
-    style: {
-      marginBottom: 16
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'option'],
-    label: "Prize Name",
-    rules: [{
-      required: true,
-      message: 'Please enter prize name!'
-    }]
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
-    placeholder: "Enter prize name"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'optionSize'],
-    label: "Segment Size",
-    rules: [{
-      required: true,
-      message: 'Please enter segment size!'
-    }]
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    placeholder: "Select size"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 1
-  }, "Normal (1x)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 2
-  }, "Large (2x)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 0.5
-  }, "Small (0.5x)")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    type: "dashed",
-    danger: true,
-    onClick: () => remove(name),
-    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_11__["default"], null),
-    style: {
-      marginTop: 30
-    }
-  }, "Remove"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 24
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Title, {
-    level: 5
-  }, "Image Settings"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'image', 'uri'],
-    label: "Image URL"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
-    placeholder: "Enter image URL"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'image', 'offsetX'],
-    label: "Offset X",
-    initialValue: 0
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
-    placeholder: "X Offset"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'image', 'offsetY'],
-    label: "Offset Y",
-    initialValue: 0
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
-    placeholder: "Y Offset"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'image', 'sizeMultiplier'],
-    label: "Size Multiplier",
-    initialValue: 1
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
-    min: 0.1,
-    max: 5,
-    step: 0.1,
-    placeholder: "Size"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'image', 'landscape'],
-    label: "Landscape Mode",
-    valuePropName: "checked",
-    initialValue: false
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], null)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 24
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Title, {
-    level: 5
-  }, "Style Settings"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'backgroundColor'],
-    label: "Background Color",
-    initialValue: "#ff8f43"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'textColor'],
-    label: "Text Color",
-    initialValue: "#ffffff"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'fontFamily'],
-    label: "Font Family",
-    initialValue: "Arial"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    placeholder: "Select font"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "Arial"
-  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "Helvetica"
-  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "Times New Roman"
-  }, "Times New Roman"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "Georgia"
-  }, "Georgia"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "Verdana"
-  }, "Verdana"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'fontSize'],
-    label: "Font Size",
-    initialValue: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
-    min: 8,
-    max: 48,
-    placeholder: "Size"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'fontWeight'],
-    label: "Font Weight",
-    initialValue: 400
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    placeholder: "Weight"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 100
-  }, "Thin (100)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 200
-  }, "Extra Light (200)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 300
-  }, "Light (300)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 400
-  }, "Normal (400)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 500
-  }, "Medium (500)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 600
-  }, "Semi Bold (600)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 700
-  }, "Bold (700)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 800
-  }, "Extra Bold (800)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: 900
-  }, "Black (900)")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"].Item, {
-    ...restField,
-    name: [name, 'style', 'fontStyle'],
-    label: "Font Style",
-    initialValue: "normal"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    placeholder: "Style"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "normal"
-  }, "Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "italic"
-  }, "Italic"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    value: "oblique"
-  }, "Oblique"))))))))))));
+  }, "Add Prize")))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WheelDataManager);
 

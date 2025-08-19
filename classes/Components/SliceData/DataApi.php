@@ -11,45 +11,62 @@ if (!defined('ABSPATH')) {
 }
 class DataApi extends RestAPI
 {
-    private const POST_TYPE = 'roulette_theme_slice_data';
+    private const POST_TYPE = 'stw_wheel_data';
     public function config(): void
     {
-        $this->apiBasePrefix = 'template';
+        $this->apiBasePrefix = 'wheel';
     }
 
-    public function post_slice_data(WP_REST_Request $request, ?int $id = null)
+    public function post_data(WP_REST_Request $request, ?int $id = null)
     {
-        $rules = DataFields::get();
-        $data = $request->get_json_params() ?? [];
-        $errors = Validator::instance()->make($data, $rules);
+        $payload = $request->get_json_params() ?? [];
+        $slices  = $payload['data'] ?? [];
+        $name    = $payload['name'] ?? null;
+        $desc    = $payload['description'] ?? '';
 
+        // Basic validation
+        if (empty($slices) || !is_array($slices)) {
+            return $this->responseError('Slice data is required and must be an array.');
+        }
+        if (empty($name)) {
+            return $this->responseError('Name is required.');
+        }
+
+        // Field validation
+        $rules  = DataFields::get();
+        $errors = Validator::instance()->make($slices, $rules);
         if (!empty($errors)) {
             return $this->responseErrors($errors);
         }
 
-        if (is_null($id)) {
-            return $this->responseError('Theme ID is required.');
-        }
-        $themeData = get_post($id);
-        if (!$themeData) {
-            return $this->responseError('Theme not found.');
+        // Common post data
+        $postData = [
+            'ID'           => $id ?? 0,
+            'post_title'   => sanitize_text_field($name),
+            'post_content' => sanitize_post($desc),
+            'post_status'  => 'publish',
+            'post_type'    => self::POST_TYPE,
+            'post_author'  => get_current_user_id(),
+        ];
+
+        // Insert or update
+        $id = $id ? wp_update_post($postData) : wp_insert_post($postData);
+
+        if (is_wp_error($id)) {
+            return $this->responseError($id->get_error_message());
         }
 
-        update_post_meta($id, 'data', $data['sliceData'] ?? null);
-
-        // get the meta single . deserialize the data if needed
-        $themeMeta = array_map(function ($meta) {
-            return maybe_unserialize($meta[0]);
-        }, get_post_meta($id));
+        update_post_meta($id, 'data', $slices);
 
         return $this->responseSuccess([
-            'theme_id'  => $id,
-            'theme_data' => $themeData,
-            'theme_meta' => $themeMeta
+            'id'   => $id,
+            'name' => sanitize_text_field($name),
+            'data' => $slices,
         ]);
     }
 
-    public function get_roulette_theme(WP_REST_Request $request, ?int $id = null)
+
+    public function get_(WP_REST_Request $request, ?int $id = null)
     {
         if (is_null($id)) {
             return $this->responseError('Theme ID is required.');
