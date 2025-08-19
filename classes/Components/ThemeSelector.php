@@ -12,7 +12,7 @@ class ThemeSelector {
     private $database;
 
     public function __construct() {
-        $this->database = new Database();
+        $this->database = Database::instance();
         add_action('admin_init', [$this, 'register_settings']);
     }
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>STW Debug Test</title>
+    <style>
+        .stw-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border: 2px dashed #ccc;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spin The Wheel Debug Test</h1>
+    
+    <div id="spin-the-wheel-admin" data-page="dashboard">
+        <div class="stw-loading">
+            <p>Loading Spin The Wheel...</p>
+        </div>
+    </div>
+
+    <script>
+        // Mock WordPress data
+        window.stwAdminData = {
+            rest_url: '/wp-json/',
+            rest_nonce: 'test-nonce',
+            admin_url: '/wp-admin/admin-ajax.php',
+            site_url: 'http://localhost',
+            plugin_url: '/wp-content/plugins/Spin-The-Wheel/',
+            assets_url: '/wp-content/plugins/Spin-The-Wheel/ui-resources/',
+            nonce: 'test-nonce',
+            user_id: 1,
+            user_capabilities: {
+                manage_options: true,
+                edit_posts: true
+            },
+            config: {
+                version: '1.0.0',
+                dev_mode: true,
+                rest_namespace: 'stw/v1',
+                default_theme_settings: {}
+            },
+            i18n: {
+                loading: 'Loading...',
+                save: 'Save',
+                cancel: 'Cancel'
+            }
+        };
+
+        console.log('STW Debug: Page loaded');
+        console.log('STW Debug: Element found:', document.getElementById('spin-the-wheel-admin'));
+        console.log('STW Debug: stwAdminData:', window.stwAdminData);
+    </script>
+
+    <!-- Load the built scripts -->
+    <script src="/wp-content/plugins/Spin-The-Wheel/ui-resources/vendors.js"></script>
+    <script src="/wp-content/plugins/Spin-The-Wheel/ui-resources/shared.js"></script>
+    <script src="/wp-content/plugins/Spin-The-Wheel/ui-resources/index.js"></script>
+
+    <script>
+        setTimeout(() => {
+            console.log('STW Debug: After 2 seconds, element content:', 
+                document.getElementById('spin-the-wheel-admin').innerHTML);
+        }, 2000);
+    </script>
+</body>
+</html>
