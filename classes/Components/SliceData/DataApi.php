@@ -4,6 +4,7 @@ namespace AhnabShahin\SpinTheWheel\Components\SliceData;
 
 use AhnabShahin\SpinTheWheel\System\RestAPI;
 use AhnabShahin\SpinTheWheel\System\Validator;
+use WP_Query;
 use WP_REST_Request;
 
 if (!defined('ABSPATH')) {
@@ -66,26 +67,41 @@ class DataApi extends RestAPI
     }
 
 
-    public function get_(WP_REST_Request $request, ?int $id = null)
+    public function get_data(WP_REST_Request $request, ?int $id = null)
     {
-        if (is_null($id)) {
-            return $this->responseError('Theme ID is required.');
+        // Single record fetch
+        if ($id) {
+            $post = get_post($id);
+
+            if ($post && $post->post_type === self::POST_TYPE) {
+                return $this->responseSuccess([
+                    'id'   => $post->ID,
+                    'name' => $post->post_title,
+                    'data' => maybe_unserialize(get_post_meta($post->ID, 'data', true)),
+                ]);
+            }
+
+            return $this->responseError('Wheel data not found.');
         }
 
-        $themeData = get_post($id);
-        if (!$themeData) {
-            return $this->responseError('Theme not found.');
-        }
+        // Multiple records fetch
+        $page = max(1, (int) $request->get_param('page'));
 
-        // get the meta single . deserialize the data if needed
-        $themeMeta = array_map(function ($meta) {
-            return maybe_unserialize($meta[0]);
-        }, get_post_meta($id));
-
-        return $this->responseSuccess([
-            'theme_id'  => $id,
-            'theme_data' => $themeData,
-            'theme_meta' => $themeMeta
+        $posts = get_posts([
+            'post_type'      => self::POST_TYPE,
+            'posts_per_page' => 10,
+            'paged'          => $page,
+            'fields'         => 'ids', // fetch only IDs for better performance
         ]);
+
+        $WheelData = array_map(function ($post_id) {
+            return [
+                'id'   => $post_id,
+                'name' => get_the_title($post_id),
+                'data' => maybe_unserialize(get_post_meta($post_id, 'data', true)),
+            ];
+        }, $posts);
+
+        return $this->responseSuccess($WheelData);
     }
 }

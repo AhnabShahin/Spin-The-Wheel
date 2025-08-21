@@ -923,9 +923,11 @@ const WheelDataManager = () => {
   const loadWheelData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://api.yosuite.com/data-segments");
+      const response = await fetch(`${window.stwAdminData.rest_url}stw/v1/wheel/data`);
       if (response.ok) {
-        const data = await response.json();
+        const {
+          data
+        } = await response.json();
         setWheelData(data);
       } else {
         throw new Error("Failed to fetch wheel data");
@@ -1033,7 +1035,7 @@ const WheelDataManager = () => {
   };
   const handleSubmit = async values => {
     try {
-      const url = editingData ? `http://wordpress.test/wp-json/stw/v1/wheel/data/${editingData.id}` : "http://wordpress.test/wp-json/stw/v1/wheel/data";
+      const url = editingData ? `${window.stwAdminData.rest_url}/stw/v1/wheel/data/${editingData.id}` : `${window.stwAdminData.rest_url}/stw/v1/wheel/data`;
       const method = editingData ? "PUT" : "POST";
       const response = await fetch(url, {
         method: method,
@@ -1152,9 +1154,9 @@ const WheelDataManager = () => {
     onClick: handleCreateData,
     size: "large",
     style: {
-      fontSize: '16px',
-      height: '40px',
-      padding: '0 24px'
+      fontSize: "16px",
+      height: "40px",
+      padding: "0 24px"
     }
   }, "Create New Wheel")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
     columns: columns,
@@ -1191,9 +1193,9 @@ const WheelDataManager = () => {
     remove
   }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      background: '#fafafa',
-      padding: '20px',
-      borderRadius: '8px'
+      background: "#fafafa",
+      padding: "20px",
+      borderRadius: "8px"
     }
   }, fields.map(({
     key,
@@ -1202,11 +1204,11 @@ const WheelDataManager = () => {
   }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: key,
     style: {
-      background: '#ffffff',
-      padding: '20px',
-      marginBottom: '16px',
-      borderRadius: '8px',
-      border: '1px solid #d9d9d9'
+      background: "#ffffff",
+      padding: "20px",
+      marginBottom: "16px",
+      borderRadius: "8px",
+      border: "1px solid #d9d9d9"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
     gutter: 16,

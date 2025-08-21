@@ -45,9 +45,9 @@ const WheelDataManager = () => {
   const loadWheelData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://api.yosuite.com/data-segments");
+      const response = await fetch(`${window.stwAdminData.rest_url}stw/v1/wheel/data`);
       if (response.ok) {
-        const data = await response.json();
+        const {data} = await response.json();
         setWheelData(data);
       } else {
         throw new Error("Failed to fetch wheel data");
@@ -171,8 +171,8 @@ const WheelDataManager = () => {
   const handleSubmit = async (values) => {
     try {
       const url = editingData
-        ? `http://wordpress.test/wp-json/stw/v1/wheel/data/${editingData.id}`
-        : "http://wordpress.test/wp-json/stw/v1/wheel/data";
+        ? `${window.stwAdminData.rest_url}/stw/v1/wheel/data/${editingData.id}`
+        : `${window.stwAdminData.rest_url}/stw/v1/wheel/data`;
 
       const method = editingData ? "PUT" : "POST";
 
@@ -317,7 +317,7 @@ const WheelDataManager = () => {
             icon={<PlusOutlined />}
             onClick={handleCreateData}
             size="large"
-            style={{ fontSize: '16px', height: '40px', padding: '0 24px' }}
+            style={{ fontSize: "16px", height: "40px", padding: "0 24px" }}
           >
             Create New Wheel
           </Button>
@@ -340,11 +340,7 @@ const WheelDataManager = () => {
         width={800}
         okText={editingData ? "Update" : "Create"}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleSubmit}
-        >
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             name="name"
             label="Wheel Name"
@@ -357,15 +353,24 @@ const WheelDataManager = () => {
 
           <Form.List name="data">
             {(fields, { add, remove }) => (
-              <div style={{ background: '#fafafa', padding: '20px', borderRadius: '8px' }}>
+              <div
+                style={{
+                  background: "#fafafa",
+                  padding: "20px",
+                  borderRadius: "8px",
+                }}
+              >
                 {fields.map(({ key, name, ...restField }) => (
-                  <div key={key} style={{ 
-                    background: '#ffffff', 
-                    padding: '20px', 
-                    marginBottom: '16px', 
-                    borderRadius: '8px',
-                    border: '1px solid #d9d9d9'
-                  }}>
+                  <div
+                    key={key}
+                    style={{
+                      background: "#ffffff",
+                      padding: "20px",
+                      marginBottom: "16px",
+                      borderRadius: "8px",
+                      border: "1px solid #d9d9d9",
+                    }}
+                  >
                     <Row gutter={16} align="middle">
                       <Col span={12}>
                         <Form.Item
@@ -385,10 +390,12 @@ const WheelDataManager = () => {
                           label="Size"
                           style={{ marginBottom: 16 }}
                         >
-                          <Select 
-                            placeholder="Size" 
+                          <Select
+                            placeholder="Size"
                             style={{ width: "100%" }}
-                            getPopupContainer={(trigger) => trigger.parentElement}
+                            getPopupContainer={(trigger) =>
+                              trigger.parentElement
+                            }
                           >
                             <Select.Option value={1}>One Slice</Select.Option>
                             <Select.Option value={2}>Two Slices</Select.Option>
@@ -405,11 +412,13 @@ const WheelDataManager = () => {
                           label="Background Color"
                           style={{ marginBottom: 16 }}
                         >
-                          <ColorPicker 
-                            showText 
-                            format="hex" 
+                          <ColorPicker
+                            showText
+                            format="hex"
                             style={{ width: "100%" }}
-                            getPopupContainer={(trigger) => trigger.parentElement}
+                            getPopupContainer={(trigger) =>
+                              trigger.parentElement
+                            }
                           />
                         </Form.Item>
                       </Col>
@@ -443,7 +452,10 @@ const WheelDataManager = () => {
                               label="X Offset"
                               style={{ marginBottom: 16 }}
                             >
-                              <InputNumber placeholder="X" style={{ width: "100%" }} />
+                              <InputNumber
+                                placeholder="X"
+                                style={{ width: "100%" }}
+                              />
                             </Form.Item>
                           </Col>
                           <Col span={6}>
@@ -453,7 +465,10 @@ const WheelDataManager = () => {
                               label="Y Offset"
                               style={{ marginBottom: 16 }}
                             >
-                              <InputNumber placeholder="Y" style={{ width: "100%" }} />
+                              <InputNumber
+                                placeholder="Y"
+                                style={{ width: "100%" }}
+                              />
                             </Form.Item>
                           </Col>
                         </Row>
@@ -465,11 +480,13 @@ const WheelDataManager = () => {
                               label="Text Color"
                               style={{ marginBottom: 16 }}
                             >
-                              <ColorPicker 
-                                showText 
-                                format="hex" 
+                              <ColorPicker
+                                showText
+                                format="hex"
                                 style={{ width: "100%" }}
-                                getPopupContainer={(trigger) => trigger.parentElement}
+                                getPopupContainer={(trigger) =>
+                                  trigger.parentElement
+                                }
                               />
                             </Form.Item>
                           </Col>
@@ -480,10 +497,12 @@ const WheelDataManager = () => {
                               label="Font"
                               style={{ marginBottom: 16 }}
                             >
-                              <Select 
+                              <Select
                                 placeholder="Font"
                                 style={{ width: "100%" }}
-                                getPopupContainer={(trigger) => trigger.parentElement}
+                                getPopupContainer={(trigger) =>
+                                  trigger.parentElement
+                                }
                               >
                                 <Select.Option value="Arial">
                                   Arial
@@ -504,7 +523,11 @@ const WheelDataManager = () => {
                               label="Font Size"
                               style={{ marginBottom: 16 }}
                             >
-                              <InputNumber min={8} max={48} style={{ width: "100%" }} />
+                              <InputNumber
+                                min={8}
+                                max={48}
+                                style={{ width: "100%" }}
+                              />
                             </Form.Item>
                           </Col>
                         </Row>
