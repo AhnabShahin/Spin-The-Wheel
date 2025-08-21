@@ -44,6 +44,9 @@ abstract class RestAPI
                         'page'  => [
                             'validate_callback' => fn($param) => is_numeric($param),
                         ],
+                        'per_page' => [
+                            'validate_callback' => fn($param) => is_numeric($param),
+                        ],
                         'limit' => [
                             'validate_callback' => fn($param) => is_numeric($param),
                         ],

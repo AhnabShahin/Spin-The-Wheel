@@ -188,12 +188,12 @@ class Enqueue
     private function localize_admin_script()
     {
         $data = [
-            'rest_url' => get_rest_url(),
+            'rest_url' => rtrim(get_rest_url(), '/'),
             'rest_nonce' => wp_create_nonce('wp_rest'),
             'admin_url' => admin_url('admin-ajax.php'),
-            'site_url' => get_option('siteurl'),
-            'plugin_url' => STW_PLUGIN_URL,
-            'assets_url' => STW_ASSETS_URL,
+            'site_url' => rtrim(get_option('siteurl'), '/'),
+            'plugin_url' => rtrim(STW_PLUGIN_URL, '/'),
+            'assets_url' => rtrim(STW_ASSETS_URL, '/'),
             'nonce' => wp_create_nonce('stw-admin-nonce'),
             'user_id' => get_current_user_id(),
             'user_capabilities' => [

@@ -46,7 +46,36 @@ const {
   Content
 } = antd__WEBPACK_IMPORTED_MODULE_6__["default"];
 const AdminApp = () => {
-  const [currentTab, setCurrentTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('dashboard');
+  // Get initial tab from localStorage or default to 'dashboard'
+  const getInitialTab = () => {
+    try {
+      return localStorage.getItem('spinTheWheelAdminTab') || 'dashboard';
+    } catch (error) {
+      return 'dashboard';
+    }
+  };
+  const [currentTab, setCurrentTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(getInitialTab);
+
+  // Persist tab changes to localStorage
+  const handleTabChange = newTab => {
+    setCurrentTab(newTab);
+    try {
+      localStorage.setItem('spinTheWheelAdminTab', newTab);
+    } catch (error) {
+      console.warn('Could not save tab state to localStorage:', error);
+    }
+  };
+
+  // Listen for storage changes (if multiple tabs are open)
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const handleStorageChange = e => {
+      if (e.key === 'spinTheWheelAdminTab' && e.newValue) {
+        setCurrentTab(e.newValue);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
   const menuItems = [{
     key: 'dashboard',
     icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_7__["default"], null),
@@ -104,16 +133,16 @@ const AdminApp = () => {
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
           type: "primary",
           size: "large",
-          onClick: () => setCurrentTab('themes')
+          onClick: () => handleTabChange('themes')
         }, "\uD83C\uDFA8 Manage Themes"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
           size: "large",
-          onClick: () => setCurrentTab('wheels')
+          onClick: () => handleTabChange('wheels')
         }, "\uD83C\uDFAA Create Wheel Data"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
           size: "large",
-          onClick: () => setCurrentTab('analytics')
+          onClick: () => handleTabChange('analytics')
         }, "\uD83D\uDCCA View Analytics"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
           size: "large",
-          onClick: () => setCurrentTab('settings')
+          onClick: () => handleTabChange('settings')
         }, "\u2699\uFE0F Settings"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
           level: 3
         }, "Plugin Status"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], {
@@ -152,7 +181,7 @@ const AdminApp = () => {
     items: menuItems,
     onClick: ({
       key
-    }) => setCurrentTab(key),
+    }) => handleTabChange(key),
     style: {
       borderRight: 0
     }
@@ -916,72 +945,66 @@ const WheelDataManager = () => {
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [modalVisible, setModalVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [editingData, setEditingData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [pagination, setPagination] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
+  });
   const [form] = antd__WEBPACK_IMPORTED_MODULE_4__["default"].useForm();
+
+  // Helper function to convert color picker object to hex string
+  const getColorValue = color => {
+    if (typeof color === 'string') {
+      return color;
+    }
+    if (color && color.metaColor && color.metaColor.r !== undefined) {
+      const {
+        r,
+        g,
+        b
+      } = color.metaColor;
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    return '#ff8f43'; // Default color
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     loadWheelData();
   }, []);
-  const loadWheelData = async () => {
+  const loadWheelData = async (page = 1, pageSize = 10) => {
     setLoading(true);
     try {
-      const response = await fetch(`${window.stwAdminData.rest_url}stw/v1/wheel/data`);
+      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`);
       if (response.ok) {
-        const {
-          data
-        } = await response.json();
-        setWheelData(data);
+        const responseData = await response.json();
+        setWheelData(responseData.data);
+
+        // Update pagination state with API response data
+        setPagination(prev => ({
+          ...prev,
+          current: responseData.current_page,
+          total: responseData.total,
+          pageSize: responseData.per_page
+        }));
       } else {
         throw new Error("Failed to fetch wheel data");
       }
     } catch (error) {
       console.error("API Error:", error);
-      // Fallback to sample data for development
-      const sampleData = [{
-        id: 1,
-        name: "Default Wheel",
-        data: [{
-          option: "Prize 1",
-          image: {
-            uri: "",
-            offsetX: 0,
-            offsetY: 0,
-            sizeMultiplier: 1,
-            landscape: false
-          },
-          style: {
-            backgroundColor: "#ff8f43",
-            textColor: "#ffffff",
-            fontFamily: "Arial",
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: "normal"
-          },
-          optionSize: 1
-        }, {
-          option: "Prize 2",
-          image: {
-            uri: "",
-            offsetX: 0,
-            offsetY: 0,
-            sizeMultiplier: 1,
-            landscape: false
-          },
-          style: {
-            backgroundColor: "#70bbe0",
-            textColor: "#ffffff",
-            fontFamily: "Arial",
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: "normal"
-          },
-          optionSize: 1
-        }],
-        created_at: new Date().toISOString()
-      }];
-      setWheelData(sampleData);
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].warning("Using sample data. API connection failed.");
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error("Failed to load wheel data. Please try again.");
+      setWheelData([]);
     } finally {
       setLoading(false);
     }
+  };
+  const handleTableChange = paginationInfo => {
+    const {
+      current,
+      pageSize
+    } = paginationInfo;
+    loadWheelData(current, pageSize);
   };
   const handleCreateData = () => {
     setEditingData(null);
@@ -1012,31 +1035,43 @@ const WheelDataManager = () => {
   };
   const handleEditData = data => {
     setEditingData(data);
-    form.setFieldsValue(data);
+
+    // Convert color objects to hex strings for form fields
+    const formData = {
+      ...data,
+      data: data.data?.map(item => ({
+        ...item,
+        style: {
+          ...item.style,
+          backgroundColor: getColorValue(item.style?.backgroundColor),
+          textColor: item.style?.textColor || "#ffffff"
+        }
+      })) || []
+    };
+    form.setFieldsValue(formData);
     setModalVisible(true);
   };
   const handleDeleteData = async dataId => {
     try {
-      const response = await fetch(`http://api.yosuite.com/data-segments/${dataId}`, {
+      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/wheel/data/${dataId}`, {
         method: "DELETE"
       });
       if (response.ok) {
-        setWheelData(prev => prev.filter(item => item.id !== dataId));
         antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data deleted successfully");
+        // Reload the current page data
+        loadWheelData(pagination.current, pagination.pageSize);
       } else {
         throw new Error("Failed to delete data");
       }
     } catch (error) {
       console.error("Delete Error:", error);
-      // Fallback for development
-      setWheelData(prev => prev.filter(item => item.id !== dataId));
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data deleted successfully (local)");
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error("Failed to delete wheel data. Please try again.");
     }
   };
   const handleSubmit = async values => {
     try {
       const url = editingData ? `${window.stwAdminData.rest_url}/stw/v1/wheel/data/${editingData.id}` : `${window.stwAdminData.rest_url}/stw/v1/wheel/data`;
-      const method = editingData ? "PUT" : "POST";
+      const method = "POST";
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -1047,36 +1082,19 @@ const WheelDataManager = () => {
       if (response.ok) {
         const responseData = await response.json();
         if (editingData) {
-          setWheelData(prev => prev.map(item => item.id === editingData.id ? {
-            ...item,
-            ...responseData
-          } : item));
           antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data updated successfully");
         } else {
-          setWheelData(prev => [...prev, responseData]);
           antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data created successfully");
         }
+
+        // Reload the current page data
+        loadWheelData(pagination.current, pagination.pageSize);
       } else {
         throw new Error("API request failed");
       }
     } catch (error) {
       console.error("Submit Error:", error);
-      // Fallback for development
-      if (editingData) {
-        setWheelData(prev => prev.map(item => item.id === editingData.id ? {
-          ...item,
-          ...values
-        } : item));
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data updated successfully (local)");
-      } else {
-        const newData = {
-          ...values,
-          id: Date.now(),
-          created_at: new Date().toISOString()
-        };
-        setWheelData(prev => [...prev, newData]);
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Wheel data created successfully (local)");
-      }
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error(`Failed to ${editingData ? 'update' : 'create'} wheel data. Please try again.`);
     }
     setModalVisible(false);
   };
@@ -1093,14 +1111,14 @@ const WheelDataManager = () => {
     render: data => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
       wrap: true,
       size: "small"
-    }, data?.slice(0, 3).map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, Array.isArray(data) && data.slice(0, 3).map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: index,
-      color: item.style?.backgroundColor || "blue",
+      color: getColorValue(item.style?.backgroundColor),
       style: {
         color: item.style?.textColor || "#fff",
         margin: "2px"
       }
-    }, item.option)), data?.length > 3 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, item.option)), Array.isArray(data) && data.length > 3 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
       color: "default"
     }, "+", data.length - 3))
   }, {
@@ -1108,7 +1126,7 @@ const WheelDataManager = () => {
     dataIndex: "data",
     key: "count",
     width: "15%",
-    render: data => data?.length || 0
+    render: data => Array.isArray(data) ? data.length : 0
   }, {
     title: "Created",
     dataIndex: "created_at",
@@ -1151,21 +1169,14 @@ const WheelDataManager = () => {
   }, "Wheel Data Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     type: "primary",
     icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_13__["default"], null),
-    onClick: handleCreateData,
-    size: "large",
-    style: {
-      fontSize: "16px",
-      height: "40px",
-      padding: "0 24px"
-    }
+    onClick: handleCreateData
   }, "Create New Wheel")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
     columns: columns,
     dataSource: wheelData,
     loading: loading,
     rowKey: "id",
-    pagination: {
-      pageSize: 10
-    }
+    pagination: pagination,
+    onChange: handleTableChange
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_15__["default"], {
     title: editingData ? "Edit Wheel Data" : "Create New Wheel",
     open: modalVisible,

@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { Card, Typography, Space, Button, Layout, Menu } from 'antd';
 import { 
     DashboardOutlined, 
@@ -15,7 +15,38 @@ const { Title, Paragraph } = Typography;
 const { Sider, Content } = Layout;
 
 const AdminApp = () => {
-    const [currentTab, setCurrentTab] = useState('dashboard');
+    // Get initial tab from localStorage or default to 'dashboard'
+    const getInitialTab = () => {
+        try {
+            return localStorage.getItem('spinTheWheelAdminTab') || 'dashboard';
+        } catch (error) {
+            return 'dashboard';
+        }
+    };
+
+    const [currentTab, setCurrentTab] = useState(getInitialTab);
+
+    // Persist tab changes to localStorage
+    const handleTabChange = (newTab) => {
+        setCurrentTab(newTab);
+        try {
+            localStorage.setItem('spinTheWheelAdminTab', newTab);
+        } catch (error) {
+            console.warn('Could not save tab state to localStorage:', error);
+        }
+    };
+
+    // Listen for storage changes (if multiple tabs are open)
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'spinTheWheelAdminTab' && e.newValue) {
+                setCurrentTab(e.newValue);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
 
     const menuItems = [
         {
@@ -79,16 +110,16 @@ const AdminApp = () => {
                         <Card>
                             <Title level={3}>Quick Actions</Title>
                             <Space wrap size="large">
-                                <Button type="primary" size="large" onClick={() => setCurrentTab('themes')}>
+                                <Button type="primary" size="large" onClick={() => handleTabChange('themes')}>
                                     🎨 Manage Themes
                                 </Button>
-                                <Button size="large" onClick={() => setCurrentTab('wheels')}>
+                                <Button size="large" onClick={() => handleTabChange('wheels')}>
                                     🎪 Create Wheel Data
                                 </Button>
-                                <Button size="large" onClick={() => setCurrentTab('analytics')}>
+                                <Button size="large" onClick={() => handleTabChange('analytics')}>
                                     📊 View Analytics
                                 </Button>
-                                <Button size="large" onClick={() => setCurrentTab('settings')}>
+                                <Button size="large" onClick={() => handleTabChange('settings')}>
                                     ⚙️ Settings
                                 </Button>
                             </Space>
@@ -146,7 +177,7 @@ const AdminApp = () => {
                     mode="inline"
                     selectedKeys={[currentTab]}
                     items={menuItems}
-                    onClick={({ key }) => setCurrentTab(key)}
+                    onClick={({ key }) => handleTabChange(key)}
                     style={{ borderRight: 0 }}
                 />
             </Sider>

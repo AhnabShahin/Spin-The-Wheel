@@ -36,77 +36,66 @@ const WheelDataManager = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingData, setEditingData] = useState(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+  });
   const [form] = Form.useForm();
+
+  // Helper function to convert color picker object to hex string
+  const getColorValue = (color) => {
+    if (typeof color === 'string') {
+      return color;
+    }
+    
+    if (color && color.metaColor && color.metaColor.r !== undefined) {
+      const { r, g, b } = color.metaColor;
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    
+    return '#ff8f43'; // Default color
+  };
 
   useEffect(() => {
     loadWheelData();
   }, []);
 
-  const loadWheelData = async () => {
+  const loadWheelData = async (page = 1, pageSize = 10) => {
     setLoading(true);
     try {
-      const response = await fetch(`${window.stwAdminData.rest_url}stw/v1/wheel/data`);
+      const response = await fetch(
+        `${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`
+      );
       if (response.ok) {
-        const {data} = await response.json();
-        setWheelData(data);
+        const responseData = await response.json();
+        setWheelData(responseData.data);
+        
+        // Update pagination state with API response data
+        setPagination(prev => ({
+          ...prev,
+          current: responseData.current_page,
+          total: responseData.total,
+          pageSize: responseData.per_page,
+        }));
       } else {
         throw new Error("Failed to fetch wheel data");
       }
     } catch (error) {
       console.error("API Error:", error);
-      // Fallback to sample data for development
-      const sampleData = [
-        {
-          id: 1,
-          name: "Default Wheel",
-          data: [
-            {
-              option: "Prize 1",
-              image: {
-                uri: "",
-                offsetX: 0,
-                offsetY: 0,
-                sizeMultiplier: 1,
-                landscape: false,
-              },
-              style: {
-                backgroundColor: "#ff8f43",
-                textColor: "#ffffff",
-                fontFamily: "Arial",
-                fontSize: 16,
-                fontWeight: 400,
-                fontStyle: "normal",
-              },
-              optionSize: 1,
-            },
-            {
-              option: "Prize 2",
-              image: {
-                uri: "",
-                offsetX: 0,
-                offsetY: 0,
-                sizeMultiplier: 1,
-                landscape: false,
-              },
-              style: {
-                backgroundColor: "#70bbe0",
-                textColor: "#ffffff",
-                fontFamily: "Arial",
-                fontSize: 16,
-                fontWeight: 400,
-                fontStyle: "normal",
-              },
-              optionSize: 1,
-            },
-          ],
-          created_at: new Date().toISOString(),
-        },
-      ];
-      setWheelData(sampleData);
-      message.warning("Using sample data. API connection failed.");
+      message.error("Failed to load wheel data. Please try again.");
+      setWheelData([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleTableChange = (paginationInfo) => {
+    const { current, pageSize } = paginationInfo;
+    loadWheelData(current, pageSize);
   };
 
   const handleCreateData = () => {
@@ -141,30 +130,43 @@ const WheelDataManager = () => {
 
   const handleEditData = (data) => {
     setEditingData(data);
-    form.setFieldsValue(data);
+    
+    // Convert color objects to hex strings for form fields
+    const formData = {
+      ...data,
+      data: data.data?.map(item => ({
+        ...item,
+        style: {
+          ...item.style,
+          backgroundColor: getColorValue(item.style?.backgroundColor),
+          textColor: item.style?.textColor || "#ffffff"
+        }
+      })) || []
+    };
+    
+    form.setFieldsValue(formData);
     setModalVisible(true);
   };
 
   const handleDeleteData = async (dataId) => {
     try {
       const response = await fetch(
-        `http://api.yosuite.com/data-segments/${dataId}`,
+        `${window.stwAdminData.rest_url}/stw/v1/wheel/data/${dataId}`,
         {
           method: "DELETE",
         }
       );
 
       if (response.ok) {
-        setWheelData((prev) => prev.filter((item) => item.id !== dataId));
         message.success("Wheel data deleted successfully");
+        // Reload the current page data
+        loadWheelData(pagination.current, pagination.pageSize);
       } else {
         throw new Error("Failed to delete data");
       }
     } catch (error) {
       console.error("Delete Error:", error);
-      // Fallback for development
-      setWheelData((prev) => prev.filter((item) => item.id !== dataId));
-      message.success("Wheel data deleted successfully (local)");
+      message.error("Failed to delete wheel data. Please try again.");
     }
   };
 
@@ -174,7 +176,7 @@ const WheelDataManager = () => {
         ? `${window.stwAdminData.rest_url}/stw/v1/wheel/data/${editingData.id}`
         : `${window.stwAdminData.rest_url}/stw/v1/wheel/data`;
 
-      const method = editingData ? "PUT" : "POST";
+      const method = "POST";
 
       const response = await fetch(url, {
         method: method,
@@ -188,38 +190,19 @@ const WheelDataManager = () => {
         const responseData = await response.json();
 
         if (editingData) {
-          setWheelData((prev) =>
-            prev.map((item) =>
-              item.id === editingData.id ? { ...item, ...responseData } : item
-            )
-          );
           message.success("Wheel data updated successfully");
         } else {
-          setWheelData((prev) => [...prev, responseData]);
           message.success("Wheel data created successfully");
         }
+        
+        // Reload the current page data
+        loadWheelData(pagination.current, pagination.pageSize);
       } else {
         throw new Error("API request failed");
       }
     } catch (error) {
       console.error("Submit Error:", error);
-      // Fallback for development
-      if (editingData) {
-        setWheelData((prev) =>
-          prev.map((item) =>
-            item.id === editingData.id ? { ...item, ...values } : item
-          )
-        );
-        message.success("Wheel data updated successfully (local)");
-      } else {
-        const newData = {
-          ...values,
-          id: Date.now(),
-          created_at: new Date().toISOString(),
-        };
-        setWheelData((prev) => [...prev, newData]);
-        message.success("Wheel data created successfully (local)");
-      }
+      message.error(`Failed to ${editingData ? 'update' : 'create'} wheel data. Please try again.`);
     }
     setModalVisible(false);
   };
@@ -238,10 +221,10 @@ const WheelDataManager = () => {
       width: "40%",
       render: (data) => (
         <Space wrap size="small">
-          {data?.slice(0, 3).map((item, index) => (
+          {Array.isArray(data) && data.slice(0, 3).map((item, index) => (
             <Tag
               key={index}
-              color={item.style?.backgroundColor || "blue"}
+              color={getColorValue(item.style?.backgroundColor)}
               style={{
                 color: item.style?.textColor || "#fff",
                 margin: "2px",
@@ -250,7 +233,7 @@ const WheelDataManager = () => {
               {item.option}
             </Tag>
           ))}
-          {data?.length > 3 && <Tag color="default">+{data.length - 3}</Tag>}
+          {Array.isArray(data) && data.length > 3 && <Tag color="default">+{data.length - 3}</Tag>}
         </Space>
       ),
     },
@@ -259,7 +242,7 @@ const WheelDataManager = () => {
       dataIndex: "data",
       key: "count",
       width: "15%",
-      render: (data) => data?.length || 0,
+      render: (data) => Array.isArray(data) ? data.length : 0,
     },
     {
       title: "Created",
@@ -316,8 +299,6 @@ const WheelDataManager = () => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={handleCreateData}
-            size="large"
-            style={{ fontSize: "16px", height: "40px", padding: "0 24px" }}
           >
             Create New Wheel
           </Button>
@@ -328,7 +309,8 @@ const WheelDataManager = () => {
           dataSource={wheelData}
           loading={loading}
           rowKey="id"
-          pagination={{ pageSize: 10 }}
+          pagination={pagination}
+          onChange={handleTableChange}
         />
       </Card>
 

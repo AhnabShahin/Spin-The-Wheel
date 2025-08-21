@@ -8,13 +8,21 @@ trait ResponseTrait
 {
     protected $responseMessages = [];
 
-    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null): WP_HTTP_Response
+    protected function response($status = 200, array | object $data = [], array $headers = [], $tracer = null, array $pagination = []): WP_HTTP_Response
     {
-        $response = [
-            'message' => $this->responseMessages,
-            'tracer'  => $tracer,
-            'data'    => $data
-        ];
+        if (!empty($data) && !isset($data['id'])) {
+            $response = [
+                'message' => $this->responseMessages,
+                'tracer'  => $tracer,
+                ...$data
+            ];
+        } else {
+            $response = [
+                'message' => $this->responseMessages,
+                'tracer'  => $tracer,
+                'data'    => $data
+            ];
+        }
 
         return new WP_HTTP_Response($response, $status, $headers);
     }
@@ -47,14 +55,15 @@ trait ResponseTrait
      *
      * @param array $data The data to be included in the response.
      * @param string $message The success message.
+     * @param array $pagination Optional pagination metadata.
      * @return \Illuminate\Http\JsonResponse The JSON response.
      */
-    protected function responseSuccess(array | object $data = [], $message = 'Data Retrieved Successfully')
+    protected function responseSuccess(array | object $data = [], $message = 'Data Retrieved Successfully', array $pagination = [])
     {
         $this->addResponseMessage('success', $message);
 
         // must send the paginated data as an array using the toArray() method.
-        return $this->response(200, $data);
+        return $this->response(200, $data, [], null, $pagination);
     }
 
     protected function responseError($message = 'Data Retrieval Failed')
