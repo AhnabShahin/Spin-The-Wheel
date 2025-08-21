@@ -408,26 +408,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/tag/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/popconfirm/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/table/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/modal/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/divider/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/switch/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/collapse/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/tag/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/popconfirm/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/table/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/modal/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/divider/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input-number/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/color-picker/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/select/index.js");
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/EditOutlined.js");
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/CopyOutlined.js");
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/DeleteOutlined.js");
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/switch/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/color-picker/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/select/index.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/EditOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/CopyOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/DeleteOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
 /* harmony import */ var _shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/providers/ApiProvider */ "./src/shared/providers/ApiProvider.jsx");
 
 
@@ -440,12 +441,15 @@ const {
 const {
   TextArea
 } = antd__WEBPACK_IMPORTED_MODULE_4__["default"];
+const {
+  Panel
+} = antd__WEBPACK_IMPORTED_MODULE_5__["default"];
 const ThemeManager = () => {
   const [themes, setThemes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [modalVisible, setModalVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [editingTheme, setEditingTheme] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-  const [form] = antd__WEBPACK_IMPORTED_MODULE_5__["default"].useForm();
+  const [form] = antd__WEBPACK_IMPORTED_MODULE_6__["default"].useForm();
   const api = (0,_shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__.useApi)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     loadThemes();
@@ -460,34 +464,53 @@ const ThemeManager = () => {
         description: 'A classic wheel theme with vibrant colors',
         mustStartSpinning: false,
         prizeNumber: 0,
-        data: [],
+        startingOptionIndex: 0,
+        spinDuration: 4000,
+        disableInitialAnimation: false,
         backgroundColors: ['#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f'],
-        textColors: ['#ffffff'],
-        outerBorderColor: '#000000',
-        outerBorderWidth: 5,
-        innerRadius: 0,
-        innerBorderColor: '#000000',
-        innerBorderWidth: 0,
-        radiusLineColor: '#000000',
-        radiusLineWidth: 5,
+        textColors: ['#ffffff', '#000000'],
+        outerBorderColor: '#eeeeee',
+        outerBorderWidth: 10,
+        innerRadius: 30,
+        innerBorderColor: '#30261a',
+        innerBorderWidth: 70,
+        radiusLineColor: '#eeeeee',
+        radiusLineWidth: 8,
         fontFamily: 'Arial',
-        fontSize: 20,
-        fontWeight: 400,
+        fontSize: 16,
+        fontWeight: 700,
         fontStyle: 'normal',
         perpendicularText: false,
-        textDistance: 60,
-        spinDuration: 4000,
+        pointerImageSource: ''
+      }, {
+        id: 2,
+        name: 'Modern Theme',
+        description: 'A sleek modern design with clean lines',
+        mustStartSpinning: true,
+        prizeNumber: 1,
         startingOptionIndex: 0,
-        pointerProps: {
-          src: '',
-          style: {}
-        },
-        disableInitialAnimation: false,
-        created_at: new Date().toISOString()
+        spinDuration: 3000,
+        disableInitialAnimation: true,
+        backgroundColors: ['#667eea', '#764ba2', '#f093fb', '#f5576c'],
+        textColors: ['#ffffff', '#000000'],
+        outerBorderColor: '#333333',
+        outerBorderWidth: 5,
+        innerRadius: 20,
+        innerBorderColor: '#555555',
+        innerBorderWidth: 40,
+        radiusLineColor: '#666666',
+        radiusLineWidth: 2,
+        fontFamily: 'Helvetica',
+        fontSize: 14,
+        fontWeight: 400,
+        fontStyle: 'normal',
+        perpendicularText: true,
+        pointerImageSource: ''
       }];
       setThemes(sampleThemes);
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].error('Failed to load themes: ' + error.message);
+      console.error('Theme loading error:', error);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to load themes');
     } finally {
       setLoading(false);
     }
@@ -495,35 +518,6 @@ const ThemeManager = () => {
   const handleCreateTheme = () => {
     setEditingTheme(null);
     form.resetFields();
-    form.setFieldsValue({
-      name: '',
-      description: '',
-      mustStartSpinning: false,
-      prizeNumber: 0,
-      data: [],
-      backgroundColors: ['#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f'],
-      textColors: ['#ffffff'],
-      outerBorderColor: '#000000',
-      outerBorderWidth: 5,
-      innerRadius: 0,
-      innerBorderColor: '#000000',
-      innerBorderWidth: 0,
-      radiusLineColor: '#000000',
-      radiusLineWidth: 5,
-      fontFamily: 'Helvetica, Arial',
-      fontSize: 20,
-      fontWeight: 400,
-      fontStyle: 'normal',
-      perpendicularText: false,
-      textDistance: 60,
-      spinDuration: 4000,
-      startingOptionIndex: 0,
-      pointerProps: {
-        src: '',
-        style: {}
-      },
-      disableInitialAnimation: false
-    });
     setModalVisible(true);
   };
   const handleEditTheme = theme => {
@@ -533,111 +527,108 @@ const ThemeManager = () => {
   };
   const handleDeleteTheme = async themeId => {
     try {
-      // await api.themes.deleteTheme(themeId);
-      setThemes(prev => prev.filter(theme => theme.id !== themeId));
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].success('Theme deleted successfully');
+      // API call would go here
+      setThemes(themes.filter(theme => theme.id !== themeId));
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].success('Theme deleted successfully');
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].error('Failed to delete theme: ' + error.message);
+      console.error('Delete error:', error);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to delete theme');
     }
   };
   const handleDuplicateTheme = async theme => {
     try {
       const newTheme = {
         ...theme,
-        name: `${theme.name} (Copy)`,
-        id: Date.now()
+        id: Date.now(),
+        name: `${theme.name} (Copy)`
       };
-      // await api.themes.createTheme(newTheme);
-      setThemes(prev => [...prev, newTheme]);
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].success('Theme duplicated successfully');
+      setThemes([...themes, newTheme]);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].success('Theme duplicated successfully');
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].error('Failed to duplicate theme: ' + error.message);
+      console.error('Duplicate error:', error);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to duplicate theme');
     }
   };
   const handleSubmit = async values => {
     try {
       if (editingTheme) {
-        // await api.themes.updateTheme(editingTheme.id, values);
-        setThemes(prev => prev.map(theme => theme.id === editingTheme.id ? {
+        // Update existing theme
+        setThemes(themes.map(theme => theme.id === editingTheme.id ? {
           ...theme,
           ...values
         } : theme));
-        antd__WEBPACK_IMPORTED_MODULE_6__["default"].success('Theme updated successfully');
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success('Theme updated successfully');
       } else {
-        // await api.themes.createTheme(values);
+        // Create new theme
         const newTheme = {
           ...values,
-          id: Date.now(),
-          created_at: new Date().toISOString()
+          id: Date.now()
         };
-        setThemes(prev => [...prev, newTheme]);
-        antd__WEBPACK_IMPORTED_MODULE_6__["default"].success('Theme created successfully');
+        setThemes([...themes, newTheme]);
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success('Theme created successfully');
       }
       setModalVisible(false);
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_6__["default"].error(`Failed to ${editingTheme ? 'update' : 'create'} theme: ` + error.message);
+      console.error('Submit error:', error);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to save theme');
     }
   };
   const columns = [{
     title: 'Theme Name',
     dataIndex: 'name',
-    key: 'name'
+    key: 'name',
+    width: '25%'
   }, {
     title: 'Description',
     dataIndex: 'description',
     key: 'description',
-    ellipsis: true
+    width: '30%'
   }, {
-    title: 'Background Colors',
+    title: 'Colors',
     dataIndex: 'backgroundColors',
     key: 'colors',
-    render: colors => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], null, (colors || []).slice(0, 4).map((color, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    width: '25%',
+    render: colors => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      wrap: true,
+      size: "small"
+    }, colors?.slice(0, 4).map((color, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
       key: index,
       style: {
-        width: 20,
-        height: 20,
         backgroundColor: color,
-        border: '1px solid #ccc',
-        borderRadius: 2
+        color: '#fff',
+        border: 'none',
+        width: '20px',
+        height: '20px',
+        borderRadius: '50%',
+        display: 'inline-block'
       }
-    })), colors && colors.length > 4 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "+", colors.length - 4))
-  }, {
-    title: 'Font',
-    key: 'font',
-    render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      direction: "vertical",
-      size: "small"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], null, record.fontFamily || 'Arial'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], null, record.fontSize || 20, "px"))
-  }, {
-    title: 'Spin Duration',
-    dataIndex: 'spinDuration',
-    key: 'spinDuration',
-    render: duration => duration ? `${duration}ms` : '4000ms'
+    })))
   }, {
     title: 'Actions',
     key: 'actions',
-    render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    width: '20%',
+    render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
       type: "primary",
       size: "small",
-      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_10__["default"], null),
-      onClick: () => handleEditTheme(record)
-    }, "Edit"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
-      size: "small",
       icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_11__["default"], null),
+      onClick: () => handleEditTheme(record)
+    }, "Edit"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      size: "small",
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_12__["default"], null),
       onClick: () => handleDuplicateTheme(record)
-    }, "Duplicate"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    }, "Duplicate"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], {
       title: "Delete this theme?",
       description: "This action cannot be undone.",
       onConfirm: () => handleDeleteTheme(record.id),
       okText: "Yes",
       cancelText: "No"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
       danger: true,
       size: "small",
-      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_13__["default"], null)
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_14__["default"], null)
     }, "Delete")))
   }];
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_15__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -645,15 +636,15 @@ const ThemeManager = () => {
       marginBottom: 16
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
-    level: 3,
+    level: 5,
     style: {
       margin: 0
     }
-  }, "Theme Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, "Theme Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
     type: "primary",
-    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_16__["default"], null),
     onClick: handleCreateTheme
-  }, "Create New Theme")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  }, "Create New Theme")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
     columns: columns,
     dataSource: themes,
     loading: loading,
@@ -661,22 +652,18 @@ const ThemeManager = () => {
     pagination: {
       pageSize: 10
     }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
     title: editingTheme ? 'Edit Theme' : 'Create New Theme',
     open: modalVisible,
     onCancel: () => setModalVisible(false),
     onOk: () => form.submit(),
-    width: 1000,
+    width: 800,
     okText: editingTheme ? 'Update' : 'Create'
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     form: form,
     layout: "vertical",
     onFinish: handleSubmit
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "name",
     label: "Theme Name",
     rules: [{
@@ -685,244 +672,363 @@ const ThemeManager = () => {
     }]
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     placeholder: "Enter theme name"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "description",
     label: "Description"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     placeholder: "Enter theme description"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Spin Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], null, "Theme Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      background: "#fafafa",
+      padding: "20px",
+      borderRadius: "8px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      background: "#ffffff",
+      padding: "20px",
+      marginBottom: "16px",
+      borderRadius: "8px",
+      border: "1px solid #d9d9d9"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
     gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "mustStartSpinning",
-    label: "Must Start Spinning",
-    valuePropName: "checked"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "prizeNumber",
     label: "Prize Number",
     rules: [{
       required: true,
       message: 'Please enter prize number'
-    }]
+    }],
+    style: {
+      marginBottom: 16
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
     min: 0,
-    placeholder: "Prize index"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    placeholder: "Prize index",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "startingOptionIndex",
-    label: "Starting Option Index"
+    label: "Starting Option Index",
+    style: {
+      marginBottom: 16
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
     min: 0,
-    placeholder: "Starting index"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    placeholder: "Starting index",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "spinDuration",
-    label: "Spin Duration (ms)"
+    label: "Spin Duration (ms)",
+    style: {
+      marginBottom: 16
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
     min: 1000,
     max: 10000,
-    placeholder: "Duration in milliseconds"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+    placeholder: "Duration",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "mustStartSpinning",
+    label: "Must Start Spinning",
+    valuePropName: "checked",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "disableInitialAnimation",
     label: "Disable Initial Animation",
-    valuePropName: "checked"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], null)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Colors"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    valuePropName: "checked",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], null)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    ghost: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Advanced Settings",
+    key: "1"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
     gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "backgroundColors",
     label: "Background Colors",
-    rules: [{
-      required: true,
-      message: 'Please select background colors'
-    }]
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     wrap: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "textColors",
-    label: "Text Colors"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    wrap: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Border Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "outerBorderColor",
-    label: "Outer Border Color"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "outerBorderWidth",
-    label: "Outer Border Width"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    min: 0,
-    max: 20,
-    placeholder: "Width in pixels"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "innerRadius",
-    label: "Inner Radius"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    min: 0,
-    placeholder: "Radius in pixels"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "innerBorderColor",
-    label: "Inner Border Color"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "innerBorderWidth",
-    label: "Inner Border Width"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    min: 0,
-    max: 20,
-    placeholder: "Width in pixels"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "radiusLineColor",
-    label: "Radius Line Color"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], {
-    showText: true
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "radiusLineWidth",
-    label: "Radius Line Width"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    min: 0,
-    max: 20,
-    placeholder: "Width in pixels"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Typography"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "fontFamily",
-    label: "Font Family"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
-    placeholder: "Select font family"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
-    value: "Arial"
-  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
-    value: "Helvetica"
-  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
-    value: "Times New Roman"
-  }, "Times New Roman"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
-    value: "Georgia"
-  }, "Georgia"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
-    value: "Verdana"
-  }, "Verdana")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    showText: true,
+    format: "hex"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "textColors",
+    label: "Text Colors",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    wrap: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex"
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "outerBorderColor",
+    label: "Outer Border Color",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "outerBorderWidth",
+    label: "Outer Border Width",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "innerRadius",
+    label: "Inner Radius",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    min: 0,
+    placeholder: "Radius in pixels",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "innerBorderColor",
+    label: "Inner Border Color",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "innerBorderWidth",
+    label: "Inner Border Width",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "radiusLineWidth",
+    label: "Radius Line Width",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "radiusLineColor",
+    label: "Radius Line Color",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "fontFamily",
+    label: "Font Family",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
+    placeholder: "Select font family",
+    style: {
+      width: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
+    value: "Arial"
+  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
+    value: "Helvetica"
+  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
+    value: "Times New Roman"
+  }, "Times New Roman"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
+    value: "Georgia"
+  }, "Georgia"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
+    value: "Verdana"
+  }, "Verdana")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "fontSize",
-    label: "Font Size"
+    label: "Font Size",
+    style: {
+      marginBottom: 16
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
     min: 8,
     max: 48,
-    placeholder: "Size in pixels"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    placeholder: "Size in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "fontWeight",
-    label: "Font Weight"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
-    placeholder: "Select font weight"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+    label: "Font Weight",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
+    placeholder: "Select font weight",
+    style: {
+      width: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 100
-  }, "Thin (100)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "100 - Thin"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 200
-  }, "Extra Light (200)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "200 - Extra Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 300
-  }, "Light (300)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "300 - Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 400
-  }, "Normal (400)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "400 - Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 500
-  }, "Medium (500)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "500 - Medium"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 600
-  }, "Semi Bold (600)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "600 - Semi Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 700
-  }, "Bold (700)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "700 - Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 800
-  }, "Extra Bold (800)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "800 - Extra Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: 900
-  }, "Black (900)"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  }, "900 - Black"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
     gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "fontStyle",
-    label: "Font Style"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"], {
-    placeholder: "Select font style"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+    label: "Font Style",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
+    placeholder: "Select font style",
+    style: {
+      width: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: "normal"
-  }, "Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: "italic"
-  }, "Italic"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_24__["default"].Option, {
+  }, "Italic"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"].Option, {
     value: "oblique"
-  }, "Oblique")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, "Oblique")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
     name: "perpendicularText",
     label: "Perpendicular Text",
-    valuePropName: "checked"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
-    span: 8
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: "textDistance",
-    label: "Text Distance"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    min: 0,
-    placeholder: "Distance from center"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Pointer Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_18__["default"], {
+    valuePropName: "checked",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_23__["default"], null)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], {
     gutter: 16
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     span: 24
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"].Item, {
-    name: ['pointerProps', 'src'],
-    label: "Pointer Image Source"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+    name: "pointerImageSource",
+    label: "Pointer Image Source",
+    style: {
+      marginBottom: 16
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    placeholder: "Enter pointer image URL"
-  })))))));
+    placeholder: "Enter pointer image URL",
+    style: {
+      width: "100%"
+    }
+  })))))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeManager);
 
