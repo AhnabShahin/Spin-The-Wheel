@@ -36,15 +36,50 @@ const WheelDataManager = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingData, setEditingData] = useState(null);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-    total: 0,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-  });
+  
+  // Get initial pagination state from localStorage
+  const getInitialPagination = () => {
+    try {
+      const saved = localStorage.getItem('wheelDataManagerPagination');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          current: parsed.current || 1,
+          pageSize: parsed.pageSize || 10,
+          total: 0,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        };
+      }
+    } catch (error) {
+      console.warn('Could not restore pagination state:', error);
+    }
+    
+    return {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+    };
+  };
+  
+  const [pagination, setPagination] = useState(getInitialPagination);
   const [form] = Form.useForm();
+
+  // Save pagination state to localStorage
+  const savePaginationState = (paginationState) => {
+    try {
+      localStorage.setItem('wheelDataManagerPagination', JSON.stringify({
+        current: paginationState.current,
+        pageSize: paginationState.pageSize,
+      }));
+    } catch (error) {
+      console.warn('Could not save pagination state:', error);
+    }
+  };
 
   // Helper function to convert color picker object to hex string
   const getColorValue = (color) => {
@@ -61,7 +96,8 @@ const WheelDataManager = () => {
   };
 
   useEffect(() => {
-    loadWheelData();
+    const initialPagination = getInitialPagination();
+    loadWheelData(initialPagination.current, initialPagination.pageSize);
   }, []);
 
   const loadWheelData = async (page = 1, pageSize = 10) => {
@@ -75,12 +111,19 @@ const WheelDataManager = () => {
         setWheelData(responseData.data);
         
         // Update pagination state with API response data
-        setPagination(prev => ({
-          ...prev,
-          current: responseData.current_page,
-          total: responseData.total,
-          pageSize: responseData.per_page,
-        }));
+        setPagination(prev => {
+          const newPaginationState = {
+            ...prev,
+            current: responseData.current_page,
+            total: responseData.total,
+            pageSize: responseData.per_page,
+          };
+          
+          // Save to localStorage
+          savePaginationState(newPaginationState);
+          
+          return newPaginationState;
+        });
       } else {
         throw new Error("Failed to fetch wheel data");
       }
@@ -95,6 +138,10 @@ const WheelDataManager = () => {
 
   const handleTableChange = (paginationInfo) => {
     const { current, pageSize } = paginationInfo;
+    
+    // Save pagination state
+    savePaginationState({ current, pageSize });
+    
     loadWheelData(current, pageSize);
   };
 

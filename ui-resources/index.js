@@ -191,7 +191,40 @@ const AdminApp = () => {
       background: '#fff',
       borderRadius: '0 8px 8px 0'
     }
-  }, renderContent())));
+  }, renderContent())), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
+    jsx: true,
+    global: true
+  }, `
+                .ant-menu-item-selected {
+                    background-color: #5148ea !important;
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected .ant-menu-title-content {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected .anticon {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected::after {
+                    border-right-color: #5148ea !important;
+                }
+                
+                .ant-menu-item-selected:hover {
+                    background-color: #6f5ef7 !important;
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected:hover .ant-menu-title-content {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected:hover .anticon {
+                    color: #ffffff !important;
+                }
+            `));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AdminApp);
 
@@ -945,15 +978,48 @@ const WheelDataManager = () => {
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [modalVisible, setModalVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [editingData, setEditingData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-  const [pagination, setPagination] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({
-    current: 1,
-    pageSize: 10,
-    total: 0,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
-  });
+
+  // Get initial pagination state from localStorage
+  const getInitialPagination = () => {
+    try {
+      const saved = localStorage.getItem('wheelDataManagerPagination');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          current: parsed.current || 1,
+          pageSize: parsed.pageSize || 10,
+          total: 0,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
+        };
+      }
+    } catch (error) {
+      console.warn('Could not restore pagination state:', error);
+    }
+    return {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
+    };
+  };
+  const [pagination, setPagination] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(getInitialPagination);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_4__["default"].useForm();
+
+  // Save pagination state to localStorage
+  const savePaginationState = paginationState => {
+    try {
+      localStorage.setItem('wheelDataManagerPagination', JSON.stringify({
+        current: paginationState.current,
+        pageSize: paginationState.pageSize
+      }));
+    } catch (error) {
+      console.warn('Could not save pagination state:', error);
+    }
+  };
 
   // Helper function to convert color picker object to hex string
   const getColorValue = color => {
@@ -971,7 +1037,8 @@ const WheelDataManager = () => {
     return '#ff8f43'; // Default color
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    loadWheelData();
+    const initialPagination = getInitialPagination();
+    loadWheelData(initialPagination.current, initialPagination.pageSize);
   }, []);
   const loadWheelData = async (page = 1, pageSize = 10) => {
     setLoading(true);
@@ -982,12 +1049,18 @@ const WheelDataManager = () => {
         setWheelData(responseData.data);
 
         // Update pagination state with API response data
-        setPagination(prev => ({
-          ...prev,
-          current: responseData.current_page,
-          total: responseData.total,
-          pageSize: responseData.per_page
-        }));
+        setPagination(prev => {
+          const newPaginationState = {
+            ...prev,
+            current: responseData.current_page,
+            total: responseData.total,
+            pageSize: responseData.per_page
+          };
+
+          // Save to localStorage
+          savePaginationState(newPaginationState);
+          return newPaginationState;
+        });
       } else {
         throw new Error("Failed to fetch wheel data");
       }
@@ -1004,6 +1077,12 @@ const WheelDataManager = () => {
       current,
       pageSize
     } = paginationInfo;
+
+    // Save pagination state
+    savePaginationState({
+      current,
+      pageSize
+    });
     loadWheelData(current, pageSize);
   };
   const handleCreateData = () => {

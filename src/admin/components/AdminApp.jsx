@@ -192,6 +192,39 @@ const AdminApp = () => {
                     {renderContent()}
                 </Content>
             </Layout>
+            
+            {/* Custom styles to fix active menu item appearance */}
+            <style jsx global>{`
+                .ant-menu-item-selected {
+                    background-color: #5148ea !important;
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected .ant-menu-title-content {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected .anticon {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected::after {
+                    border-right-color: #5148ea !important;
+                }
+                
+                .ant-menu-item-selected:hover {
+                    background-color: #6f5ef7 !important;
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected:hover .ant-menu-title-content {
+                    color: #ffffff !important;
+                }
+                
+                .ant-menu-item-selected:hover .anticon {
+                    color: #ffffff !important;
+                }
+            `}</style>
         </Layout>
     );
 };
