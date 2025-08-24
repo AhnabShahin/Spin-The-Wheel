@@ -37,12 +37,22 @@ const ThemeManager = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingTheme, setEditingTheme] = useState(null);
+  const [wheelData, setWheelData] = useState([]);
+  const [selectedWheelSlices, setSelectedWheelSlices] = useState(0);
   const [form] = Form.useForm();
   const api = useApi();
 
   useEffect(() => {
     loadThemes();
   }, []);
+
+  useEffect(() => {
+    // Update slice count when wheel data is loaded and we're editing
+    if (editingTheme && wheelData.length > 0) {
+      const selectedWheel = wheelData.find(wheel => wheel.id === editingTheme.wheelDataId);
+      setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+    }
+  }, [wheelData, editingTheme]);
 
   const loadThemes = async () => {
     setLoading(true);
@@ -109,16 +119,68 @@ const ThemeManager = () => {
     }
   };
 
+  const loadWheelData = async (page = 1, pageSize = 10) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        setWheelData(responseData.data);
+      } else {
+        throw new Error("Failed to fetch wheel data");
+      }
+    } catch (error) {
+      message.error("Failed to load wheel data. Please try again.");
+      setWheelData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCreateTheme = () => {
     setEditingTheme(null);
     form.resetFields();
+    setSelectedWheelSlices(0);
+    loadWheelData();
     setModalVisible(true);
   };
 
-  const handleEditTheme = (theme) => {
+  const handleEditTheme = async (theme) => {
     setEditingTheme(theme);
     form.setFieldsValue(theme);
+    
+    // Load wheel data if not already loaded
+    if (wheelData.length === 0) {
+      await loadWheelData();
+    }
+    
+    // Find the selected wheel data to set the slice count
+    setTimeout(() => {
+      const selectedWheel = wheelData.find(wheel => wheel.id === theme.wheelDataId);
+      setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+    }, 100);
+    
     setModalVisible(true);
+  };
+
+  const handleWheelDataChange = (wheelId) => {
+    const selectedWheel = wheelData.find(wheel => wheel.id === wheelId);
+    const sliceCount = selectedWheel?.data?.length || 0;
+    setSelectedWheelSlices(sliceCount);
+    
+    // Reset background colors to match the number of slices
+    const currentValues = form.getFieldsValue();
+    const defaultColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
+    const newBackgroundColors = Array.from({ length: sliceCount }, (_, index) => 
+      currentValues.backgroundColors?.[index] || defaultColors[index % defaultColors.length]
+    );
+    
+    form.setFieldsValue({
+      ...currentValues,
+      backgroundColors: newBackgroundColors
+    });
   };
 
   const handleDeleteTheme = async (themeId) => {
@@ -308,13 +370,17 @@ const ThemeManager = () => {
             label="Wheel Data"
             rules={[{ required: true, message: "Please select wheel data" }]}
           >
-            <Select 
+            <Select
               placeholder="Select wheel data"
               getPopupContainer={(triggerNode) => triggerNode.parentElement}
               dropdownStyle={{ zIndex: 1050 }}
+              onChange={handleWheelDataChange}
             >
-              <Select.Option value="01">Sample Wheel Data 01</Select.Option>
-              <Select.Option value="02">Sample Wheel Data 02</Select.Option>
+              {wheelData?.map((wheel) => (
+                <Select.Option key={wheel.id} value={wheel.id}>
+                  {wheel.name} - have slices: {wheel.data?.length || 0}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -413,14 +479,37 @@ const ThemeManager = () => {
                     <Col span={12}>
                       <Form.Item
                         name="backgroundColors"
-                        label="Background Colors"
+                        label={`Background Colors (${selectedWheelSlices} slices)`}
                         style={{ marginBottom: 16 }}
                       >
                         <Space wrap>
-                          <ColorPicker showText format="hex" />
-                          <ColorPicker showText format="hex" />
-                          <ColorPicker showText format="hex" />
-                          <ColorPicker showText format="hex" />
+                          {Array.from({ length: selectedWheelSlices }, (_, index) => (
+                            <Form.Item
+                              key={`bg-color-${index}`}
+                              name={['backgroundColors', index]}
+                              style={{ marginBottom: 0 }}
+                            >
+                              <ColorPicker 
+                                showText 
+                                format="hex" 
+                                size="small"
+                                presets={[
+                                  {
+                                    label: 'Recommended',
+                                    colors: [
+                                      '#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f',
+                                      '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71'
+                                    ],
+                                  },
+                                ]}
+                              />
+                            </Form.Item>
+                          ))}
+                          {selectedWheelSlices === 0 && (
+                            <span style={{ color: '#999', fontStyle: 'italic' }}>
+                              Please select wheel data first
+                            </span>
+                          )}
                         </Space>
                       </Form.Item>
                     </Col>
@@ -553,7 +642,9 @@ const ThemeManager = () => {
                         <Select
                           placeholder="Select font family"
                           style={{ width: "100%" }}
-                          getPopupContainer={(triggerNode) => triggerNode.parentElement}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.parentElement
+                          }
                           dropdownStyle={{ zIndex: 1050 }}
                         >
                           <Select.Option value="Arial">Arial</Select.Option>
@@ -591,7 +682,9 @@ const ThemeManager = () => {
                         <Select
                           placeholder="Select font weight"
                           style={{ width: "100%" }}
-                          getPopupContainer={(triggerNode) => triggerNode.parentElement}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.parentElement
+                          }
                           dropdownStyle={{ zIndex: 1050 }}
                         >
                           <Select.Option value={100}>100 - Thin</Select.Option>
@@ -628,7 +721,9 @@ const ThemeManager = () => {
                         <Select
                           placeholder="Select font style"
                           style={{ width: "100%" }}
-                          getPopupContainer={(triggerNode) => triggerNode.parentElement}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.parentElement
+                          }
                           dropdownStyle={{ zIndex: 1050 }}
                         >
                           <Select.Option value="normal">Normal</Select.Option>
