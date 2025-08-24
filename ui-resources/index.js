@@ -454,6 +454,48 @@ const ThemeManager = () => {
   const [selectedWheelData, setSelectedWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_6__["default"].useForm();
   const api = (0,_shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__.useApi)();
+
+  // Helper function to convert color picker object to hex string
+  const getColorValue = color => {
+    if (typeof color === "string") {
+      return color;
+    }
+    if (color && color.metaColor && color.metaColor.r !== undefined) {
+      const {
+        r,
+        g,
+        b
+      } = color.metaColor;
+      return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+    }
+    return color || "#ff8f43"; // Default color
+  };
+
+  // Helper function to handle API errors with your specific error format
+  const handleApiError = async (response, defaultMessage = "Operation failed") => {
+    try {
+      const errorData = await response.json();
+
+      // Handle the nested error structure from your API
+      if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
+        // Display each validation error
+        errorData.message.error.forEach(errorMsg => {
+          antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorMsg);
+        });
+        return true; // Errors were handled
+      } else if (errorData.message) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorData.message);
+        return true;
+      }
+    } catch (parseError) {
+      // If we can't parse the response, fall back to default
+      console.error("Error parsing API response:", parseError);
+    }
+
+    // If we get here, show the default message
+    antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(defaultMessage);
+    return false;
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     loadThemes();
   }, []);
@@ -468,7 +510,17 @@ const ThemeManager = () => {
   const loadThemes = async () => {
     setLoading(true);
     try {
-      // For now, create sample data since API might not be fully implemented
+      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme`);
+      if (response.ok) {
+        const responseData = await response.json();
+        setThemes(responseData.data || responseData);
+      } else {
+        throw new Error("Failed to fetch themes");
+      }
+    } catch (error) {
+      console.error("Theme loading error:", error);
+      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to load themes");
+      // Fallback to sample data if API fails
       const sampleThemes = [{
         id: 1,
         name: "Classic Theme",
@@ -519,9 +571,6 @@ const ThemeManager = () => {
         pointerImageSource: ""
       }];
       setThemes(sampleThemes);
-    } catch (error) {
-      console.error("Theme loading error:", error);
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to load themes");
     } finally {
       setLoading(false);
     }
@@ -553,7 +602,17 @@ const ThemeManager = () => {
   };
   const handleEditTheme = async theme => {
     setEditingTheme(theme);
-    form.setFieldsValue(theme);
+
+    // Process colors to ensure they are in the correct format
+    const processedTheme = {
+      ...theme,
+      backgroundColors: theme.backgroundColors?.map(color => getColorValue(color)) || [],
+      textColors: theme.textColors?.map(color => getColorValue(color)) || [],
+      outerBorderColor: getColorValue(theme.outerBorderColor),
+      innerBorderColor: getColorValue(theme.innerBorderColor),
+      radiusLineColor: getColorValue(theme.radiusLineColor)
+    };
+    form.setFieldsValue(processedTheme);
 
     // Load wheel data if not already loaded
     if (wheelData.length === 0) {
@@ -592,74 +651,148 @@ const ThemeManager = () => {
   };
   const handleDeleteTheme = async themeId => {
     try {
-      // API call would go here
-      setThemes(themes.filter(theme => theme.id !== themeId));
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme deleted successfully");
+      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme/${themeId}`, {
+        method: "DELETE"
+      });
+      if (response.ok) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme deleted successfully");
+        // Reload themes after deletion
+        loadThemes();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+
+        // Handle the nested error structure from your API
+        if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
+          // Display each validation error
+          errorData.message.error.forEach(errorMsg => {
+            antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorMsg);
+          });
+        } else {
+          throw new Error(errorData.message || "Failed to delete theme");
+        }
+      }
     } catch (error) {
       console.error("Delete error:", error);
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to delete theme");
+      if (!error.handled) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to delete theme. Please try again.");
+      }
     }
   };
   const handleDuplicateTheme = async theme => {
     try {
-      const newTheme = {
+      const duplicatedTheme = {
         ...theme,
-        id: Date.now(),
         name: `${theme.name} (Copy)`
       };
-      setThemes([...themes, newTheme]);
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme duplicated successfully");
+
+      // Remove the id so it gets a new one from the API
+      delete duplicatedTheme.id;
+      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(duplicatedTheme)
+      });
+      if (response.ok) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme duplicated successfully");
+        // Reload themes after duplication
+        loadThemes();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+
+        // Handle the nested error structure from your API
+        if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
+          // Display each validation error
+          errorData.message.error.forEach(errorMsg => {
+            antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorMsg);
+          });
+        } else {
+          throw new Error(errorData.message || "Failed to duplicate theme");
+        }
+      }
     } catch (error) {
       console.error("Duplicate error:", error);
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to duplicate theme");
+      if (!error.handled) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to duplicate theme. Please try again.");
+      }
     }
   };
   const handleSubmit = async values => {
     try {
-      if (editingTheme) {
-        // Update existing theme
-        setThemes(themes.map(theme => theme.id === editingTheme.id ? {
-          ...theme,
-          ...values
-        } : theme));
-        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme updated successfully");
+      // Process the form values to ensure colors are in the correct format
+      const processedValues = {
+        ...values,
+        backgroundColors: values.backgroundColors?.map(color => getColorValue(color)) || [],
+        textColors: values.textColors?.map(color => getColorValue(color)) || [],
+        outerBorderColor: getColorValue(values.outerBorderColor),
+        innerBorderColor: getColorValue(values.innerBorderColor),
+        radiusLineColor: getColorValue(values.radiusLineColor)
+      };
+      const url = editingTheme ? `${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme/${editingTheme.id}` : `${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme`;
+      const method = "POST";
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(processedValues)
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        if (editingTheme) {
+          antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme updated successfully");
+        } else {
+          antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme created successfully");
+        }
+
+        // Reload themes after successful operation
+        loadThemes();
+        setModalVisible(false);
       } else {
-        // Create new theme
-        const newTheme = {
-          ...values,
-          id: Date.now()
-        };
-        setThemes([...themes, newTheme]);
-        antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme created successfully");
+        const errorData = await response.json().catch(() => ({}));
+
+        // Handle the nested error structure from your API
+        if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
+          // Display each validation error
+          errorData.message.error.forEach(errorMsg => {
+            antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorMsg);
+          });
+          return; // Don't throw, just show the messages
+        } else {
+          throw new Error(errorData.message || "API request failed");
+        }
       }
-      setModalVisible(false);
     } catch (error) {
       console.error("Submit error:", error);
-      antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to save theme");
+      // Only show generic error if we haven't already shown specific validation errors
+      if (!error.handled) {
+        antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(`Failed to ${editingTheme ? 'update' : 'create'} theme. ${error.message || 'Please try again.'}`);
+      }
     }
   };
   const columns = [{
     title: "Theme Name",
     dataIndex: "name",
     key: "name",
-    width: "25%"
+    width: "20%"
   }, {
     title: "Description",
     dataIndex: "description",
     key: "description",
-    width: "30%"
+    width: "25%"
   }, {
     title: "Colors",
     dataIndex: "backgroundColors",
     key: "colors",
-    width: "25%",
+    width: "20%",
     render: colors => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
       wrap: true,
       size: "small"
     }, colors?.slice(0, 4).map((color, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
       key: index,
       style: {
-        backgroundColor: color,
+        backgroundColor: getColorValue(color),
         color: "#fff",
         border: "none",
         width: "20px",
@@ -667,11 +800,28 @@ const ThemeManager = () => {
         borderRadius: "50%",
         display: "inline-block"
       }
-    })))
+    })), colors?.length > 4 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      color: "default"
+    }, "+", colors.length - 4))
+  }, {
+    title: "Wheel Data",
+    dataIndex: "wheelDataId",
+    key: "wheelDataId",
+    width: "15%",
+    render: wheelDataId => {
+      const wheel = wheelData.find(w => w.id === wheelDataId);
+      return wheel ? wheel.name : "Not selected";
+    }
+  }, {
+    title: "Created",
+    dataIndex: "created_at",
+    key: "created_at",
+    width: "10%",
+    render: date => date ? new Date(date).toLocaleDateString() : "-"
   }, {
     title: "Actions",
     key: "actions",
-    width: "20%",
+    width: "10%",
     render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
       type: "primary",
       size: "small",
@@ -860,9 +1010,9 @@ const ThemeManager = () => {
     }
   }, selectedWheelSlices > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      border: '1px solid #d9d9d9',
-      borderRadius: '6px',
-      padding: '16px'
+      border: "1px solid #d9d9d9",
+      borderRadius: "6px",
+      padding: "16px"
     }
   }, Array.from({
     length: selectedWheelSlices
@@ -878,18 +1028,18 @@ const ThemeManager = () => {
       span: 8
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       style: {
-        padding: '8px 12px',
-        background: '#f5f5f5',
-        borderRadius: '4px',
+        padding: "8px 12px",
+        background: "#f5f5f5",
+        borderRadius: "4px",
         fontWeight: 500,
-        display: 'flex',
-        alignItems: 'center',
-        height: '32px'
+        display: "flex",
+        alignItems: "center",
+        height: "32px"
       }
     }, index + 1, ". ", sliceName)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
       span: 8
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-      name: ['backgroundColors', index],
+      name: ["backgroundColors", index],
       label: "Background",
       style: {
         marginBottom: 0
@@ -899,16 +1049,16 @@ const ThemeManager = () => {
       format: "hex",
       size: "small",
       style: {
-        width: '100%'
+        width: "100%"
       },
       presets: [{
-        label: 'Recommended',
-        colors: ['#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f', '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71']
+        label: "Recommended",
+        colors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"]
       }]
     }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
       span: 8
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-      name: ['textColors', index],
+      name: ["textColors", index],
       label: "Text",
       style: {
         marginBottom: 0
@@ -918,21 +1068,21 @@ const ThemeManager = () => {
       format: "hex",
       size: "small",
       style: {
-        width: '100%'
+        width: "100%"
       },
       presets: [{
-        label: 'Common',
-        colors: ['#ffffff', '#000000', '#333333', '#666666', '#999999', '#cccccc', '#ff0000', '#00ff00']
+        label: "Common",
+        colors: ["#ffffff", "#000000", "#333333", "#666666", "#999999", "#cccccc", "#ff0000", "#00ff00"]
       }]
     }))));
   })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      padding: '24px',
-      textAlign: 'center',
-      color: '#999',
-      fontStyle: 'italic',
-      border: '1px dashed #d9d9d9',
-      borderRadius: '6px'
+      padding: "24px",
+      textAlign: "center",
+      color: "#999",
+      fontStyle: "italic",
+      border: "1px dashed #d9d9d9",
+      borderRadius: "6px"
     }
   }, "Please select wheel data first to configure slice colors")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     gutter: 16

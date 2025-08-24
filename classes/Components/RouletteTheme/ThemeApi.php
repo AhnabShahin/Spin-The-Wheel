@@ -19,56 +19,85 @@ class ThemeApi extends RestAPI
 
     public function post_roulette_theme(WP_REST_Request $request, ?int $id = null)
     {
-        $rules = ThemeFields::get();
         $data = $request->get_json_params() ?? [];
+
+        // Validate wheelDataId early
+        if (empty($data['wheelDataId']) || !is_int($data['wheelDataId'])) {
+            return $this->responseError('wheelDataId is required and must be an integer.');
+        }
+
+        // Validate theme name for new themes
+        if (is_null($id) && empty($data['name'])) {
+            return $this->responseError('Theme name is required.');
+        }
+
+        // Get wheel data and validate
+        $wheelData = get_post_meta($data['wheelDataId'], 'data', true);
+        if (empty($wheelData)) {
+            return $this->responseError('Invalid wheel Data.');
+        }
+
+        // Prepare data for validation
+        $data['data'] = maybe_unserialize($wheelData);
+        unset($data['wheelDataId']);
+
+        // Validate against theme rules
+        $rules = ThemeFields::get();
         $errors = Validator::instance()->make($data, $rules);
-
         if (!empty($errors)) {
-            return $this->responseBadRequest(array_values($errors));
+            return $this->responseErrors(array_values($errors));
         }
 
-        // insert the roulette theme data into the post meta table for every key before that creating a new post id $id have if not been provided the creation of a new post 
-        if (is_null($id)) {
-
-            if (empty($data['theme_name'])) {
-                return $this->responseError('Theme name is required.');
-            }
-
-            $postData = [
-                'post_title'   => sanitize_text_field($data['theme_name']),
-                'post_content' => sanitize_post($data['theme_description'] ?? ''),
-                'post_status'  => 'publish',
-                'post_type'    => self::POST_TYPE,
-                'post_author'  => get_current_user_id(),
-            ];
-
-            $id = wp_insert_post($postData);
-        }
-
+        // Create or update post
         $postData = [
-            'ID'           => $id,
-            'post_title'   => sanitize_text_field($data['theme_name'] ?? ''),
-            'post_content' => sanitize_post($data['theme_description'] ?? ''),
+            'post_title'   => sanitize_text_field($data['name'] ?? ''),
+            'post_content' => sanitize_post($data['description'] ?? ''),
             'post_status'  => 'publish',
             'post_type'    => self::POST_TYPE,
             'post_author'  => get_current_user_id(),
         ];
 
-        wp_update_post($postData);
-
-        foreach (array_keys($rules) as $key) {
-            update_post_meta($id, $key, $data[$key] ?? null);
+        if (is_null($id)) {
+            // Create new post
+            $id = wp_insert_post($postData);
+            if (is_wp_error($id)) {
+                return $this->responseError('Failed to create theme: ' . $id->get_error_message());
+            }
+        } else {
+            // Update existing post
+            $postData['ID'] = $id;
+            $result = wp_update_post($postData);
+            if (is_wp_error($result)) {
+                return $this->responseError('Failed to update theme: ' . $result->get_error_message());
+            }
         }
 
-        // get the meta single . deserialize the data if needed
+        // Update meta data in batch
+        $metaUpdates = [];
+        foreach (array_keys($rules) as $key) {
+            if (isset($data[$key])) {
+                $metaUpdates[$key] = $data[$key];
+            }
+        }
+
+        // Batch update meta fields
+        foreach ($metaUpdates as $key => $value) {
+            update_post_meta($id, $key, $value);
+        }
+
+        // Get updated theme data
+        $theme = get_post($id);
         $themeMeta = array_map(function ($meta) {
-            return maybe_unserialize($meta[0]);
+            return maybe_unserialize($meta[0] ?? '');
         }, get_post_meta($id));
 
         return $this->responseSuccess([
-            'theme_id'  => $id,
-            'theme_data' => get_post($id),
-            'theme_meta' => $themeMeta
+            'id' => $id,
+            'name' => $theme->post_title,
+            'description' => $theme->post_content,
+            'created_at' => $theme->post_date,
+            'updated_at' => $theme->post_modified,
+            ...$themeMeta
         ]);
     }
 
@@ -101,41 +130,54 @@ class ThemeApi extends RestAPI
             'post_type'      => self::POST_TYPE,
             'post_status'    => 'publish',
             'posts_per_page' => -1,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
         ];
 
         $query = new \WP_Query($args);
         $themes = [];
 
         foreach ($query->posts as $post) {
-
+            // Get all meta data at once for better performance
+            $meta = get_post_meta($post->ID);
+            
             $themes[] = [
-                'theme_id'  => $post->ID,
-                "theme_name" => $post->post_title,
-                "mustStartSpinning" => get_post_meta($post->ID, 'mustStartSpinning', true) ?: false,
-                "prizeNumber" => get_post_meta($post->ID, 'prizeNumber', true) ?: 0,
-                "data" => get_post_meta($post->ID, 'data', true) ?: [],
-                "backgroundColors" => get_post_meta($post->ID, 'backgroundColors', true) ?: [],
-                "textColors" => get_post_meta($post->ID, 'textColors', true) ?: [],
-                "outerBorderColor" => get_post_meta($post->ID, 'outerBorderColor', true) ?: '#000000',
-                "outerBorderWidth" => get_post_meta($post->ID, 'outerBorderWidth', true) ?: 5,
-                "innerRadius" => get_post_meta($post->ID, 'innerRadius', true) ?: 0,
-                "innerBorderColor" => get_post_meta($post->ID, 'innerBorderColor', true) ?: '#000000',
-                "innerBorderWidth" => get_post_meta($post->ID, 'innerBorderWidth', true) ?: 0,
-                "radiusLineColor" => get_post_meta($post->ID, 'radiusLineColor', true) ?: '#000000',
-                "radiusLineWidth" => get_post_meta($post->ID, 'radiusLineWidth', true) ?: 5,
-                "fontFamily" => get_post_meta($post->ID, 'fontFamily', true) ?: 'Helvetica, Arial',
-                "fontSize" => get_post_meta($post->ID, 'fontSize', true) ?: 20,
-                "fontWeight" => get_post_meta($post->ID, 'fontWeight', true) ?: 'bold',
-                "fontStyle" => get_post_meta($post->ID, 'fontStyle', true) ?: 'normal',
-                "perpendicularText" => get_post_meta($post->ID, 'perpendicularText', true) ?: false,
-                "textDistance" => get_post_meta($post->ID, 'textDistance', true) ?: 60,
-                "spinDuration" => get_post_meta($post->ID, 'spinDuration', true) ?: 1,
-                "startingOptionIndex" => get_post_meta($post->ID, 'startingOptionIndex', true) ?: 0,
-                "pointerProps" => get_post_meta($post->ID, 'pointerProps', true) ?: [],
-                "disableInitialAnimation" => get_post_meta($post->ID, 'disableInitialAnimation', true) ?: false
+                'id'  => $post->ID,
+                'name' => $post->post_title,
+                'description' => $post->post_content,
+                'created_at' => $post->post_date,
+                'updated_at' => $post->post_modified,
+                'wheelDataId' => maybe_unserialize($meta['wheelDataId'][0] ?? ''),
+                'mustStartSpinning' => (bool) maybe_unserialize($meta['mustStartSpinning'][0] ?? false),
+                'prizeNumber' => (int) maybe_unserialize($meta['prizeNumber'][0] ?? 0),
+                'data' => maybe_unserialize($meta['data'][0] ?? []),
+                'backgroundColors' => maybe_unserialize($meta['backgroundColors'][0] ?? []),
+                'textColors' => maybe_unserialize($meta['textColors'][0] ?? []),
+                'outerBorderColor' => maybe_unserialize($meta['outerBorderColor'][0] ?? '#000000'),
+                'outerBorderWidth' => (int) maybe_unserialize($meta['outerBorderWidth'][0] ?? 5),
+                'innerRadius' => (int) maybe_unserialize($meta['innerRadius'][0] ?? 0),
+                'innerBorderColor' => maybe_unserialize($meta['innerBorderColor'][0] ?? '#000000'),
+                'innerBorderWidth' => (int) maybe_unserialize($meta['innerBorderWidth'][0] ?? 0),
+                'radiusLineColor' => maybe_unserialize($meta['radiusLineColor'][0] ?? '#000000'),
+                'radiusLineWidth' => (int) maybe_unserialize($meta['radiusLineWidth'][0] ?? 5),
+                'fontFamily' => maybe_unserialize($meta['fontFamily'][0] ?? 'Helvetica, Arial'),
+                'fontSize' => (int) maybe_unserialize($meta['fontSize'][0] ?? 20),
+                'fontWeight' => maybe_unserialize($meta['fontWeight'][0] ?? 'bold'),
+                'fontStyle' => maybe_unserialize($meta['fontStyle'][0] ?? 'normal'),
+                'perpendicularText' => (bool) maybe_unserialize($meta['perpendicularText'][0] ?? false),
+                'textDistance' => (int) maybe_unserialize($meta['textDistance'][0] ?? 60),
+                'spinDuration' => (int) maybe_unserialize($meta['spinDuration'][0] ?? 1),
+                'startingOptionIndex' => (int) maybe_unserialize($meta['startingOptionIndex'][0] ?? 0),
+                'pointerImageSource' => maybe_unserialize($meta['pointerImageSource'][0] ?? ''),
+                'disableInitialAnimation' => (bool) maybe_unserialize($meta['disableInitialAnimation'][0] ?? false),
             ];
         }
 
-        return $this->responseSuccess($themes);
+        return $this->responseSuccess([
+            'data' => $themes,
+            'total' => count($themes),
+            'current_page' => 1,
+            'per_page' => count($themes),
+        ]);
     }
 }
