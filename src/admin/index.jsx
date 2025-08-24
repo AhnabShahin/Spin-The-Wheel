@@ -1,6 +1,7 @@
 import { StrictMode } from '@wordpress/element';
 import { createRoot } from '@wordpress/element';
 import { ConfigProvider, App } from 'antd';
+import 'antd/dist/reset.css';
 import AdminApp from './components/AdminApp';
 import { ErrorBoundary } from '../shared/components/ErrorBoundary';
 import { LoadingProvider } from '../shared/providers/LoadingProvider';
@@ -15,7 +16,11 @@ if (container) {
     createRoot(container).render(
         <StrictMode>
             <ErrorBoundary>
-                <ConfigProvider locale={enUS} theme={themeConfig}>
+                <ConfigProvider 
+                    locale={enUS} 
+                    theme={themeConfig}
+                    getPopupContainer={(triggerNode) => triggerNode?.parentElement || document.body}
+                >
                     <App>
                         <LoadingProvider>
                             <ApiProvider>

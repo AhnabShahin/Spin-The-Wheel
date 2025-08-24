@@ -1,6 +1,7 @@
 import { StrictMode } from '@wordpress/element';
 import { createRoot } from '@wordpress/element';
 import { ConfigProvider } from 'antd';
+import 'antd/dist/reset.css';
 import FrontendApp from './components/FrontendApp';
 import { ErrorBoundary } from '../shared/components/ErrorBoundary';
 import { WheelProvider } from './providers/WheelProvider';

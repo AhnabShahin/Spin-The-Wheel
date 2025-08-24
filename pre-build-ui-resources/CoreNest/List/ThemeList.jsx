@@ -175,7 +175,7 @@ const ThemeList = ({ open, setOpen }) => {
       render: (text) => JSON.stringify(text),
     },
     {
-      title: "Disable Initial Animation",
+      title: "Disable Initial Animationn",
       dataIndex: "disableInitialAnimation",
       key: "21",
       render: (text) => (text ? "True" : "False"),
