@@ -451,6 +451,7 @@ const ThemeManager = () => {
   const [editingTheme, setEditingTheme] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [selectedWheelSlices, setSelectedWheelSlices] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [selectedWheelData, setSelectedWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_6__["default"].useForm();
   const api = (0,_shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__.useApi)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
@@ -461,6 +462,7 @@ const ThemeManager = () => {
     if (editingTheme && wheelData.length > 0) {
       const selectedWheel = wheelData.find(wheel => wheel.id === editingTheme.wheelDataId);
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+      setSelectedWheelData(selectedWheel);
     }
   }, [wheelData, editingTheme]);
   const loadThemes = async () => {
@@ -477,7 +479,7 @@ const ThemeManager = () => {
         spinDuration: 4000,
         disableInitialAnimation: false,
         backgroundColors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f"],
-        textColors: ["#ffffff", "#000000"],
+        textColors: ["#ffffff", "#000000", "#ffffff", "#000000"],
         outerBorderColor: "#eeeeee",
         outerBorderWidth: 10,
         innerRadius: 30,
@@ -501,7 +503,7 @@ const ThemeManager = () => {
         spinDuration: 3000,
         disableInitialAnimation: true,
         backgroundColors: ["#667eea", "#764ba2", "#f093fb", "#f5576c"],
-        textColors: ["#ffffff", "#000000"],
+        textColors: ["#ffffff", "#ffffff", "#000000", "#ffffff"],
         outerBorderColor: "#333333",
         outerBorderWidth: 5,
         innerRadius: 20,
@@ -545,6 +547,7 @@ const ThemeManager = () => {
     setEditingTheme(null);
     form.resetFields();
     setSelectedWheelSlices(0);
+    setSelectedWheelData(null);
     loadWheelData();
     setModalVisible(true);
   };
@@ -561,6 +564,7 @@ const ThemeManager = () => {
     setTimeout(() => {
       const selectedWheel = wheelData.find(wheel => wheel.id === theme.wheelDataId);
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+      setSelectedWheelData(selectedWheel);
     }, 100);
     setModalVisible(true);
   };
@@ -568,16 +572,22 @@ const ThemeManager = () => {
     const selectedWheel = wheelData.find(wheel => wheel.id === wheelId);
     const sliceCount = selectedWheel?.data?.length || 0;
     setSelectedWheelSlices(sliceCount);
+    setSelectedWheelData(selectedWheel);
 
-    // Reset background colors to match the number of slices
+    // Reset background colors and text colors to match the number of slices
     const currentValues = form.getFieldsValue();
-    const defaultColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
+    const defaultBgColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
+    const defaultTextColors = ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"];
     const newBackgroundColors = Array.from({
       length: sliceCount
-    }, (_, index) => currentValues.backgroundColors?.[index] || defaultColors[index % defaultColors.length]);
+    }, (_, index) => currentValues.backgroundColors?.[index] || defaultBgColors[index % defaultBgColors.length]);
+    const newTextColors = Array.from({
+      length: sliceCount
+    }, (_, index) => currentValues.textColors?.[index] || defaultTextColors[index % defaultTextColors.length]);
     form.setFieldsValue({
       ...currentValues,
-      backgroundColors: newBackgroundColors
+      backgroundColors: newBackgroundColors,
+      textColors: newTextColors
     });
   };
   const handleDeleteTheme = async themeId => {
@@ -842,53 +852,89 @@ const ThemeManager = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     gutter: 16
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    span: 12
+    span: 24
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-    name: "backgroundColors",
-    label: `Background Colors (${selectedWheelSlices} slices)`,
+    label: `Slice Colors Configuration (${selectedWheelSlices} slices)`,
     style: {
       marginBottom: 16
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    wrap: true
+  }, selectedWheelSlices > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      border: '1px solid #d9d9d9',
+      borderRadius: '6px',
+      padding: '16px'
+    }
   }, Array.from({
     length: selectedWheelSlices
-  }, (_, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-    key: `bg-color-${index}`,
-    name: ['backgroundColors', index],
+  }, (_, index) => {
+    const sliceName = selectedWheelData?.data?.[index]?.option || `Slice ${index + 1}`;
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+      key: `slice-${index}`,
+      gutter: 16,
+      style: {
+        marginBottom: index < selectedWheelSlices - 1 ? 12 : 0
+      }
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+      span: 8
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      style: {
+        padding: '8px 12px',
+        background: '#f5f5f5',
+        borderRadius: '4px',
+        fontWeight: 500,
+        display: 'flex',
+        alignItems: 'center',
+        height: '32px'
+      }
+    }, index + 1, ". ", sliceName)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+      span: 8
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+      name: ['backgroundColors', index],
+      label: "Background",
+      style: {
+        marginBottom: 0
+      }
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
+      showText: true,
+      format: "hex",
+      size: "small",
+      style: {
+        width: '100%'
+      },
+      presets: [{
+        label: 'Recommended',
+        colors: ['#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f', '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71']
+      }]
+    }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
+      span: 8
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
+      name: ['textColors', index],
+      label: "Text",
+      style: {
+        marginBottom: 0
+      }
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
+      showText: true,
+      format: "hex",
+      size: "small",
+      style: {
+        width: '100%'
+      },
+      presets: [{
+        label: 'Common',
+        colors: ['#ffffff', '#000000', '#333333', '#666666', '#999999', '#cccccc', '#ff0000', '#00ff00']
+      }]
+    }))));
+  })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      marginBottom: 0
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
-    showText: true,
-    format: "hex",
-    size: "small",
-    presets: [{
-      label: 'Recommended',
-      colors: ['#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f', '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71']
-    }]
-  }))), selectedWheelSlices === 0 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    style: {
+      padding: '24px',
+      textAlign: 'center',
       color: '#999',
-      fontStyle: 'italic'
+      fontStyle: 'italic',
+      border: '1px dashed #d9d9d9',
+      borderRadius: '6px'
     }
-  }, "Please select wheel data first")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
-    span: 12
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"].Item, {
-    name: "textColors",
-    label: "Text Colors",
-    style: {
-      marginBottom: 16
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    wrap: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
-    showText: true,
-    format: "hex"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_25__["default"], {
-    showText: true,
-    format: "hex"
-  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
+  }, "Please select wheel data first to configure slice colors")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_21__["default"], {
     gutter: 16
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_22__["default"], {
     span: 8

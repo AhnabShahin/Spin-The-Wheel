@@ -39,6 +39,7 @@ const ThemeManager = () => {
   const [editingTheme, setEditingTheme] = useState(null);
   const [wheelData, setWheelData] = useState([]);
   const [selectedWheelSlices, setSelectedWheelSlices] = useState(0);
+  const [selectedWheelData, setSelectedWheelData] = useState(null);
   const [form] = Form.useForm();
   const api = useApi();
 
@@ -51,6 +52,7 @@ const ThemeManager = () => {
     if (editingTheme && wheelData.length > 0) {
       const selectedWheel = wheelData.find(wheel => wheel.id === editingTheme.wheelDataId);
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+      setSelectedWheelData(selectedWheel);
     }
   }, [wheelData, editingTheme]);
 
@@ -69,7 +71,7 @@ const ThemeManager = () => {
           spinDuration: 4000,
           disableInitialAnimation: false,
           backgroundColors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f"],
-          textColors: ["#ffffff", "#000000"],
+          textColors: ["#ffffff", "#000000", "#ffffff", "#000000"],
           outerBorderColor: "#eeeeee",
           outerBorderWidth: 10,
           innerRadius: 30,
@@ -94,7 +96,7 @@ const ThemeManager = () => {
           spinDuration: 3000,
           disableInitialAnimation: true,
           backgroundColors: ["#667eea", "#764ba2", "#f093fb", "#f5576c"],
-          textColors: ["#ffffff", "#000000"],
+          textColors: ["#ffffff", "#ffffff", "#000000", "#ffffff"],
           outerBorderColor: "#333333",
           outerBorderWidth: 5,
           innerRadius: 20,
@@ -143,6 +145,7 @@ const ThemeManager = () => {
     setEditingTheme(null);
     form.resetFields();
     setSelectedWheelSlices(0);
+    setSelectedWheelData(null);
     loadWheelData();
     setModalVisible(true);
   };
@@ -160,6 +163,7 @@ const ThemeManager = () => {
     setTimeout(() => {
       const selectedWheel = wheelData.find(wheel => wheel.id === theme.wheelDataId);
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
+      setSelectedWheelData(selectedWheel);
     }, 100);
     
     setModalVisible(true);
@@ -169,17 +173,25 @@ const ThemeManager = () => {
     const selectedWheel = wheelData.find(wheel => wheel.id === wheelId);
     const sliceCount = selectedWheel?.data?.length || 0;
     setSelectedWheelSlices(sliceCount);
+    setSelectedWheelData(selectedWheel);
     
-    // Reset background colors to match the number of slices
+    // Reset background colors and text colors to match the number of slices
     const currentValues = form.getFieldsValue();
-    const defaultColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
+    const defaultBgColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
+    const defaultTextColors = ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"];
+    
     const newBackgroundColors = Array.from({ length: sliceCount }, (_, index) => 
-      currentValues.backgroundColors?.[index] || defaultColors[index % defaultColors.length]
+      currentValues.backgroundColors?.[index] || defaultBgColors[index % defaultBgColors.length]
+    );
+    
+    const newTextColors = Array.from({ length: sliceCount }, (_, index) => 
+      currentValues.textColors?.[index] || defaultTextColors[index % defaultTextColors.length]
     );
     
     form.setFieldsValue({
       ...currentValues,
-      backgroundColors: newBackgroundColors
+      backgroundColors: newBackgroundColors,
+      textColors: newTextColors
     });
   };
 
@@ -476,53 +488,92 @@ const ThemeManager = () => {
                 <Panel header="Advanced Settings" key="1">
                   {/* Colors */}
                   <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={24}>
                       <Form.Item
-                        name="backgroundColors"
-                        label={`Background Colors (${selectedWheelSlices} slices)`}
+                        label={`Slice Colors Configuration (${selectedWheelSlices} slices)`}
                         style={{ marginBottom: 16 }}
                       >
-                        <Space wrap>
-                          {Array.from({ length: selectedWheelSlices }, (_, index) => (
-                            <Form.Item
-                              key={`bg-color-${index}`}
-                              name={['backgroundColors', index]}
-                              style={{ marginBottom: 0 }}
-                            >
-                              <ColorPicker 
-                                showText 
-                                format="hex" 
-                                size="small"
-                                presets={[
-                                  {
-                                    label: 'Recommended',
-                                    colors: [
-                                      '#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f',
-                                      '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71'
-                                    ],
-                                  },
-                                ]}
-                              />
-                            </Form.Item>
-                          ))}
-                          {selectedWheelSlices === 0 && (
-                            <span style={{ color: '#999', fontStyle: 'italic' }}>
-                              Please select wheel data first
-                            </span>
-                          )}
-                        </Space>
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        name="textColors"
-                        label="Text Colors"
-                        style={{ marginBottom: 16 }}
-                      >
-                        <Space wrap>
-                          <ColorPicker showText format="hex" />
-                          <ColorPicker showText format="hex" />
-                        </Space>
+                        {selectedWheelSlices > 0 ? (
+                          <div style={{ border: '1px solid #d9d9d9', borderRadius: '6px', padding: '16px' }}>
+                            {Array.from({ length: selectedWheelSlices }, (_, index) => {
+                              const sliceName = selectedWheelData?.data?.[index]?.option || `Slice ${index + 1}`;
+                              return (
+                                <Row key={`slice-${index}`} gutter={16} style={{ marginBottom: index < selectedWheelSlices - 1 ? 12 : 0 }}>
+                                  <Col span={8}>
+                                    <div style={{ 
+                                      padding: '8px 12px', 
+                                      background: '#f5f5f5', 
+                                      borderRadius: '4px',
+                                      fontWeight: 500,
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      height: '32px'
+                                    }}>
+                                      {index + 1}. {sliceName}
+                                    </div>
+                                  </Col>
+                                  <Col span={8}>
+                                    <Form.Item
+                                      name={['backgroundColors', index]}
+                                      label="Background"
+                                      style={{ marginBottom: 0 }}
+                                    >
+                                      <ColorPicker 
+                                        showText 
+                                        format="hex" 
+                                        size="small"
+                                        style={{ width: '100%' }}
+                                        presets={[
+                                          {
+                                            label: 'Recommended',
+                                            colors: [
+                                              '#ff8f43', '#70bbe0', '#0b7ec8', '#ffd23f',
+                                              '#e74c3c', '#f39c12', '#9b59b6', '#2ecc71'
+                                            ],
+                                          },
+                                        ]}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col span={8}>
+                                    <Form.Item
+                                      name={['textColors', index]}
+                                      label="Text"
+                                      style={{ marginBottom: 0 }}
+                                    >
+                                      <ColorPicker 
+                                        showText 
+                                        format="hex" 
+                                        size="small"
+                                        style={{ width: '100%' }}
+                                        presets={[
+                                          {
+                                            label: 'Common',
+                                            colors: [
+                                              '#ffffff', '#000000', '#333333', '#666666',
+                                              '#999999', '#cccccc', '#ff0000', '#00ff00'
+                                            ],
+                                          },
+                                        ]}
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div style={{ 
+                            padding: '24px', 
+                            textAlign: 'center', 
+                            color: '#999', 
+                            fontStyle: 'italic',
+                            border: '1px dashed #d9d9d9',
+                            borderRadius: '6px'
+                          }}>
+                            Please select wheel data first to configure slice colors
+                          </div>
+                        )}
                       </Form.Item>
                     </Col>
                   </Row>
