@@ -520,57 +520,6 @@ const ThemeManager = () => {
     } catch (error) {
       console.error("Theme loading error:", error);
       antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to load themes");
-      // Fallback to sample data if API fails
-      const sampleThemes = [{
-        id: 1,
-        name: "Classic Theme",
-        description: "A classic wheel theme with vibrant colors",
-        mustStartSpinning: false,
-        prizeNumber: 0,
-        startingOptionIndex: 0,
-        spinDuration: 4000,
-        disableInitialAnimation: false,
-        backgroundColors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f"],
-        textColors: ["#ffffff", "#000000", "#ffffff", "#000000"],
-        outerBorderColor: "#eeeeee",
-        outerBorderWidth: 10,
-        innerRadius: 30,
-        innerBorderColor: "#30261a",
-        innerBorderWidth: 70,
-        radiusLineColor: "#eeeeee",
-        radiusLineWidth: 8,
-        fontFamily: "Arial",
-        fontSize: 16,
-        fontWeight: 700,
-        fontStyle: "normal",
-        perpendicularText: false,
-        pointerImageSource: ""
-      }, {
-        id: 2,
-        name: "Modern Theme",
-        description: "A sleek modern design with clean lines",
-        mustStartSpinning: true,
-        prizeNumber: 1,
-        startingOptionIndex: 0,
-        spinDuration: 3000,
-        disableInitialAnimation: true,
-        backgroundColors: ["#667eea", "#764ba2", "#f093fb", "#f5576c"],
-        textColors: ["#ffffff", "#ffffff", "#000000", "#ffffff"],
-        outerBorderColor: "#333333",
-        outerBorderWidth: 5,
-        innerRadius: 20,
-        innerBorderColor: "#555555",
-        innerBorderWidth: 40,
-        radiusLineColor: "#666666",
-        radiusLineWidth: 2,
-        fontFamily: "Helvetica",
-        fontSize: 14,
-        fontWeight: 400,
-        fontStyle: "normal",
-        perpendicularText: true,
-        pointerImageSource: ""
-      }];
-      setThemes(sampleThemes);
     } finally {
       setLoading(false);
     }
@@ -809,7 +758,8 @@ const ThemeManager = () => {
     key: "wheelDataId",
     width: "15%",
     render: wheelDataId => {
-      const wheel = wheelData.find(w => w.id === wheelDataId);
+      console.log(wheelDataId);
+      const wheel = data.find(w => w.id === wheelDataId);
       return wheel ? wheel.name : "Not selected";
     }
   }, {

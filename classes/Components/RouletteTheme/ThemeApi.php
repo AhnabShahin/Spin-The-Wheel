@@ -39,7 +39,6 @@ class ThemeApi extends RestAPI
 
         // Prepare data for validation
         $data['data'] = maybe_unserialize($wheelData);
-        unset($data['wheelDataId']);
 
         // Validate against theme rules
         $rules = ThemeFields::get();
