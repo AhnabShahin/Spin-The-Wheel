@@ -85,8 +85,10 @@ class DataApi extends RestAPI
         }
 
         // Multiple records fetch
-        $page = max(1, (int) $request->get_param('page') ?: 1);
-        $per_page = max(1, min(100, (int) $request->get_param('per_page') ?: 10));
+    $page = max(1, (int) $request->get_param('page') ?: 1);
+    $per_page = max(1, min(100, (int) $request->get_param('per_page') ?: 10));
+    $searchParam = $request->get_param('search');
+    $search = is_string($searchParam) ? trim($searchParam) : '';
 
         // Get total count for pagination
         $total_posts = wp_count_posts(self::POST_TYPE);
@@ -119,8 +121,8 @@ class DataApi extends RestAPI
         $current_url = home_url(add_query_arg(null, null));
         $base_url = remove_query_arg(['page'], $current_url);
         
-        // Fetch posts with pagination
-        $posts = get_posts([
+        // Fetch posts with pagination and search by post_title
+        $args = [
             'post_type'      => self::POST_TYPE,
             'posts_per_page' => $per_page,
             'paged'          => $page,
@@ -128,8 +130,12 @@ class DataApi extends RestAPI
             'orderby'        => 'ID',
             'order'          => 'DESC',
             'post_status'    => 'publish',
-            'fields'         => 'ids', // fetch only IDs for better performance
-        ]);
+            'fields'         => 'ids',
+        ];
+        if (!empty($search)) {
+            $args['s'] = $search;
+        }
+        $posts = get_posts($args);
 
         $WheelData = array_map(function ($post_id) {
             $post = get_post($post_id);

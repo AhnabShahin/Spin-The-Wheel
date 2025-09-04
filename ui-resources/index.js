@@ -450,6 +450,10 @@ const ThemeManager = () => {
   const [modalVisible, setModalVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [editingTheme, setEditingTheme] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [wheelDataLoading, setWheelDataLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [wheelDataPage, setWheelDataPage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+  const [wheelDataTotal, setWheelDataTotal] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [wheelDataSearch, setWheelDataSearch] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
   const [selectedWheelSlices, setSelectedWheelSlices] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
   const [selectedWheelData, setSelectedWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [form] = antd__WEBPACK_IMPORTED_MODULE_6__["default"].useForm();
@@ -524,21 +528,30 @@ const ThemeManager = () => {
       setLoading(false);
     }
   };
-  const loadWheelData = async (page = 1, pageSize = 10) => {
-    setLoading(true);
+  const loadWheelData = async (page = 1, pageSize = 10, search = "") => {
+    setWheelDataLoading(true);
     try {
-      const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`);
+      let url = `${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`;
+      if (search) url += `&search=${encodeURIComponent(search)}`;
+      const response = await fetch(url);
       if (response.ok) {
         const responseData = await response.json();
-        setWheelData(responseData.data);
+        if (page === 1) {
+          setWheelData(responseData.data || []);
+        } else {
+          setWheelData(prev => [...prev, ...(responseData.data || [])]);
+        }
+        setWheelDataTotal(responseData.total || 0);
+        setWheelDataPage(page);
       } else {
         throw new Error("Failed to fetch wheel data");
       }
     } catch (error) {
       antd__WEBPACK_IMPORTED_MODULE_7__["default"].error("Failed to load wheel data. Please try again.");
       setWheelData([]);
+      setWheelDataTotal(0);
     } finally {
-      setLoading(false);
+      setWheelDataLoading(false);
     }
   };
   const handleCreateTheme = () => {
@@ -551,10 +564,10 @@ const ThemeManager = () => {
   };
   const handleEditTheme = async theme => {
     setEditingTheme(theme);
-
-    // Process colors to ensure they are in the correct format
+    // Always set wheelDataId as string
     const processedTheme = {
       ...theme,
+      wheelDataId: theme.wheelDataId ? String(theme.wheelDataId) : undefined,
       backgroundColors: theme.backgroundColors?.map(color => getColorValue(color)) || [],
       textColors: theme.textColors?.map(color => getColorValue(color)) || [],
       outerBorderColor: getColorValue(theme.outerBorderColor),
@@ -562,27 +575,21 @@ const ThemeManager = () => {
       radiusLineColor: getColorValue(theme.radiusLineColor)
     };
     form.setFieldsValue(processedTheme);
-
-    // Load wheel data if not already loaded
     if (wheelData.length === 0) {
       await loadWheelData();
     }
-
-    // Find the selected wheel data to set the slice count
     setTimeout(() => {
-      const selectedWheel = wheelData.find(wheel => wheel.id === theme.wheelDataId);
+      const selectedWheel = wheelData.find(wheel => String(wheel.id) === String(theme.wheelDataId));
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
       setSelectedWheelData(selectedWheel);
     }, 100);
     setModalVisible(true);
   };
   const handleWheelDataChange = wheelId => {
-    const selectedWheel = wheelData.find(wheel => wheel.id === wheelId);
+    const selectedWheel = wheelData.find(wheel => String(wheel.id) === String(wheelId));
     const sliceCount = selectedWheel?.data?.length || 0;
     setSelectedWheelSlices(sliceCount);
     setSelectedWheelData(selectedWheel);
-
-    // Reset background colors and text colors to match the number of slices
     const currentValues = form.getFieldsValue();
     const defaultBgColors = ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"];
     const defaultTextColors = ["#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000", "#ffffff", "#000000"];
@@ -669,9 +676,9 @@ const ThemeManager = () => {
   };
   const handleSubmit = async values => {
     try {
-      // Process the form values to ensure colors are in the correct format
       const processedValues = {
         ...values,
+        wheelDataId: values.wheelDataId ? String(values.wheelDataId) : undefined,
         backgroundColors: values.backgroundColors?.map(color => getColorValue(color)) || [],
         textColors: values.textColors?.map(color => getColorValue(color)) || [],
         outerBorderColor: getColorValue(values.outerBorderColor),
@@ -694,27 +701,21 @@ const ThemeManager = () => {
         } else {
           antd__WEBPACK_IMPORTED_MODULE_7__["default"].success("Theme created successfully");
         }
-
-        // Reload themes after successful operation
         loadThemes();
         setModalVisible(false);
       } else {
         const errorData = await response.json().catch(() => ({}));
-
-        // Handle the nested error structure from your API
         if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
-          // Display each validation error
           errorData.message.error.forEach(errorMsg => {
             antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(errorMsg);
           });
-          return; // Don't throw, just show the messages
+          return;
         } else {
           throw new Error(errorData.message || "API request failed");
         }
       }
     } catch (error) {
       console.error("Submit error:", error);
-      // Only show generic error if we haven't already shown specific validation errors
       if (!error.handled) {
         antd__WEBPACK_IMPORTED_MODULE_7__["default"].error(`Failed to ${editingTheme ? 'update' : 'create'} theme. ${error.message || 'Please try again.'}`);
       }
@@ -758,8 +759,7 @@ const ThemeManager = () => {
     key: "wheelDataId",
     width: "15%",
     render: wheelDataId => {
-      console.log(wheelDataId);
-      const wheel = data.find(w => w.id === wheelDataId);
+      const wheel = wheelData.find(w => String(w.id) === String(wheelDataId));
       return wheel ? wheel.name : "Not selected";
     }
   }, {
@@ -852,16 +852,36 @@ const ThemeManager = () => {
       message: "Please select wheel data"
     }]
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    showSearch: true,
+    allowClear: true,
     placeholder: "Select wheel data",
-    getPopupContainer: triggerNode => triggerNode.parentElement,
-    dropdownStyle: {
-      zIndex: 1050
+    value: form.getFieldValue("wheelDataId"),
+    loading: wheelDataLoading,
+    filterOption: false,
+    onSearch: val => {
+      setWheelDataSearch(val);
+      loadWheelData(1, 10, val);
     },
-    onChange: handleWheelDataChange
-  }, wheelData?.map(wheel => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
-    key: wheel.id,
-    value: wheel.id
-  }, wheel.name, " - have slices: ", wheel.data?.length || 0)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Theme Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    onChange: val => {
+      form.setFieldsValue({
+        wheelDataId: val
+      });
+      handleWheelDataChange(val);
+    },
+    onPopupScroll: e => {
+      const target = e.target;
+      if (target.scrollTop + target.offsetHeight === target.scrollHeight && wheelData.length < wheelDataTotal) {
+        loadWheelData(wheelDataPage + 1, 10, wheelDataSearch);
+      }
+    },
+    optionFilterProp: "children",
+    style: {
+      width: '100%'
+    }
+  }, wheelData.map(w => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_19__["default"].Option, {
+    key: String(w.id),
+    value: String(w.id)
+  }, w.name, " - have slices: ", w.data?.length || 0)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_20__["default"], null, "Theme Configuration"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       background: "#fafafa",
       padding: "20px",

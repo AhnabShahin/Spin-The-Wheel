@@ -38,6 +38,10 @@ const ThemeManager = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingTheme, setEditingTheme] = useState(null);
   const [wheelData, setWheelData] = useState([]);
+  const [wheelDataLoading, setWheelDataLoading] = useState(false);
+  const [wheelDataPage, setWheelDataPage] = useState(1);
+  const [wheelDataTotal, setWheelDataTotal] = useState(0);
+  const [wheelDataSearch, setWheelDataSearch] = useState("");
   const [selectedWheelSlices, setSelectedWheelSlices] = useState(0);
   const [selectedWheelData, setSelectedWheelData] = useState(null);
   const [form] = Form.useForm();
@@ -120,23 +124,30 @@ const ThemeManager = () => {
     }
   };
 
-  const loadWheelData = async (page = 1, pageSize = 10) => {
-    setLoading(true);
+  const loadWheelData = async (page = 1, pageSize = 10, search = "") => {
+    setWheelDataLoading(true);
     try {
-      const response = await fetch(
-        `${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`
-      );
+      let url = `${window.stwAdminData.rest_url}/stw/v1/wheel/data?page=${page}&per_page=${pageSize}`;
+      if (search) url += `&search=${encodeURIComponent(search)}`;
+      const response = await fetch(url);
       if (response.ok) {
         const responseData = await response.json();
-        setWheelData(responseData.data);
+        if (page === 1) {
+          setWheelData(responseData.data || []);
+        } else {
+          setWheelData((prev) => [...prev, ...(responseData.data || [])]);
+        }
+        setWheelDataTotal(responseData.total || 0);
+        setWheelDataPage(page);
       } else {
         throw new Error("Failed to fetch wheel data");
       }
     } catch (error) {
       message.error("Failed to load wheel data. Please try again.");
       setWheelData([]);
+      setWheelDataTotal(0);
     } finally {
-      setLoading(false);
+      setWheelDataLoading(false);
     }
   };
 
@@ -151,10 +162,10 @@ const ThemeManager = () => {
 
   const handleEditTheme = async (theme) => {
     setEditingTheme(theme);
-
-    // Process colors to ensure they are in the correct format
+    // Always set wheelDataId as string
     const processedTheme = {
       ...theme,
+      wheelDataId: theme.wheelDataId ? String(theme.wheelDataId) : undefined,
       backgroundColors:
         theme.backgroundColors?.map((color) => getColorValue(color)) || [],
       textColors: theme.textColors?.map((color) => getColorValue(color)) || [],
@@ -162,33 +173,25 @@ const ThemeManager = () => {
       innerBorderColor: getColorValue(theme.innerBorderColor),
       radiusLineColor: getColorValue(theme.radiusLineColor),
     };
-
     form.setFieldsValue(processedTheme);
-
-    // Load wheel data if not already loaded
     if (wheelData.length === 0) {
       await loadWheelData();
     }
-
-    // Find the selected wheel data to set the slice count
     setTimeout(() => {
       const selectedWheel = wheelData.find(
-        (wheel) => wheel.id === theme.wheelDataId
+        (wheel) => String(wheel.id) === String(theme.wheelDataId)
       );
       setSelectedWheelSlices(selectedWheel?.data?.length || 0);
       setSelectedWheelData(selectedWheel);
     }, 100);
-
     setModalVisible(true);
   };
 
   const handleWheelDataChange = (wheelId) => {
-    const selectedWheel = wheelData.find((wheel) => wheel.id === wheelId);
+    const selectedWheel = wheelData.find((wheel) => String(wheel.id) === String(wheelId));
     const sliceCount = selectedWheel?.data?.length || 0;
     setSelectedWheelSlices(sliceCount);
     setSelectedWheelData(selectedWheel);
-
-    // Reset background colors and text colors to match the number of slices
     const currentValues = form.getFieldsValue();
     const defaultBgColors = [
       "#ff8f43",
@@ -210,21 +213,18 @@ const ThemeManager = () => {
       "#ffffff",
       "#000000",
     ];
-
     const newBackgroundColors = Array.from(
       { length: sliceCount },
       (_, index) =>
         currentValues.backgroundColors?.[index] ||
         defaultBgColors[index % defaultBgColors.length]
     );
-
     const newTextColors = Array.from(
       { length: sliceCount },
       (_, index) =>
         currentValues.textColors?.[index] ||
         defaultTextColors[index % defaultTextColors.length]
     );
-
     form.setFieldsValue({
       ...currentValues,
       backgroundColors: newBackgroundColors,
@@ -314,9 +314,9 @@ const ThemeManager = () => {
 
   const handleSubmit = async (values) => {
     try {
-      // Process the form values to ensure colors are in the correct format
       const processedValues = {
         ...values,
+        wheelDataId: values.wheelDataId ? String(values.wheelDataId) : undefined,
         backgroundColors:
           values.backgroundColors?.map((color) => getColorValue(color)) || [],
         textColors:
@@ -325,13 +325,10 @@ const ThemeManager = () => {
         innerBorderColor: getColorValue(values.innerBorderColor),
         radiusLineColor: getColorValue(values.radiusLineColor),
       };
-
       const url = editingTheme
         ? `${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme/${editingTheme.id}`
         : `${window.stwAdminData.rest_url}/stw/v1/template/roulette-theme`;
-
       const method = "POST";
-
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -339,36 +336,28 @@ const ThemeManager = () => {
         },
         body: JSON.stringify(processedValues),
       });
-
       if (response.ok) {
         const responseData = await response.json();
-
         if (editingTheme) {
           message.success("Theme updated successfully");
         } else {
           message.success("Theme created successfully");
         }
-
-        // Reload themes after successful operation
         loadThemes();
         setModalVisible(false);
       } else {
         const errorData = await response.json().catch(() => ({}));
-        
-        // Handle the nested error structure from your API
         if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
-          // Display each validation error
           errorData.message.error.forEach((errorMsg) => {
             message.error(errorMsg);
           });
-          return; // Don't throw, just show the messages
+          return;
         } else {
           throw new Error(errorData.message || "API request failed");
         }
       }
     } catch (error) {
       console.error("Submit error:", error);
-      // Only show generic error if we haven't already shown specific validation errors
       if (!error.handled) {
         message.error(`Failed to ${editingTheme ? 'update' : 'create'} theme. ${error.message || 'Please try again.'}`);
       }
@@ -421,8 +410,7 @@ const ThemeManager = () => {
       key: "wheelDataId",
       width: "15%",
       render: (wheelDataId) => {
-        console.log(wheelDataId)
-        const wheel = data.find((w) => w.id === wheelDataId);
+        const wheel = wheelData.find((w) => String(w.id) === String(wheelDataId));
         return wheel ? wheel.name : "Not selected";
       },
     },
@@ -532,14 +520,32 @@ const ThemeManager = () => {
             rules={[{ required: true, message: "Please select wheel data" }]}
           >
             <Select
+              showSearch
+              allowClear
               placeholder="Select wheel data"
-              getPopupContainer={(triggerNode) => triggerNode.parentElement}
-              dropdownStyle={{ zIndex: 1050 }}
-              onChange={handleWheelDataChange}
+              value={form.getFieldValue("wheelDataId")}
+              loading={wheelDataLoading}
+              filterOption={false}
+              onSearch={(val) => {
+                setWheelDataSearch(val);
+                loadWheelData(1, 10, val);
+              }}
+              onChange={(val) => {
+                form.setFieldsValue({ wheelDataId: val });
+                handleWheelDataChange(val);
+              }}
+              onPopupScroll={e => {
+                const target = e.target;
+                if (target.scrollTop + target.offsetHeight === target.scrollHeight && wheelData.length < wheelDataTotal) {
+                  loadWheelData(wheelDataPage + 1, 10, wheelDataSearch);
+                }
+              }}
+              optionFilterProp="children"
+              style={{ width: '100%' }}
             >
-              {wheelData?.map((wheel) => (
-                <Select.Option key={wheel.id} value={wheel.id}>
-                  {wheel.name} - have slices: {wheel.data?.length || 0}
+              {wheelData.map(w => (
+                <Select.Option key={String(w.id)} value={String(w.id)}>
+                  {w.name} - have slices: {w.data?.length || 0}
                 </Select.Option>
               ))}
             </Select>

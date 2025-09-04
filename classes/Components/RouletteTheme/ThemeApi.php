@@ -22,8 +22,8 @@ class ThemeApi extends RestAPI
         $data = $request->get_json_params() ?? [];
 
         // Validate wheelDataId early
-        if (empty($data['wheelDataId']) || !is_int($data['wheelDataId'])) {
-            return $this->responseError('wheelDataId is required and must be an integer.');
+        if (empty($data['wheelDataId'])) {
+            return $this->responseError('wheelDataId is required.');
         }
 
         // Validate theme name for new themes

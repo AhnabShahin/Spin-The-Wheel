@@ -14,6 +14,7 @@ class ThemeFields
             'mustStartSpinning' => 'boolean|required',
             'prizeNumber' => 'number|required',
             'data' => 'array|required',
+            'wheelDataId' => 'required',
             'backgroundColors' => 'array',
             'textColors' => 'array',
             'outerBorderColor' => 'string',
