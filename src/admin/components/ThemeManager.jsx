@@ -497,8 +497,6 @@ const ThemeManager = () => {
         onOk={() => form.submit()}
         width={800}
         okText={editingTheme ? "Update" : "Create"}
-        zIndex={1000}
-        getContainer={() => document.body}
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           {/* Basic Information */}

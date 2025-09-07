@@ -823,9 +823,7 @@ const ThemeManager = () => {
     onCancel: () => setModalVisible(false),
     onOk: () => form.submit(),
     width: 800,
-    okText: editingTheme ? "Update" : "Create",
-    zIndex: 1000,
-    getContainer: () => document.body
+    okText: editingTheme ? "Update" : "Create"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     form: form,
     layout: "vertical",
