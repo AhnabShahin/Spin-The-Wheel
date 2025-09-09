@@ -36,7 +36,7 @@
             "node_modules/",
             "tests/",
             "ui-resources/",
-            "pre-build-ui-resources/"
+            "src/"
         ]
     },
     "autoload-dev": {
