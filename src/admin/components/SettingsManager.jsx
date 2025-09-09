@@ -1,3 +1,4 @@
+import { SaveOutlined } from '@ant-design/icons';
 import { useState, useEffect } from '@wordpress/element';
 import { 
     Card, 
@@ -12,7 +13,7 @@ import {
     Divider,
     Select
 } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
+
 import { useApi } from '../../shared/providers/ApiProvider';
 
 const { Title, Text } = Typography;

@@ -21,8 +21,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/alert/index.js");
-/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
-/* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
+/* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
+/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
 
 
 
@@ -38,10 +38,10 @@ const FrontendApp = () => {
     isSpinning,
     result,
     spinWheel
-  } = (0,_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_2__.useWheel)();
+  } = (0,_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_3__.useWheel)();
   const {
     trackSpin
-  } = (0,_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_3__.useAnalytics)();
+  } = (0,_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_2__.useAnalytics)();
   const [hasSpun, setHasSpun] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const handleSpin = () => {
     const sampleWheelData = {
@@ -155,12 +155,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/config-provider/index.js");
 /* harmony import */ var antd_dist_reset_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd/dist/reset.css */ "./node_modules/antd/dist/reset.css");
-/* harmony import */ var _components_FrontendApp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/FrontendApp */ "./src/frontend/components/FrontendApp.jsx");
-/* harmony import */ var _shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/components/ErrorBoundary */ "./src/shared/components/ErrorBoundary.jsx");
-/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
+/* harmony import */ var _shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/components/ErrorBoundary */ "./src/shared/components/ErrorBoundary.jsx");
+/* harmony import */ var _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/config/themeConfig.json */ "./src/shared/config/themeConfig.json");
+/* harmony import */ var _components_FrontendApp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/FrontendApp */ "./src/frontend/components/FrontendApp.jsx");
 /* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
-/* harmony import */ var _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/config/themeConfig.json */ "./src/shared/config/themeConfig.json");
-
+/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
 
 
 
@@ -174,9 +173,9 @@ __webpack_require__.r(__webpack_exports__);
 // Initialize frontend app
 const container = document.getElementById('spin-the-wheel-user');
 if (container) {
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_4__.ErrorBoundary, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    theme: _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_7__
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_6__.AnalyticsProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_5__.WheelProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FrontendApp__WEBPACK_IMPORTED_MODULE_3__["default"], null)))))));
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__.ErrorBoundary, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    theme: _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_4__
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_6__.AnalyticsProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_7__.WheelProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FrontendApp__WEBPACK_IMPORTED_MODULE_5__["default"], null)))))));
 }
 
 /***/ }),

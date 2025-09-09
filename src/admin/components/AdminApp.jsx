@@ -1,5 +1,3 @@
-import { useState, useEffect } from '@wordpress/element';
-import { Card, Typography, Space, Button, Layout, Menu } from 'antd';
 import { 
     DashboardOutlined, 
     BgColorsOutlined, 
@@ -7,9 +5,12 @@ import {
     BarChartOutlined,
     DatabaseOutlined 
 } from '@ant-design/icons';
+import { useState, useEffect } from '@wordpress/element';
+import { Card, Typography, Space, Button, Layout, Menu } from 'antd';
+
+import SettingsManager from './SettingsManager';
 import ThemeManager from './ThemeManager';
 import WheelDataManager from './WheelDataManager';
-import SettingsManager from './SettingsManager';
 
 const { Title, Paragraph } = Typography;
 const { Sider, Content } = Layout;

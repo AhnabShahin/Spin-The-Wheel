@@ -1,3 +1,9 @@
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { useState, useEffect } from "@wordpress/element";
 import {
   Card,
@@ -21,12 +27,6 @@ import {
   Collapse,
   Divider,
 } from "antd";
-import {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
 
 const { Title } = Typography;
 const { Panel } = Collapse;

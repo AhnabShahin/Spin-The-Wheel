@@ -1,13 +1,17 @@
-import { StrictMode } from '@wordpress/element';
-import { createRoot } from '@wordpress/element';
+import { StrictMode , createRoot } from '@wordpress/element';
 import { ConfigProvider, App } from 'antd';
+
 import 'antd/dist/reset.css';
-import AdminApp from './components/AdminApp';
-import { ErrorBoundary } from '../shared/components/ErrorBoundary';
-import { LoadingProvider } from '../shared/providers/LoadingProvider';
-import { ApiProvider } from '../shared/providers/ApiProvider';
-import themeConfig from '../shared/config/themeConfig.json';
 import enUS from 'antd/locale/en_US';
+
+import { ErrorBoundary } from '../shared/components/ErrorBoundary';
+import themeConfig from '../shared/config/themeConfig.json';
+import { ApiProvider } from '../shared/providers/ApiProvider';
+import { LoadingProvider } from '../shared/providers/LoadingProvider';
+
+import AdminApp from './components/AdminApp';
+
+
 
 // Initialize admin app
 const container = document.getElementById('spin-the-wheel-admin');

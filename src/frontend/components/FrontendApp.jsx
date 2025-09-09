@@ -1,7 +1,8 @@
 import { useState } from '@wordpress/element';
 import { Card, Typography, Button, Space, Alert } from 'antd';
-import { useWheel } from '../providers/WheelProvider';
+
 import { useAnalytics } from '../providers/AnalyticsProvider';
+import { useWheel } from '../providers/WheelProvider';
 
 const { Title, Paragraph } = Typography;
 

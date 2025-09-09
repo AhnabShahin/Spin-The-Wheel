@@ -1,9 +1,9 @@
-import { StrictMode } from "@wordpress/element";
-import { createRoot } from "@wordpress/element";
+import { StrictMode , createRoot } from "@wordpress/element";
 import { ConfigProvider, App } from "antd";
-import Init from "./CoreNest/Init.jsx";
-import themeConfig from "./CoreNest/config/themeConfig.json";
 import enUS from "antd/locale/en_US"; // Example: English locale
+
+import themeConfig from "./CoreNest/config/themeConfig.json";
+import Init from "./CoreNest/Init.jsx";
 const container = document.getElementById("spin-the-wheel-admin");
 
 if (container) {

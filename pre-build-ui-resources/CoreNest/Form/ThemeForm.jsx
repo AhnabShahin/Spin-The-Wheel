@@ -1,3 +1,4 @@
+import { CloseOutlined } from "@ant-design/icons";
 import {
   Form,
   Input,
@@ -6,9 +7,7 @@ import {
   InputNumber,
   ColorPicker,
   Card,
-} from "antd";
-import { CloseOutlined } from "@ant-design/icons";
-import { Row, Col } from "antd";
+ Row, Col } from "antd";
 const ThemeForm = ({ record, handleSubmit, form }) => {
   console.log("ThemeForm Record:", record); // Debugging: Check the record being passed
   return (

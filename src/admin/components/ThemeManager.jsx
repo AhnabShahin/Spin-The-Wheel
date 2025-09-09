@@ -1,3 +1,9 @@
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  CopyOutlined,
+} from "@ant-design/icons";
 import { useState, useEffect } from "@wordpress/element";
 import {
   Card,
@@ -20,12 +26,7 @@ import {
   Tag,
   Collapse,
 } from "antd";
-import {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  CopyOutlined,
-} from "@ant-design/icons";
+
 import { useApi } from "../../shared/providers/ApiProvider";
 
 const { Title } = Typography;

@@ -1,6 +1,6 @@
-import { StrictMode } from '@wordpress/element';
-import { createRoot } from '@wordpress/element';
+import { StrictMode , createRoot } from '@wordpress/element';
 import { ConfigProvider } from 'antd';
+
 import themeConfig from './CoreNest/config/themeConfig.json';
 import Init from './Showcase/Init.jsx';
 
