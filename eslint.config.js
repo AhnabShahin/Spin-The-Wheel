@@ -65,9 +65,10 @@ const jsxConfig = {
     'react/jsx-key': 'error',
     'react/no-array-index-key': 'warn',
     'react/jsx-no-duplicate-props': 'error',
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react/jsx-no-target-blank': 'off',
+  'react/jsx-uses-vars': 'error',
+  'react/jsx-uses-react': 'off',
+  'react/react-in-jsx-scope': 'off',
+  'react/jsx-no-target-blank': 'off',
     
     // React Hooks Rules
     'react-hooks/rules-of-hooks': 'error',
