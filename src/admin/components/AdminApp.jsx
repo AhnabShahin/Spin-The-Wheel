@@ -9,7 +9,7 @@ import { useState, useEffect } from '@wordpress/element';
 import { Card, Typography, Space, Button, Layout, Menu } from 'antd';
 
 import SettingsManager from './SettingsManager';
-import ThemeManager from './ThemeManager';
+import ThemeManager from './Theme/ThemeManager';
 import WheelDataManager from './WheelDataManager';
 
 const { Title, Paragraph } = Typography;

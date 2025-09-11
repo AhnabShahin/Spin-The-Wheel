@@ -17,10 +17,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/alert/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/alert/index.js");
 /* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
 /* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
 
@@ -44,34 +45,11 @@ const FrontendApp = () => {
   } = (0,_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_2__.useAnalytics)();
   const [hasSpun, setHasSpun] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const handleSpin = () => {
-    const sampleWheelData = {
-      data: [{
-        option: 'Prize 1',
-        style: {
-          backgroundColor: '#ff8f43',
-          textColor: '#ffffff'
-        }
-      }, {
-        option: 'Prize 2',
-        style: {
-          backgroundColor: '#70bbe0',
-          textColor: '#ffffff'
-        }
-      }, {
-        option: 'Prize 3',
-        style: {
-          backgroundColor: '#0b7ec8',
-          textColor: '#ffffff'
-        }
-      }, {
-        option: 'Prize 4',
-        style: {
-          backgroundColor: '#ffd23f',
-          textColor: '#000000'
-        }
-      }]
-    };
-    spinWheel(sampleWheelData);
+    if (!wheelData) {
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error('Wheel configuration not loaded');
+      return;
+    }
+    spinWheel(wheelData);
     setHasSpun(true);
 
     // Track analytics
@@ -79,16 +57,16 @@ const FrontendApp = () => {
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "stw-wheel-container"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     direction: "vertical",
     size: "large",
     style: {
       width: '100%',
       textAlign: 'center'
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
     level: 2
-  }, "\uD83C\uDFAF Spin The Wheel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Paragraph, null, "Welcome to the optimized Spin The Wheel! This new version includes enhanced performance, better animations, and improved user experience.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "\uD83C\uDFAF Spin The Wheel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Paragraph, null, "Welcome to the optimized Spin The Wheel! This new version includes enhanced performance, better animations, and improved user experience.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "stw-wheel-wrapper",
     style: {
       width: '300px',
@@ -109,25 +87,25 @@ const FrontendApp = () => {
     level: 3
   }, "\uD83C\uDFAA Spinning...")) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
     level: 3
-  }, "\uD83C\uDFAF Ready to Spin!")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, "\uD83C\uDFAF Ready to Spin!")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     direction: "vertical",
     style: {
       marginTop: '20px'
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     type: "primary",
     size: "large",
     loading: isSpinning,
     onClick: handleSpin,
     disabled: isSpinning
-  }, isSpinning ? 'Spinning...' : 'Spin the Wheel!'), result && hasSpun && !isSpinning && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, isSpinning ? 'Spinning...' : 'Spin the Wheel!'), result && hasSpun && !isSpinning && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
     message: "Congratulations!",
     description: `You won: ${result.option}`,
     type: "success",
     showIcon: true
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
     level: 3
-  }, "New Features"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, "New Features"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     direction: "vertical"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "\u2728 Smooth animations and transitions"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "\uD83D\uDCF1 Mobile-responsive design"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "\uD83C\uDFA8 Customizable themes and colors"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "\uD83D\uDCCA Analytics tracking (if enabled)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "\uD83D\uDD27 Better error handling")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
     jsx: true
@@ -153,13 +131,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/config-provider/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/config-provider/index.js");
 /* harmony import */ var antd_dist_reset_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd/dist/reset.css */ "./node_modules/antd/dist/reset.css");
 /* harmony import */ var _shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/components/ErrorBoundary */ "./src/shared/components/ErrorBoundary.jsx");
 /* harmony import */ var _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/config/themeConfig.json */ "./src/shared/config/themeConfig.json");
-/* harmony import */ var _components_FrontendApp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/FrontendApp */ "./src/frontend/components/FrontendApp.jsx");
-/* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
-/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
+/* harmony import */ var _shared_providers_LoadingProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/providers/LoadingProvider */ "./src/shared/providers/LoadingProvider.jsx");
+/* harmony import */ var _components_FrontendApp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/FrontendApp */ "./src/frontend/components/FrontendApp.jsx");
+/* harmony import */ var _providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./providers/AnalyticsProvider */ "./src/frontend/providers/AnalyticsProvider.jsx");
+/* harmony import */ var _providers_WheelProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./providers/WheelProvider */ "./src/frontend/providers/WheelProvider.jsx");
+
 
 
 
@@ -173,9 +153,9 @@ __webpack_require__.r(__webpack_exports__);
 // Initialize frontend app
 const container = document.getElementById('spin-the-wheel-user');
 if (container) {
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__.ErrorBoundary, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_shared_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_3__.ErrorBoundary, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
     theme: _shared_config_themeConfig_json__WEBPACK_IMPORTED_MODULE_4__
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_6__.AnalyticsProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_7__.WheelProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FrontendApp__WEBPACK_IMPORTED_MODULE_5__["default"], null)))))));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_shared_providers_LoadingProvider__WEBPACK_IMPORTED_MODULE_5__.LoadingProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_AnalyticsProvider__WEBPACK_IMPORTED_MODULE_7__.AnalyticsProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_providers_WheelProvider__WEBPACK_IMPORTED_MODULE_8__.WheelProvider, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FrontendApp__WEBPACK_IMPORTED_MODULE_6__["default"], null))))))));
 }
 
 /***/ }),
@@ -247,6 +227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _shared_providers_LoadingProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/providers/LoadingProvider */ "./src/shared/providers/LoadingProvider.jsx");
+
 
 
 
@@ -258,6 +240,59 @@ const WheelProvider = ({
   const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [isSpinning, setIsSpinning] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [result, setResult] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const {
+    showLoading,
+    hideLoading
+  } = (0,_shared_providers_LoadingProvider__WEBPACK_IMPORTED_MODULE_2__.useLoading)();
+
+  // Load initial wheel configuration
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const loadWheelData = async () => {
+      showLoading('Loading Wheel Configuration...');
+      try {
+        const response = await fetch(`${window.stwAdminData.rest_url}/stw/v1/wheel/data`);
+        if (response.ok) {
+          const data = await response.json();
+          setWheelData(data);
+        } else {
+          throw new Error('Failed to load wheel configuration');
+        }
+      } catch (error) {
+        console.error('Failed to load wheel data:', error);
+        // Set some default wheel data if loading fails
+        setWheelData({
+          data: [{
+            option: 'Prize 1',
+            style: {
+              backgroundColor: '#ff8f43',
+              textColor: '#ffffff'
+            }
+          }, {
+            option: 'Prize 2',
+            style: {
+              backgroundColor: '#70bbe0',
+              textColor: '#ffffff'
+            }
+          }, {
+            option: 'Prize 3',
+            style: {
+              backgroundColor: '#0b7ec8',
+              textColor: '#ffffff'
+            }
+          }, {
+            option: 'Prize 4',
+            style: {
+              backgroundColor: '#ffd23f',
+              textColor: '#000000'
+            }
+          }]
+        });
+      } finally {
+        hideLoading();
+      }
+    };
+    loadWheelData();
+  }, []);
   const spinWheel = async wheelConfig => {
     setIsSpinning(true);
     // Simulate spinning animation

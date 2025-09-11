@@ -4,6 +4,7 @@ import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
 import { ErrorBoundary } from '../shared/components/ErrorBoundary';
 import themeConfig from '../shared/config/themeConfig.json';
+import { LoadingProvider } from '../shared/providers/LoadingProvider';
 
 import FrontendApp from './components/FrontendApp';
 import { AnalyticsProvider } from './providers/AnalyticsProvider';
@@ -18,11 +19,13 @@ if (container) {
         <StrictMode>
             <ErrorBoundary>
                 <ConfigProvider theme={themeConfig}>
-                    <AnalyticsProvider>
-                        <WheelProvider>
-                            <FrontendApp />
-                        </WheelProvider>
-                    </AnalyticsProvider>
+                    <LoadingProvider>
+                        <AnalyticsProvider>
+                            <WheelProvider>
+                                <FrontendApp />
+                            </WheelProvider>
+                        </AnalyticsProvider>
+                    </LoadingProvider>
                 </ConfigProvider>
             </ErrorBoundary>
         </StrictMode>

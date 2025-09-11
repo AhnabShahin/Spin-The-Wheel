@@ -1,5 +1,5 @@
 import { useState } from '@wordpress/element';
-import { Card, Typography, Button, Space, Alert } from 'antd';
+import { Card, Typography, Button, Space, Alert, message } from 'antd';
 
 import { useAnalytics } from '../providers/AnalyticsProvider';
 import { useWheel } from '../providers/WheelProvider';
@@ -12,16 +12,12 @@ const FrontendApp = () => {
     const [hasSpun, setHasSpun] = useState(false);
 
     const handleSpin = () => {
-        const sampleWheelData = {
-            data: [
-                { option: 'Prize 1', style: { backgroundColor: '#ff8f43', textColor: '#ffffff' } },
-                { option: 'Prize 2', style: { backgroundColor: '#70bbe0', textColor: '#ffffff' } },
-                { option: 'Prize 3', style: { backgroundColor: '#0b7ec8', textColor: '#ffffff' } },
-                { option: 'Prize 4', style: { backgroundColor: '#ffd23f', textColor: '#000000' } }
-            ]
-        };
-
-        spinWheel(sampleWheelData);
+        if (!wheelData) {
+            message.error('Wheel configuration not loaded');
+            return;
+        }
+        
+        spinWheel(wheelData);
         setHasSpun(true);
         
         // Track analytics
