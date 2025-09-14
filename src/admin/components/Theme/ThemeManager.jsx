@@ -25,7 +25,10 @@ import {
   Divider,
   Tag,
   Collapse,
+  Splitter,
 } from "antd";
+
+import CustomRoulette from "../Roulette/CustomRoulette";
 
 import ThemeManagerForm from "./ThemeManagerForm";
 import ThemeManagerTable from "./ThemeManagerTable";
@@ -64,10 +67,16 @@ const ThemeManager = () => {
     return color || "#ff8f43"; // Default color
   };
 
-
   useEffect(() => {
     loadThemes();
   }, []);
+
+  // Track form values for the roulette preview
+  const [formValues, setFormValues] = useState({});
+
+  const handleFormValuesChange = (changedValues, allValues) => {
+    setFormValues(allValues);
+  };
 
   useEffect(() => {
     // Update slice count when wheel data is loaded and we're editing
@@ -130,6 +139,7 @@ const ThemeManager = () => {
   const handleCreateTheme = () => {
     setEditingTheme(null);
     form.resetFields();
+    setFormValues({});
     setSelectedWheelSlices(0);
     setSelectedWheelData(null);
     loadWheelData();
@@ -150,6 +160,7 @@ const ThemeManager = () => {
       radiusLineColor: getColorValue(theme.radiusLineColor),
     };
     form.setFieldsValue(processedTheme);
+    setFormValues(processedTheme);
     if (wheelData.length === 0) {
       await loadWheelData();
     }
@@ -325,7 +336,7 @@ const ThemeManager = () => {
         body: JSON.stringify(processedValues),
       });
       if (response.ok) {
-        const responseData = await response.json();
+        await response.json(); // consume response
         if (editingTheme) {
           message.success("Theme updated successfully");
         } else {
@@ -359,7 +370,6 @@ const ThemeManager = () => {
       }
     }
   };
-
 
   return (
     <div>
@@ -404,21 +414,32 @@ const ThemeManager = () => {
         okText={editingTheme ? "Update" : "Create"}
         destroyOnClose
       >
-        <ThemeManagerForm
-          form={form}
-          editingTheme={editingTheme}
-          selectedWheelSlices={selectedWheelSlices}
-          selectedWheelData={selectedWheelData}
-          wheelData={wheelData}
-          wheelDataLoading={wheelDataLoading}
-          wheelDataPage={wheelDataPage}
-          wheelDataTotal={wheelDataTotal}
-          wheelDataSearch={wheelDataSearch}
-          setWheelDataSearch={setWheelDataSearch}
-          loadWheelData={loadWheelData}
-          handleWheelDataChange={handleWheelDataChange}
-          handleSubmit={handleSubmit}
-        />
+        <Splitter>
+          <Splitter.Panel defaultSize="40%" min="20%" max="70%">
+            <CustomRoulette 
+              formData={formValues} 
+              selectedWheelData={selectedWheelData}
+            />
+          </Splitter.Panel>
+          <Splitter.Panel>
+            <ThemeManagerForm
+              handleFormValuesChange={handleFormValuesChange}
+              form={form}
+              editingTheme={editingTheme}
+              selectedWheelSlices={selectedWheelSlices}
+              selectedWheelData={selectedWheelData}
+              wheelData={wheelData}
+              wheelDataLoading={wheelDataLoading}
+              wheelDataPage={wheelDataPage}
+              wheelDataTotal={wheelDataTotal}
+              wheelDataSearch={wheelDataSearch}
+              setWheelDataSearch={setWheelDataSearch}
+              loadWheelData={loadWheelData}
+              handleWheelDataChange={handleWheelDataChange}
+              handleSubmit={handleSubmit}
+            />
+          </Splitter.Panel>
+        </Splitter>
       </Modal>
     </div>
   );

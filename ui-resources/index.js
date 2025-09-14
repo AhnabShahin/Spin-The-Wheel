@@ -230,6 +230,129 @@ const AdminApp = () => {
 
 /***/ }),
 
+/***/ "./src/admin/components/Roulette/CustomRoulette.jsx":
+/*!**********************************************************!*\
+  !*** ./src/admin/components/Roulette/CustomRoulette.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-custom-roulette */ "./node_modules/react-custom-roulette/dist/bundle.js");
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+
+const CustomRoulette = ({
+  formData = {},
+  selectedWheelData = null
+}) => {
+  const [mustSpin, setMustSpin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [prizeNumber, setPrizeNumber] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (selectedWheelData?.data) {
+      const data = selectedWheelData.data.map((item, index) => ({
+        option: item.text || `Item ${index + 1}`,
+        style: {
+          backgroundColor: formData.backgroundColors?.[index] || "#ff8f43",
+          textColor: formData.textColors?.[index] || "#ffffff"
+        }
+      }));
+      setWheelData(data);
+    }
+  }, [selectedWheelData, formData]);
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = Math.floor(Math.random() * wheelData.length);
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    }
+  };
+  if (!wheelData.length) {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      style: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, "Please select wheel data to preview");
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      textAlign: "center",
+      padding: "20px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
+    mustStartSpinning: mustSpin,
+    prizeNumber: prizeNumber,
+    data: wheelData,
+    onStopSpinning: () => {
+      setMustSpin(false);
+    },
+    outerBorderColor: formData?.outerBorderColor || "#000000",
+    outerBorderWidth: formData?.outerBorderWidth || 5,
+    innerBorderColor: formData?.innerBorderColor || "#000000",
+    innerBorderWidth: formData?.innerBorderWidth || 3,
+    radiusLineColor: formData?.radiusLineColor || "#000000",
+    radiusLineWidth: formData?.radiusLineWidth || 2,
+    fontSize: formData?.fontSize || 16,
+    textDistance: formData?.textDistance || 60,
+    spinDuration: formData?.spinDuration || 1.0
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      marginTop: "20px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: handleSpinClick,
+    disabled: mustSpin,
+    style: {
+      padding: "10px 20px",
+      fontSize: "16px",
+      cursor: mustSpin ? "not-allowed" : "pointer",
+      backgroundColor: "#1890ff",
+      color: "white",
+      border: "none",
+      borderRadius: "4px"
+    }
+  }, mustSpin ? "Spinning..." : "SPIN")));
+};
+CustomRoulette.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+    backgroundColors: prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf((prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)),
+    textColors: prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf((prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)),
+    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number)
+  }),
+  selectedWheelData: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+    data: prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+      text: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)
+    }))
+  })
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRoulette);
+
+/***/ }),
+
 /***/ "./src/admin/components/SettingsManager.jsx":
 /*!**************************************************!*\
   !*** ./src/admin/components/SettingsManager.jsx ***!
@@ -404,19 +527,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/collapse/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/modal/index.js");
-/* harmony import */ var _ThemeManagerForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ThemeManagerForm */ "./src/admin/components/Theme/ThemeManagerForm.jsx");
-/* harmony import */ var _ThemeManagerTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeManagerTable */ "./src/admin/components/Theme/ThemeManagerTable.jsx");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/collapse/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/modal/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/splitter/index.js");
+/* harmony import */ var _Roulette_CustomRoulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Roulette/CustomRoulette */ "./src/admin/components/Roulette/CustomRoulette.jsx");
+/* harmony import */ var _ThemeManagerForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeManagerForm */ "./src/admin/components/Theme/ThemeManagerForm.jsx");
+/* harmony import */ var _ThemeManagerTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ThemeManagerTable */ "./src/admin/components/Theme/ThemeManagerTable.jsx");
+
 
 
 
@@ -425,13 +551,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const {
   Title
-} = antd__WEBPACK_IMPORTED_MODULE_4__["default"];
-const {
-  TextArea
 } = antd__WEBPACK_IMPORTED_MODULE_5__["default"];
 const {
-  Panel
+  TextArea
 } = antd__WEBPACK_IMPORTED_MODULE_6__["default"];
+const {
+  Panel
+} = antd__WEBPACK_IMPORTED_MODULE_7__["default"];
 const ThemeManager = () => {
   const [themes, setThemes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
@@ -444,7 +570,7 @@ const ThemeManager = () => {
   const [wheelDataSearch, setWheelDataSearch] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
   const [selectedWheelSlices, setSelectedWheelSlices] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
   const [selectedWheelData, setSelectedWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-  const [form] = antd__WEBPACK_IMPORTED_MODULE_7__["default"].useForm();
+  const [form] = antd__WEBPACK_IMPORTED_MODULE_8__["default"].useForm();
 
   // Helper function to convert color picker object to hex string
   const getColorValue = color => {
@@ -464,6 +590,12 @@ const ThemeManager = () => {
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     loadThemes();
   }, []);
+
+  // Track form values for the roulette preview
+  const [formValues, setFormValues] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
+  const handleFormValuesChange = (changedValues, allValues) => {
+    setFormValues(allValues);
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     // Update slice count when wheel data is loaded and we're editing
     if (editingTheme && wheelData.length > 0) {
@@ -484,7 +616,7 @@ const ThemeManager = () => {
       }
     } catch (error) {
       console.error("Theme loading error:", error);
-      antd__WEBPACK_IMPORTED_MODULE_8__["default"].error("Failed to load themes");
+      antd__WEBPACK_IMPORTED_MODULE_9__["default"].error("Failed to load themes");
     } finally {
       setLoading(false);
     }
@@ -508,7 +640,7 @@ const ThemeManager = () => {
         throw new Error("Failed to fetch wheel data");
       }
     } catch (error) {
-      antd__WEBPACK_IMPORTED_MODULE_8__["default"].error("Failed to load wheel data. Please try again.");
+      antd__WEBPACK_IMPORTED_MODULE_9__["default"].error("Failed to load wheel data. Please try again.");
       setWheelData([]);
       setWheelDataTotal(0);
     } finally {
@@ -518,6 +650,7 @@ const ThemeManager = () => {
   const handleCreateTheme = () => {
     setEditingTheme(null);
     form.resetFields();
+    setFormValues({});
     setSelectedWheelSlices(0);
     setSelectedWheelData(null);
     loadWheelData();
@@ -536,6 +669,7 @@ const ThemeManager = () => {
       radiusLineColor: getColorValue(theme.radiusLineColor)
     };
     form.setFieldsValue(processedTheme);
+    setFormValues(processedTheme);
     if (wheelData.length === 0) {
       await loadWheelData();
     }
@@ -572,7 +706,7 @@ const ThemeManager = () => {
         method: "DELETE"
       });
       if (response.ok) {
-        antd__WEBPACK_IMPORTED_MODULE_8__["default"].success("Theme deleted successfully");
+        antd__WEBPACK_IMPORTED_MODULE_9__["default"].success("Theme deleted successfully");
         // Reload themes after deletion
         loadThemes();
       } else {
@@ -582,7 +716,7 @@ const ThemeManager = () => {
         if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
           // Display each validation error
           errorData.message.error.forEach(errorMsg => {
-            antd__WEBPACK_IMPORTED_MODULE_8__["default"].error(errorMsg);
+            antd__WEBPACK_IMPORTED_MODULE_9__["default"].error(errorMsg);
           });
         } else {
           throw new Error(errorData.message || "Failed to delete theme");
@@ -591,7 +725,7 @@ const ThemeManager = () => {
     } catch (error) {
       console.error("Delete error:", error);
       if (!error.handled) {
-        antd__WEBPACK_IMPORTED_MODULE_8__["default"].error("Failed to delete theme. Please try again.");
+        antd__WEBPACK_IMPORTED_MODULE_9__["default"].error("Failed to delete theme. Please try again.");
       }
     }
   };
@@ -612,7 +746,7 @@ const ThemeManager = () => {
         body: JSON.stringify(duplicatedTheme)
       });
       if (response.ok) {
-        antd__WEBPACK_IMPORTED_MODULE_8__["default"].success("Theme duplicated successfully");
+        antd__WEBPACK_IMPORTED_MODULE_9__["default"].success("Theme duplicated successfully");
         // Reload themes after duplication
         loadThemes();
       } else {
@@ -622,7 +756,7 @@ const ThemeManager = () => {
         if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
           // Display each validation error
           errorData.message.error.forEach(errorMsg => {
-            antd__WEBPACK_IMPORTED_MODULE_8__["default"].error(errorMsg);
+            antd__WEBPACK_IMPORTED_MODULE_9__["default"].error(errorMsg);
           });
         } else {
           throw new Error(errorData.message || "Failed to duplicate theme");
@@ -631,7 +765,7 @@ const ThemeManager = () => {
     } catch (error) {
       console.error("Duplicate error:", error);
       if (!error.handled) {
-        antd__WEBPACK_IMPORTED_MODULE_8__["default"].error("Failed to duplicate theme. Please try again.");
+        antd__WEBPACK_IMPORTED_MODULE_9__["default"].error("Failed to duplicate theme. Please try again.");
       }
     }
   };
@@ -656,11 +790,11 @@ const ThemeManager = () => {
         body: JSON.stringify(processedValues)
       });
       if (response.ok) {
-        const responseData = await response.json();
+        await response.json(); // consume response
         if (editingTheme) {
-          antd__WEBPACK_IMPORTED_MODULE_8__["default"].success("Theme updated successfully");
+          antd__WEBPACK_IMPORTED_MODULE_9__["default"].success("Theme updated successfully");
         } else {
-          antd__WEBPACK_IMPORTED_MODULE_8__["default"].success("Theme created successfully");
+          antd__WEBPACK_IMPORTED_MODULE_9__["default"].success("Theme created successfully");
         }
         loadThemes();
         setModalVisible(false);
@@ -668,7 +802,7 @@ const ThemeManager = () => {
         const errorData = await response.json().catch(() => ({}));
         if (errorData.message && errorData.message.error && Array.isArray(errorData.message.error)) {
           errorData.message.error.forEach(errorMsg => {
-            antd__WEBPACK_IMPORTED_MODULE_8__["default"].error(errorMsg);
+            antd__WEBPACK_IMPORTED_MODULE_9__["default"].error(errorMsg);
           });
           return;
         } else {
@@ -678,11 +812,11 @@ const ThemeManager = () => {
     } catch (error) {
       console.error("Submit error:", error);
       if (!error.handled) {
-        antd__WEBPACK_IMPORTED_MODULE_8__["default"].error(`Failed to ${editingTheme ? "update" : "create"} theme. ${error.message || "Please try again."}`);
+        antd__WEBPACK_IMPORTED_MODULE_9__["default"].error(`Failed to ${editingTheme ? "update" : "create"} theme. ${error.message || "Please try again."}`);
       }
     }
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       display: "flex",
       justifyContent: "space-between",
@@ -694,11 +828,11 @@ const ThemeManager = () => {
     style: {
       margin: 0
     }
-  }, "Theme Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  }, "Theme Management"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
     type: "primary",
-    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_11__["default"], null),
+    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     onClick: handleCreateTheme
-  }, "Create New Theme")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeManagerTable__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, "Create New Theme")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeManagerTable__WEBPACK_IMPORTED_MODULE_4__["default"], {
     themes: themes,
     loading: loading,
     getColorValue: getColorValue,
@@ -706,7 +840,7 @@ const ThemeManager = () => {
     handleEditTheme: handleEditTheme,
     handleDuplicateTheme: handleDuplicateTheme,
     handleDeleteTheme: handleDeleteTheme
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], {
     title: editingTheme ? "Edit Theme" : "Create New Theme",
     open: modalVisible,
     onCancel: () => setModalVisible(false),
@@ -714,7 +848,15 @@ const ThemeManager = () => {
     width: 800,
     okText: editingTheme ? "Update" : "Create",
     destroyOnClose: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeManagerForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Panel, {
+    defaultSize: "40%",
+    min: "20%",
+    max: "70%"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Roulette_CustomRoulette__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    formData: formValues,
+    selectedWheelData: selectedWheelData
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Panel, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ThemeManagerForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    handleFormValuesChange: handleFormValuesChange,
     form: form,
     editingTheme: editingTheme,
     selectedWheelSlices: selectedWheelSlices,
@@ -728,7 +870,7 @@ const ThemeManager = () => {
     loadWheelData: loadWheelData,
     handleWheelDataChange: handleWheelDataChange,
     handleSubmit: handleSubmit
-  })));
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeManager);
 
@@ -776,12 +918,18 @@ const ThemeManagerForm = ({
   setWheelDataSearch,
   loadWheelData,
   handleWheelDataChange,
-  handleSubmit
+  handleSubmit,
+  handleFormValuesChange
 }) => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"], {
     form: form,
     layout: "vertical",
-    onFinish: handleSubmit
+    onFinish: handleSubmit,
+    onValuesChange: (changedValues, allValues) => {
+      if (typeof handleFormValuesChange === 'function') {
+        handleFormValuesChange(changedValues, allValues);
+      }
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_2__["default"].Item, {
     name: "name",
     label: "Theme Name",
@@ -1255,7 +1403,8 @@ ThemeManagerForm.propTypes = {
   setWheelDataSearch: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func).isRequired,
   loadWheelData: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func).isRequired,
   handleWheelDataChange: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func).isRequired,
-  handleSubmit: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func).isRequired
+  handleSubmit: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func).isRequired,
+  handleFormValuesChange: (prop_types__WEBPACK_IMPORTED_MODULE_11___default().func)
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeManagerForm);
 

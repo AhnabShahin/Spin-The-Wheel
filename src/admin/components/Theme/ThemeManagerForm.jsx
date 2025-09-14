@@ -28,10 +28,19 @@ const ThemeManagerForm = ({
   loadWheelData,
   handleWheelDataChange,
   handleSubmit,
+  handleFormValuesChange,
 }) => {
 
   return (
-    <Form form={form} layout="vertical" onFinish={handleSubmit}>
+    <Form 
+      form={form} 
+      layout="vertical" 
+      onFinish={handleSubmit}
+      onValuesChange={(changedValues, allValues) => {
+        if (typeof handleFormValuesChange === 'function') {
+          handleFormValuesChange(changedValues, allValues);
+        }
+      }}>
       {/* Basic Information */}
       <Form.Item
         name="name"
@@ -547,6 +556,7 @@ ThemeManagerForm.propTypes = {
   loadWheelData: PropTypes.func.isRequired,
   handleWheelDataChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  handleFormValuesChange: PropTypes.func,
 };
 
 export default ThemeManagerForm;
