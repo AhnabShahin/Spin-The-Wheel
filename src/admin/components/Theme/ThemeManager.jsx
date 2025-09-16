@@ -410,9 +410,8 @@ const ThemeManager = () => {
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         onOk={() => form.submit()}
-        width={800}
+        width="900vw"
         okText={editingTheme ? "Update" : "Create"}
-        destroyOnClose
       >
         <Splitter>
           <Splitter.Panel defaultSize="40%" min="20%" max="70%">

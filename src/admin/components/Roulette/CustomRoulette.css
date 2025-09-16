@@ -1,0 +1,27 @@
+.bhdLno {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  max-width: none !important;
+  height: unset !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+.custom-roulette-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 100vh;
+}
+
+.ant-splitter-bar {
+  margin: 0 15px;
+}

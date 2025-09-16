@@ -2,6 +2,7 @@ import { useEffect, useState } from "@wordpress/element";
 import { Card } from "antd";
 import PropTypes from 'prop-types';
 import { Wheel } from "react-custom-roulette";
+import "./CustomRoulette.css";
 
 const CustomRoulette = ({ formData = {}, selectedWheelData = null }) => {
   const [mustSpin, setMustSpin] = useState(false);
@@ -38,7 +39,7 @@ const CustomRoulette = ({ formData = {}, selectedWheelData = null }) => {
   }
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div className="custom-roulette-container">
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}

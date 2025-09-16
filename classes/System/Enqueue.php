@@ -79,6 +79,14 @@ class Enqueue
             true
         );
 
+        // Enqueue admin CSS
+        $this->enqueue_style(
+            'spin-the-wheel-admin',
+            'index.css',
+            [],
+            'all'
+        );
+
         // Localize admin script
         $this->localize_admin_script();
     }
