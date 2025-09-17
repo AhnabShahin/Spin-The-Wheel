@@ -3,8 +3,6 @@
 namespace AhnabShahin\SpinTheWheel\ROOT;
 
 use AhnabShahin\SpinTheWheel\Includes\{Config, Autoloader};
-use AhnabShahin\SpinTheWheel\Components\RouletteTheme\ThemeApi;
-use AhnabShahin\SpinTheWheel\Components\SliceData\DataApi;
 use AhnabShahin\SpinTheWheel\System\{Menu, Enqueue, Database, RestAPI};
 use AhnabShahin\SpinTheWheel\Traits\SingletonTrait;
 
@@ -106,8 +104,12 @@ final class Plugin
         $this->components['enqueue'] = Enqueue::instance();
 
         // API components
-        $this->components['theme_api'] = new ThemeApi();
-        $this->components['data_api'] = new DataApi();
+        $this->components['custom_roulette_api'] = new \AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteApi();
+        
+        // Migration component
+        if (is_admin()) {
+            $this->components['migration_admin'] = new \AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteMigrationAdmin();
+        }
 
         // Hook for adding custom components
         $this->components = apply_filters('stw_plugin_components', $this->components);
@@ -118,11 +120,11 @@ final class Plugin
      */
     public function register_post_types()
     {
-        // Register roulette theme post type
-        register_post_type('roulette_theme', [
+        // Register unified roulette post type
+        register_post_type('stw_roulette', [
             'labels' => [
-                'name' => __('Roulette Themes', 'spin-the-wheel'),
-                'singular_name' => __('Roulette Theme', 'spin-the-wheel'),
+                'name' => __('Custom Roulettes', 'spin-the-wheel'),
+                'singular_name' => __('Custom Roulette', 'spin-the-wheel'),
             ],
             'public' => false,
             'show_ui' => false,
@@ -136,11 +138,28 @@ final class Plugin
             ],
         ]);
 
-        // Register wheel data post type
-        register_post_type('wheel_data', [
+        // Keep old post types for backward compatibility during migration
+        register_post_type('roulette_theme', [
             'labels' => [
-                'name' => __('Wheel Data', 'spin-the-wheel'),
-                'singular_name' => __('Wheel Data', 'spin-the-wheel'),
+                'name' => __('Legacy Themes', 'spin-the-wheel'),
+                'singular_name' => __('Legacy Theme', 'spin-the-wheel'),
+            ],
+            'public' => false,
+            'show_ui' => false,
+            'show_in_menu' => false,
+            'supports' => ['title', 'custom-fields'],
+            'capability_type' => 'post',
+            'capabilities' => [
+                'create_posts' => $this->config->get('capability'),
+                'edit_posts' => $this->config->get('capability'),
+                'delete_posts' => $this->config->get('capability'),
+            ],
+        ]);
+
+        register_post_type('stw_wheel_data', [
+            'labels' => [
+                'name' => __('Legacy Wheel Data', 'spin-the-wheel'),
+                'singular_name' => __('Legacy Wheel Data', 'spin-the-wheel'),
             ],
             'public' => false,
             'show_ui' => false,

@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 import { Wheel } from "react-custom-roulette";
 import "./CustomRoulette.css";
 
-const CustomRoulette = ({ formData = {}, selectedWheelData = null }) => {
+const CustomRoulette = ({ formData = {} }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [wheelData, setWheelData] = useState([]);
 
   useEffect(() => {
-    if (selectedWheelData?.data) {
-      const data = selectedWheelData.data.map((item, index) => ({
-        option: item.text || `Item ${index + 1}`,
+    if (formData?.slices && Array.isArray(formData.slices)) {
+      const data = formData.slices.map((slice, index) => ({
+        option: slice.option || `Item ${index + 1}`,
         style: {
-          backgroundColor: formData.backgroundColors?.[index] || "#ff8f43",
-          textColor: formData.textColors?.[index] || "#ffffff",
+          backgroundColor: slice.style?.backgroundColor || "#ff8f43",
+          textColor: slice.style?.textColor || "#ffffff",
         },
       }));
       setWheelData(data);
     }
-  }, [selectedWheelData, formData]);
+  }, [formData]);
 
   const handleSpinClick = () => {
     if (!mustSpin) {
@@ -33,7 +33,7 @@ const CustomRoulette = ({ formData = {}, selectedWheelData = null }) => {
   if (!wheelData.length) {
     return (
       <Card style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        Please select wheel data to preview
+        Please add wheel slices to preview
       </Card>
     );
   }
@@ -80,8 +80,13 @@ const CustomRoulette = ({ formData = {}, selectedWheelData = null }) => {
 
 CustomRoulette.propTypes = {
   formData: PropTypes.shape({
-    backgroundColors: PropTypes.arrayOf(PropTypes.string),
-    textColors: PropTypes.arrayOf(PropTypes.string),
+    slices: PropTypes.arrayOf(PropTypes.shape({
+      option: PropTypes.string,
+      style: PropTypes.shape({
+        backgroundColor: PropTypes.string,
+        textColor: PropTypes.string
+      })
+    })),
     outerBorderColor: PropTypes.string,
     outerBorderWidth: PropTypes.number,
     innerBorderColor: PropTypes.string,
@@ -91,11 +96,6 @@ CustomRoulette.propTypes = {
     fontSize: PropTypes.number,
     textDistance: PropTypes.number,
     spinDuration: PropTypes.number
-  }),
-  selectedWheelData: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string
-    }))
   })
 };
 
