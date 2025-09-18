@@ -6,12 +6,12 @@ import { ErrorBoundary } from '../shared/components/ErrorBoundary';
 import themeConfig from '../shared/config/themeConfig.json';
 import { LoadingProvider } from '../shared/providers/LoadingProvider';
 
-import FrontendApp from './components/FrontendApp';
+import UserApp from './components/UserApp';
 import { AnalyticsProvider } from './providers/AnalyticsProvider';
 import { WheelProvider } from './providers/WheelProvider';
 
 
-// Initialize frontend app
+// Initialize user app
 const container = document.getElementById('spin-the-wheel-user');
 
 if (container) {
@@ -22,7 +22,7 @@ if (container) {
                     <LoadingProvider>
                         <AnalyticsProvider>
                             <WheelProvider>
-                                <FrontendApp />
+                                <UserApp />
                             </WheelProvider>
                         </AnalyticsProvider>
                     </LoadingProvider>

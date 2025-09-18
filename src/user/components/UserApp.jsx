@@ -6,7 +6,7 @@ import { useWheel } from '../providers/WheelProvider';
 
 const { Title, Paragraph } = Typography;
 
-const FrontendApp = () => {
+const UserApp = () => {
     const { wheelData, isSpinning, result, spinWheel } = useWheel();
     const { trackSpin } = useAnalytics();
     const [hasSpun, setHasSpun] = useState(false);
@@ -100,4 +100,4 @@ const FrontendApp = () => {
     );
 };
 
-export default FrontendApp;
+export default UserApp;
