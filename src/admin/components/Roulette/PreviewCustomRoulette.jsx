@@ -2,9 +2,9 @@ import { useEffect, useState } from "@wordpress/element";
 import { Card } from "antd";
 import PropTypes from 'prop-types';
 import { Wheel } from "react-custom-roulette";
-import "./CustomRoulette.css";
+import "./PreviewCustomRoulette.css";
 
-const CustomRoulette = ({ formData = {} }) => {
+const PreviewCustomRoulette = ({ formData = {} }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [wheelData, setWheelData] = useState([]);
@@ -78,7 +78,7 @@ const CustomRoulette = ({ formData = {} }) => {
   );
 };
 
-CustomRoulette.propTypes = {
+PreviewCustomRoulette.propTypes = {
   formData: PropTypes.shape({
     slices: PropTypes.arrayOf(PropTypes.shape({
       option: PropTypes.string,
@@ -99,4 +99,4 @@ CustomRoulette.propTypes = {
   })
 };
 
-export default CustomRoulette;
+export default PreviewCustomRoulette;

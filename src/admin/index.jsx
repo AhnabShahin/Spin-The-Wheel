@@ -1,6 +1,5 @@
 import { StrictMode , createRoot } from '@wordpress/element';
 import { ConfigProvider, App } from 'antd';
-
 import 'antd/dist/reset.css';
 import enUS from 'antd/locale/en_US';
 

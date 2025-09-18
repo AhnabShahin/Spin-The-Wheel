@@ -8,8 +8,8 @@ import {
 import { useState, useEffect } from '@wordpress/element';
 import { Card, Typography, Space, Button, Layout, Menu } from 'antd';
 
+import CustomRouletteManager from './CustomRouletteManager';
 import SettingsManager from './SettingsManager';
-import ThemeManager from './Theme/ThemeManager';
 import WheelDataManager from './WheelDataManager';
 
 const { Title, Paragraph } = Typography;
@@ -80,7 +80,7 @@ const AdminApp = () => {
     const renderContent = () => {
         switch (currentTab) {
             case 'themes':
-                return <ThemeManager />;
+                return <CustomRouletteManager />;
             case 'wheels':
                 return <WheelDataManager />;
             case 'settings':

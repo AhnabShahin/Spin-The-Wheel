@@ -2,6 +2,8 @@
 
 namespace AhnabShahin\SpinTheWheel\ROOT;
 
+use AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteApi;
+use AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteMigrationAdmin;
 use AhnabShahin\SpinTheWheel\Includes\{Config, Autoloader};
 use AhnabShahin\SpinTheWheel\System\{Menu, Enqueue, Database, RestAPI};
 use AhnabShahin\SpinTheWheel\Traits\SingletonTrait;
@@ -104,11 +106,11 @@ final class Plugin
         $this->components['enqueue'] = Enqueue::instance();
 
         // API components
-        $this->components['custom_roulette_api'] = new \AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteApi();
+        $this->components['custom_roulette_api'] = new CustomRouletteApi();
         
         // Migration component
         if (is_admin()) {
-            $this->components['migration_admin'] = new \AhnabShahin\SpinTheWheel\Components\CustomRoulette\CustomRouletteMigrationAdmin();
+            $this->components['migration_admin'] = new CustomRouletteMigrationAdmin();
         }
 
         // Hook for adding custom components

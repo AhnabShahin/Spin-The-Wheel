@@ -27,8 +27,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/menu/index.js");
-/* harmony import */ var _SettingsManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SettingsManager */ "./src/admin/components/SettingsManager.jsx");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './Theme/ThemeManager'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _CustomRouletteManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteManager */ "./src/admin/components/CustomRouletteManager.jsx");
+/* harmony import */ var _SettingsManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SettingsManager */ "./src/admin/components/SettingsManager.jsx");
 /* harmony import */ var _WheelDataManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WheelDataManager */ "./src/admin/components/WheelDataManager.jsx");
 
 
@@ -100,11 +100,11 @@ const AdminApp = () => {
   const renderContent = () => {
     switch (currentTab) {
       case 'themes':
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Object(function webpackMissingModule() { var e = new Error("Cannot find module './Theme/ThemeManager'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), null);
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteManager__WEBPACK_IMPORTED_MODULE_2__["default"], null);
       case 'wheels':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_WheelDataManager__WEBPACK_IMPORTED_MODULE_4__["default"], null);
       case 'settings':
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SettingsManager__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SettingsManager__WEBPACK_IMPORTED_MODULE_3__["default"], null);
       case 'analytics':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
           level: 3
@@ -227,6 +227,860 @@ const AdminApp = () => {
             `));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AdminApp);
+
+/***/ }),
+
+/***/ "./src/admin/components/CustomRouletteForm.jsx":
+/*!*****************************************************!*\
+  !*** ./src/admin/components/CustomRouletteForm.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/DeleteOutlined.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/collapse/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/color-picker/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/input-number/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/switch/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/select/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_15__);
+
+
+
+
+const {
+  Panel
+} = antd__WEBPACK_IMPORTED_MODULE_1__["default"];
+const CustomRouletteForm = ({
+  form,
+  handleSubmit,
+  handleFormValuesChange
+}) => {
+  const handleSliceAdd = () => {
+    const slices = form.getFieldValue("slices") || [];
+    const newSlices = [...slices, {
+      option: "",
+      image: {
+        uri: "",
+        offsetX: 0,
+        offsetY: 0,
+        sizeMultiplier: 1,
+        landscape: false
+      },
+      style: {
+        backgroundColor: "#ff8f43",
+        textColor: "#ffffff",
+        fontFamily: "Arial",
+        fontSize: 16,
+        fontWeight: 400,
+        fontStyle: "normal"
+      },
+      optionSize: 1,
+      couponId: ""
+    }];
+    form.setFieldsValue({
+      slices: newSlices
+    });
+  };
+  const handleSliceRemove = index => {
+    const slices = form.getFieldValue("slices") || [];
+    if (slices.length <= 1) {
+      antd__WEBPACK_IMPORTED_MODULE_2__["default"].warning("At least one slice is required");
+      return;
+    }
+    const newSlices = slices.filter((_, i) => i !== index);
+    form.setFieldsValue({
+      slices: newSlices
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    form: form,
+    layout: "vertical",
+    onFinish: handleSubmit,
+    onValuesChange: (changedValues, allValues) => {
+      if (typeof handleFormValuesChange === "function") {
+        handleFormValuesChange(changedValues, allValues);
+      }
+    },
+    initialValues: {
+      slices: [{
+        option: "",
+        image: {
+          uri: "",
+          offsetX: 0,
+          offsetY: 0,
+          sizeMultiplier: 1,
+          landscape: false
+        },
+        style: {
+          backgroundColor: "#ff8f43",
+          textColor: "#ffffff",
+          fontFamily: "Arial",
+          fontSize: 16,
+          fontWeight: 400,
+          fontStyle: "normal"
+        },
+        optionSize: 1,
+        couponId: ""
+      }],
+      mustStartSpinning: false,
+      prizeNumber: 0,
+      outerBorderColor: "#000000",
+      outerBorderWidth: 5,
+      innerRadius: 0,
+      innerBorderColor: "#000000",
+      innerBorderWidth: 0,
+      radiusLineColor: "#000000",
+      radiusLineWidth: 5,
+      fontFamily: "Arial",
+      fontSize: 20,
+      fontWeight: 400,
+      fontStyle: "normal",
+      perpendicularText: false,
+      textDistance: 60,
+      spinDuration: 1000,
+      startingOptionIndex: 0,
+      disableInitialAnimation: false
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    title: "Basic Information",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "name",
+    label: "Roulette Name",
+    rules: [{
+      required: true,
+      message: "Please enter a roulette name"
+    }]
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Enter roulette name"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "description",
+    label: "Description"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Enter description"
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    title: "Wheel Slices",
+    style: {
+      marginBottom: 16
+    },
+    extra: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      type: "primary",
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+      onClick: handleSliceAdd
+    }, "Add Slice")
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].List, {
+    name: "slices"
+  }, (fields, {
+    add,
+    remove
+  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, fields.map((field, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    key: field.key,
+    size: "small",
+    title: `Slice ${index + 1}`,
+    style: {
+      marginBottom: 16
+    },
+    extra: fields.length > 1 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      type: "text",
+      danger: true,
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_10__["default"], null),
+      onClick: () => {
+        remove(field.name);
+        handleSliceRemove(index);
+      }
+    }) : null
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "option"],
+    label: "Slice Text",
+    rules: [{
+      required: true,
+      message: "Please enter slice text"
+    }]
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Enter slice text"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "style", "backgroundColor"],
+    label: "Background Color"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    },
+    presets: [{
+      label: "Recommended",
+      colors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"]
+    }]
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "style", "textColor"],
+    label: "Text Color"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    },
+    presets: [{
+      label: "Common",
+      colors: ["#ffffff", "#000000", "#333333", "#666666", "#999999", "#cccccc", "#ff0000", "#00ff00"]
+    }]
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    ghost: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Advanced Slice Settings",
+    key: "1"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "image", "uri"],
+    label: "Image URL"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Enter image URL"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "optionSize"],
+    label: "Option Size"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "couponId"],
+    label: "Coupon ID"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Coupon ID"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "image", "offsetX"],
+    label: "Image Offset X"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "image", "offsetY"],
+    label: "Image Offset Y"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "image", "sizeMultiplier"],
+    label: "Image Size"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0.1,
+    max: 5,
+    step: 0.1,
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 6
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "image", "landscape"],
+    label: "Landscape",
+    valuePropName: "checked"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], null)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "style", "fontFamily"],
+    label: "Font Family"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    placeholder: "Select font family"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Arial"
+  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Helvetica"
+  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Times New Roman"
+  }, "Times New Roman"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Georgia"
+  }, "Georgia"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Verdana"
+  }, "Verdana")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "style", "fontSize"],
+    label: "Font Size"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 8,
+    max: 48,
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: [field.name, "style", "fontWeight"],
+    label: "Font Weight"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    placeholder: "Select font weight"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 100
+  }, "100 - Thin"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 200
+  }, "200 - Extra Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 300
+  }, "300 - Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 400
+  }, "400 - Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 500
+  }, "500 - Medium"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 600
+  }, "600 - Semi Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 700
+  }, "700 - Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 800
+  }, "800 - Extra Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 900
+  }, "900 - Black")))))))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    title: "Wheel Configuration",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "prizeNumber",
+    label: "Prize Number",
+    rules: [{
+      required: true,
+      message: "Please enter prize number"
+    }]
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    placeholder: "Prize index",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "startingOptionIndex",
+    label: "Starting Option Index"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    placeholder: "Starting index",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "spinDuration",
+    label: "Spin Duration (ms)"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 1000,
+    max: 10000,
+    placeholder: "Duration",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "mustStartSpinning",
+    label: "Must Start Spinning",
+    valuePropName: "checked"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "disableInitialAnimation",
+    label: "Disable Initial Animation",
+    valuePropName: "checked"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], null))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    title: "Appearance Configuration",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_1__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Border Settings",
+    key: "borders"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "outerBorderColor",
+    label: "Outer Border Color"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "outerBorderWidth",
+    label: "Outer Border Width"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "innerRadius",
+    label: "Inner Radius"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    placeholder: "Radius in pixels",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "innerBorderColor",
+    label: "Inner Border Color"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "innerBorderWidth",
+    label: "Inner Border Width"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "radiusLineWidth",
+    label: "Radius Line Width"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 0,
+    max: 20,
+    placeholder: "Width in pixels",
+    style: {
+      width: "100%"
+    }
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 12
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "radiusLineColor",
+    label: "Radius Line Color"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    showText: true,
+    format: "hex",
+    style: {
+      width: "100%"
+    }
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Typography Settings",
+    key: "typography"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "fontFamily",
+    label: "Font Family"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    placeholder: "Select font family"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Arial"
+  }, "Arial"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Helvetica"
+  }, "Helvetica"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Times New Roman"
+  }, "Times New Roman"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Georgia"
+  }, "Georgia"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "Verdana"
+  }, "Verdana")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "fontSize",
+    label: "Font Size"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 8,
+    max: 48,
+    placeholder: "Size in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "fontWeight",
+    label: "Font Weight"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    placeholder: "Select font weight"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 100
+  }, "100 - Thin"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 200
+  }, "200 - Extra Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 300
+  }, "300 - Light"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 400
+  }, "400 - Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 500
+  }, "500 - Medium"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 600
+  }, "600 - Semi Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 700
+  }, "700 - Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 800
+  }, "800 - Extra Bold"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: 900
+  }, "900 - Black"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 16
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "fontStyle",
+    label: "Font Style"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    placeholder: "Select font style"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "normal"
+  }, "Normal"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "italic"
+  }, "Italic"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_14__["default"].Option, {
+    value: "oblique"
+  }, "Oblique")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "textDistance",
+    label: "Text Distance"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    min: 10,
+    max: 200,
+    placeholder: "Distance in pixels",
+    style: {
+      width: "100%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 8
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "perpendicularText",
+    label: "Perpendicular Text",
+    valuePropName: "checked"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_13__["default"], null))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Panel, {
+    header: "Pointer Settings",
+    key: "pointer"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
+    name: "pointerImageSource",
+    label: "Pointer Image URL"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    placeholder: "Enter pointer image URL",
+    style: {
+      width: "100%"
+    }
+  }))))));
+};
+CustomRouletteForm.propTypes = {
+  form: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().object).isRequired,
+  handleSubmit: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().func).isRequired,
+  handleFormValuesChange: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().func)
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteForm);
+
+/***/ }),
+
+/***/ "./src/admin/components/CustomRouletteManager.jsx":
+/*!********************************************************!*\
+  !*** ./src/admin/components/CustomRouletteManager.jsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/form/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/message/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var _CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteForm */ "./src/admin/components/CustomRouletteForm.jsx");
+/* harmony import */ var _Roulette_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Roulette/PreviewCustomRoulette */ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx");
+
+
+
+
+
+const CustomRouletteManager = () => {
+  const [form] = antd__WEBPACK_IMPORTED_MODULE_4__["default"].useForm();
+  const [formData, setFormData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
+  const [isSubmitting, setIsSubmitting] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const handleFormValuesChange = (changedValues, allValues) => {
+    setFormData(allValues);
+  };
+  const handleSubmit = async values => {
+    setIsSubmitting(true);
+    try {
+      // Make API call to save the roulette
+      const response = await fetch('/wp-json/stw/v1/roulette', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': window.stwAjax?.nonce || ''
+        },
+        body: JSON.stringify(values)
+      });
+      const result = await response.json();
+      if (response.ok && result.success) {
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success('Roulette saved successfully!');
+        // Optionally redirect or update the form with the returned data
+        console.log('Saved roulette:', result.data);
+      } else {
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].error(result.message || 'Failed to save roulette');
+      }
+    } catch (error) {
+      console.error('Error saving roulette:', error);
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error('An error occurred while saving the roulette');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      padding: '24px'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    gutter: 24
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    span: 14
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    title: "Roulette Configuration",
+    style: {
+      height: '100%'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    form: form,
+    handleSubmit: handleSubmit,
+    handleFormValuesChange: handleFormValuesChange
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      marginTop: 24,
+      textAlign: 'right'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    type: "primary",
+    onClick: () => form.submit(),
+    loading: isSubmitting,
+    size: "large"
+  }, "Save Roulette")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    span: 10
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    title: "Live Preview",
+    style: {
+      height: '100%'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Roulette_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    formData: formData
+  })))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteManager);
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.css":
+/*!*****************************************************************!*\
+  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.css ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx":
+/*!*****************************************************************!*\
+  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.jsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-custom-roulette */ "./node_modules/react-custom-roulette/dist/bundle.js");
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _PreviewCustomRoulette_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PreviewCustomRoulette.css */ "./src/admin/components/Roulette/PreviewCustomRoulette.css");
+
+
+
+
+
+
+const PreviewCustomRoulette = ({
+  formData = {}
+}) => {
+  const [mustSpin, setMustSpin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [prizeNumber, setPrizeNumber] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (formData?.slices && Array.isArray(formData.slices)) {
+      const data = formData.slices.map((slice, index) => ({
+        option: slice.option || `Item ${index + 1}`,
+        style: {
+          backgroundColor: slice.style?.backgroundColor || "#ff8f43",
+          textColor: slice.style?.textColor || "#ffffff"
+        }
+      }));
+      setWheelData(data);
+    }
+  }, [formData]);
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = Math.floor(Math.random() * wheelData.length);
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    }
+  };
+  if (!wheelData.length) {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      style: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, "Please add wheel slices to preview");
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "custom-roulette-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
+    mustStartSpinning: mustSpin,
+    prizeNumber: prizeNumber,
+    data: wheelData,
+    onStopSpinning: () => {
+      setMustSpin(false);
+    },
+    outerBorderColor: formData?.outerBorderColor || "#000000",
+    outerBorderWidth: formData?.outerBorderWidth || 5,
+    innerBorderColor: formData?.innerBorderColor || "#000000",
+    innerBorderWidth: formData?.innerBorderWidth || 3,
+    radiusLineColor: formData?.radiusLineColor || "#000000",
+    radiusLineWidth: formData?.radiusLineWidth || 2,
+    fontSize: formData?.fontSize || 16,
+    textDistance: formData?.textDistance || 60,
+    spinDuration: formData?.spinDuration || 1.0
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      marginTop: "20px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: handleSpinClick,
+    disabled: mustSpin,
+    style: {
+      padding: "10px 20px",
+      fontSize: "16px",
+      cursor: mustSpin ? "not-allowed" : "pointer",
+      backgroundColor: "#1890ff",
+      color: "white",
+      border: "none",
+      borderRadius: "4px"
+    }
+  }, mustSpin ? "Spinning..." : "SPIN")));
+};
+PreviewCustomRoulette.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+    slices: prop_types__WEBPACK_IMPORTED_MODULE_5___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+      option: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+      style: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+        backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+        textColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string)
+      })
+    })),
+    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number)
+  })
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewCustomRoulette);
 
 /***/ }),
 
@@ -1280,6 +2134,16 @@ const api = {
 
 /***/ }),
 
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -1297,16 +2161,6 @@ module.exports = window["React"];
 /***/ ((module) => {
 
 module.exports = window["ReactDOM"];
-
-/***/ }),
-
-/***/ "@wordpress/element":
-/*!*********************************!*\
-  !*** external ["wp","element"] ***!
-  \*********************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["element"];
 
 /***/ })
 

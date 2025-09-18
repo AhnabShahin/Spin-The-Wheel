@@ -1,4 +1,9 @@
 import {
+  PlusOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
+import {
   Form,
   Input,
   Select,
@@ -13,48 +18,45 @@ import {
   Card,
   Space,
   Upload,
-  message
+  message,
 } from "antd";
-import { PlusOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
 const { Panel } = Collapse;
 
-const CustomRouletteForm = ({
-  form,
-  handleSubmit,
-  handleFormValuesChange,
-}) => {
-
+const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
   const handleSliceAdd = () => {
-    const slices = form.getFieldValue('slices') || [];
-    const newSlices = [...slices, {
-      option: '',
-      image: {
-        uri: '',
-        offsetX: 0,
-        offsetY: 0,
-        sizeMultiplier: 1,
-        landscape: false
+    const slices = form.getFieldValue("slices") || [];
+    const newSlices = [
+      ...slices,
+      {
+        option: "",
+        image: {
+          uri: "",
+          offsetX: 0,
+          offsetY: 0,
+          sizeMultiplier: 1,
+          landscape: false,
+        },
+        style: {
+          backgroundColor: "#ff8f43",
+          textColor: "#ffffff",
+          fontFamily: "Arial",
+          fontSize: 16,
+          fontWeight: 400,
+          fontStyle: "normal",
+        },
+        optionSize: 1,
+        couponId: "",
       },
-      style: {
-        backgroundColor: '#ff8f43',
-        textColor: '#ffffff',
-        fontFamily: 'Arial',
-        fontSize: 16,
-        fontWeight: 400,
-        fontStyle: 'normal'
-      },
-      optionSize: 1,
-      couponId: ''
-    }];
+    ];
     form.setFieldsValue({ slices: newSlices });
   };
 
   const handleSliceRemove = (index) => {
-    const slices = form.getFieldValue('slices') || [];
+    const slices = form.getFieldValue("slices") || [];
     if (slices.length <= 1) {
-      message.warning('At least one slice is required');
+      message.warning("At least one slice is required");
       return;
     }
     const newSlices = slices.filter((_, i) => i !== index);
@@ -62,54 +64,56 @@ const CustomRouletteForm = ({
   };
 
   return (
-    <Form 
-      form={form} 
-      layout="vertical" 
+    <Form
+      form={form}
+      layout="vertical"
       onFinish={handleSubmit}
       onValuesChange={(changedValues, allValues) => {
-        if (typeof handleFormValuesChange === 'function') {
+        if (typeof handleFormValuesChange === "function") {
           handleFormValuesChange(changedValues, allValues);
         }
       }}
       initialValues={{
-        slices: [{
-          option: '',
-          image: {
-            uri: '',
-            offsetX: 0,
-            offsetY: 0,
-            sizeMultiplier: 1,
-            landscape: false
+        slices: [
+          {
+            option: "",
+            image: {
+              uri: "",
+              offsetX: 0,
+              offsetY: 0,
+              sizeMultiplier: 1,
+              landscape: false,
+            },
+            style: {
+              backgroundColor: "#ff8f43",
+              textColor: "#ffffff",
+              fontFamily: "Arial",
+              fontSize: 16,
+              fontWeight: 400,
+              fontStyle: "normal",
+            },
+            optionSize: 1,
+            couponId: "",
           },
-          style: {
-            backgroundColor: '#ff8f43',
-            textColor: '#ffffff',
-            fontFamily: 'Arial',
-            fontSize: 16,
-            fontWeight: 400,
-            fontStyle: 'normal'
-          },
-          optionSize: 1,
-          couponId: ''
-        }],
+        ],
         mustStartSpinning: false,
         prizeNumber: 0,
-        outerBorderColor: '#000000',
+        outerBorderColor: "#000000",
         outerBorderWidth: 5,
         innerRadius: 0,
-        innerBorderColor: '#000000',
+        innerBorderColor: "#000000",
         innerBorderWidth: 0,
-        radiusLineColor: '#000000',
+        radiusLineColor: "#000000",
         radiusLineWidth: 5,
-        fontFamily: 'Arial',
+        fontFamily: "Arial",
         fontSize: 20,
         fontWeight: 400,
-        fontStyle: 'normal',
+        fontStyle: "normal",
         perpendicularText: false,
         textDistance: 60,
         spinDuration: 1000,
         startingOptionIndex: 0,
-        disableInitialAnimation: false
+        disableInitialAnimation: false,
       }}
     >
       {/* Basic Information */}
@@ -119,7 +123,9 @@ const CustomRouletteForm = ({
             <Form.Item
               name="name"
               label="Roulette Name"
-              rules={[{ required: true, message: "Please enter a roulette name" }]}
+              rules={[
+                { required: true, message: "Please enter a roulette name" },
+              ]}
             >
               <Input placeholder="Enter roulette name" />
             </Form.Item>
@@ -133,13 +139,13 @@ const CustomRouletteForm = ({
       </Card>
 
       {/* Wheel Slices Configuration */}
-      <Card 
-        title="Wheel Slices" 
+      <Card
+        title="Wheel Slices"
         style={{ marginBottom: 16 }}
         extra={
-          <Button 
-            type="primary" 
-            icon={<PlusOutlined />} 
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
             onClick={handleSliceAdd}
           >
             Add Slice
@@ -172,16 +178,21 @@ const CustomRouletteForm = ({
                   <Row gutter={16}>
                     <Col span={8}>
                       <Form.Item
-                        name={[field.name, 'option']}
+                        name={[field.name, "option"]}
                         label="Slice Text"
-                        rules={[{ required: true, message: 'Please enter slice text' }]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please enter slice text",
+                          },
+                        ]}
                       >
                         <Input placeholder="Enter slice text" />
                       </Form.Item>
                     </Col>
                     <Col span={8}>
                       <Form.Item
-                        name={[field.name, 'style', 'backgroundColor']}
+                        name={[field.name, "style", "backgroundColor"]}
                         label="Background Color"
                       >
                         <ColorPicker
@@ -208,7 +219,7 @@ const CustomRouletteForm = ({
                     </Col>
                     <Col span={8}>
                       <Form.Item
-                        name={[field.name, 'style', 'textColor']}
+                        name={[field.name, "style", "textColor"]}
                         label="Text Color"
                       >
                         <ColorPicker
@@ -240,7 +251,7 @@ const CustomRouletteForm = ({
                       <Row gutter={16}>
                         <Col span={12}>
                           <Form.Item
-                            name={[field.name, 'image', 'uri']}
+                            name={[field.name, "image", "uri"]}
                             label="Image URL"
                           >
                             <Input placeholder="Enter image URL" />
@@ -248,7 +259,7 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'optionSize']}
+                            name={[field.name, "optionSize"]}
                             label="Option Size"
                           >
                             <InputNumber
@@ -261,7 +272,7 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'couponId']}
+                            name={[field.name, "couponId"]}
                             label="Coupon ID"
                           >
                             <Input placeholder="Coupon ID" />
@@ -272,7 +283,7 @@ const CustomRouletteForm = ({
                       <Row gutter={16}>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'image', 'offsetX']}
+                            name={[field.name, "image", "offsetX"]}
                             label="Image Offset X"
                           >
                             <InputNumber style={{ width: "100%" }} />
@@ -280,7 +291,7 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'image', 'offsetY']}
+                            name={[field.name, "image", "offsetY"]}
                             label="Image Offset Y"
                           >
                             <InputNumber style={{ width: "100%" }} />
@@ -288,7 +299,7 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'image', 'sizeMultiplier']}
+                            name={[field.name, "image", "sizeMultiplier"]}
                             label="Image Size"
                           >
                             <InputNumber
@@ -301,7 +312,7 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={6}>
                           <Form.Item
-                            name={[field.name, 'image', 'landscape']}
+                            name={[field.name, "image", "landscape"]}
                             label="Landscape"
                             valuePropName="checked"
                           >
@@ -313,21 +324,29 @@ const CustomRouletteForm = ({
                       <Row gutter={16}>
                         <Col span={8}>
                           <Form.Item
-                            name={[field.name, 'style', 'fontFamily']}
+                            name={[field.name, "style", "fontFamily"]}
                             label="Font Family"
                           >
                             <Select placeholder="Select font family">
                               <Select.Option value="Arial">Arial</Select.Option>
-                              <Select.Option value="Helvetica">Helvetica</Select.Option>
-                              <Select.Option value="Times New Roman">Times New Roman</Select.Option>
-                              <Select.Option value="Georgia">Georgia</Select.Option>
-                              <Select.Option value="Verdana">Verdana</Select.Option>
+                              <Select.Option value="Helvetica">
+                                Helvetica
+                              </Select.Option>
+                              <Select.Option value="Times New Roman">
+                                Times New Roman
+                              </Select.Option>
+                              <Select.Option value="Georgia">
+                                Georgia
+                              </Select.Option>
+                              <Select.Option value="Verdana">
+                                Verdana
+                              </Select.Option>
                             </Select>
                           </Form.Item>
                         </Col>
                         <Col span={8}>
                           <Form.Item
-                            name={[field.name, 'style', 'fontSize']}
+                            name={[field.name, "style", "fontSize"]}
                             label="Font Size"
                           >
                             <InputNumber
@@ -339,19 +358,37 @@ const CustomRouletteForm = ({
                         </Col>
                         <Col span={8}>
                           <Form.Item
-                            name={[field.name, 'style', 'fontWeight']}
+                            name={[field.name, "style", "fontWeight"]}
                             label="Font Weight"
                           >
                             <Select placeholder="Select font weight">
-                              <Select.Option value={100}>100 - Thin</Select.Option>
-                              <Select.Option value={200}>200 - Extra Light</Select.Option>
-                              <Select.Option value={300}>300 - Light</Select.Option>
-                              <Select.Option value={400}>400 - Normal</Select.Option>
-                              <Select.Option value={500}>500 - Medium</Select.Option>
-                              <Select.Option value={600}>600 - Semi Bold</Select.Option>
-                              <Select.Option value={700}>700 - Bold</Select.Option>
-                              <Select.Option value={800}>800 - Extra Bold</Select.Option>
-                              <Select.Option value={900}>900 - Black</Select.Option>
+                              <Select.Option value={100}>
+                                100 - Thin
+                              </Select.Option>
+                              <Select.Option value={200}>
+                                200 - Extra Light
+                              </Select.Option>
+                              <Select.Option value={300}>
+                                300 - Light
+                              </Select.Option>
+                              <Select.Option value={400}>
+                                400 - Normal
+                              </Select.Option>
+                              <Select.Option value={500}>
+                                500 - Medium
+                              </Select.Option>
+                              <Select.Option value={600}>
+                                600 - Semi Bold
+                              </Select.Option>
+                              <Select.Option value={700}>
+                                700 - Bold
+                              </Select.Option>
+                              <Select.Option value={800}>
+                                800 - Extra Bold
+                              </Select.Option>
+                              <Select.Option value={900}>
+                                900 - Black
+                              </Select.Option>
                             </Select>
                           </Form.Item>
                         </Col>
@@ -372,9 +409,7 @@ const CustomRouletteForm = ({
             <Form.Item
               name="prizeNumber"
               label="Prize Number"
-              rules={[
-                { required: true, message: "Please enter prize number" },
-              ]}
+              rules={[{ required: true, message: "Please enter prize number" }]}
             >
               <InputNumber
                 min={0}
@@ -384,10 +419,7 @@ const CustomRouletteForm = ({
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item
-              name="startingOptionIndex"
-              label="Starting Option Index"
-            >
+            <Form.Item name="startingOptionIndex" label="Starting Option Index">
               <InputNumber
                 min={0}
                 placeholder="Starting index"
@@ -396,10 +428,7 @@ const CustomRouletteForm = ({
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item
-              name="spinDuration"
-              label="Spin Duration (ms)"
-            >
+            <Form.Item name="spinDuration" label="Spin Duration (ms)">
               <InputNumber
                 min={1000}
                 max={10000}
@@ -438,10 +467,7 @@ const CustomRouletteForm = ({
           <Panel header="Border Settings" key="borders">
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item
-                  name="outerBorderColor"
-                  label="Outer Border Color"
-                >
+                <Form.Item name="outerBorderColor" label="Outer Border Color">
                   <ColorPicker
                     showText
                     format="hex"
@@ -450,10 +476,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="outerBorderWidth"
-                  label="Outer Border Width"
-                >
+                <Form.Item name="outerBorderWidth" label="Outer Border Width">
                   <InputNumber
                     min={0}
                     max={20}
@@ -463,10 +486,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="innerRadius"
-                  label="Inner Radius"
-                >
+                <Form.Item name="innerRadius" label="Inner Radius">
                   <InputNumber
                     min={0}
                     placeholder="Radius in pixels"
@@ -478,10 +498,7 @@ const CustomRouletteForm = ({
 
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item
-                  name="innerBorderColor"
-                  label="Inner Border Color"
-                >
+                <Form.Item name="innerBorderColor" label="Inner Border Color">
                   <ColorPicker
                     showText
                     format="hex"
@@ -490,10 +507,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="innerBorderWidth"
-                  label="Inner Border Width"
-                >
+                <Form.Item name="innerBorderWidth" label="Inner Border Width">
                   <InputNumber
                     min={0}
                     max={20}
@@ -503,10 +517,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="radiusLineWidth"
-                  label="Radius Line Width"
-                >
+                <Form.Item name="radiusLineWidth" label="Radius Line Width">
                   <InputNumber
                     min={0}
                     max={20}
@@ -519,10 +530,7 @@ const CustomRouletteForm = ({
 
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item
-                  name="radiusLineColor"
-                  label="Radius Line Color"
-                >
+                <Form.Item name="radiusLineColor" label="Radius Line Color">
                   <ColorPicker
                     showText
                     format="hex"
@@ -536,24 +544,20 @@ const CustomRouletteForm = ({
           <Panel header="Typography Settings" key="typography">
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item
-                  name="fontFamily"
-                  label="Font Family"
-                >
+                <Form.Item name="fontFamily" label="Font Family">
                   <Select placeholder="Select font family">
                     <Select.Option value="Arial">Arial</Select.Option>
                     <Select.Option value="Helvetica">Helvetica</Select.Option>
-                    <Select.Option value="Times New Roman">Times New Roman</Select.Option>
+                    <Select.Option value="Times New Roman">
+                      Times New Roman
+                    </Select.Option>
                     <Select.Option value="Georgia">Georgia</Select.Option>
                     <Select.Option value="Verdana">Verdana</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="fontSize"
-                  label="Font Size"
-                >
+                <Form.Item name="fontSize" label="Font Size">
                   <InputNumber
                     min={8}
                     max={48}
@@ -563,10 +567,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="fontWeight"
-                  label="Font Weight"
-                >
+                <Form.Item name="fontWeight" label="Font Weight">
                   <Select placeholder="Select font weight">
                     <Select.Option value={100}>100 - Thin</Select.Option>
                     <Select.Option value={200}>200 - Extra Light</Select.Option>
@@ -584,10 +585,7 @@ const CustomRouletteForm = ({
 
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item
-                  name="fontStyle"
-                  label="Font Style"
-                >
+                <Form.Item name="fontStyle" label="Font Style">
                   <Select placeholder="Select font style">
                     <Select.Option value="normal">Normal</Select.Option>
                     <Select.Option value="italic">Italic</Select.Option>
@@ -596,10 +594,7 @@ const CustomRouletteForm = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item
-                  name="textDistance"
-                  label="Text Distance"
-                >
+                <Form.Item name="textDistance" label="Text Distance">
                   <InputNumber
                     min={10}
                     max={200}
@@ -621,10 +616,7 @@ const CustomRouletteForm = ({
           </Panel>
 
           <Panel header="Pointer Settings" key="pointer">
-            <Form.Item
-              name="pointerImageSource"
-              label="Pointer Image URL"
-            >
+            <Form.Item name="pointerImageSource" label="Pointer Image URL">
               <Input
                 placeholder="Enter pointer image URL"
                 style={{ width: "100%" }}

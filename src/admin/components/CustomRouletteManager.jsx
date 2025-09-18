@@ -1,7 +1,8 @@
 import { useState, useEffect } from "@wordpress/element";
 import { Form, Row, Col, Button, Card, message } from "antd";
+
 import CustomRouletteForm from "./CustomRouletteForm";
-import CustomRoulette from "./Roulette/CustomRoulette";
+import PreviewCustomRoulette from "./Roulette/PreviewCustomRoulette";
 
 const CustomRouletteManager = () => {
   const [form] = Form.useForm();
@@ -69,7 +70,7 @@ const CustomRouletteManager = () => {
         
         <Col span={10}>
           <Card title="Live Preview" style={{ height: '100%' }}>
-            <CustomRoulette formData={formData} />
+            <PreviewCustomRoulette formData={formData} />
           </Card>
         </Col>
       </Row>
