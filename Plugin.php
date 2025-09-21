@@ -109,9 +109,9 @@ final class Plugin
         $this->components['custom_roulette_api'] = new CustomRouletteApi();
         
         // Migration component
-        if (is_admin()) {
+        // if (is_admin()) {
             $this->components['migration_admin'] = new CustomRouletteMigrationAdmin();
-        }
+        // }
 
         // Hook for adding custom components
         $this->components = apply_filters('stw_plugin_components', $this->components);
@@ -181,7 +181,10 @@ final class Plugin
      */
     public function init_rest_api()
     {
-        // REST API initialization is handled by individual API classes
+        // Initialize the CustomRouletteApi REST routes
+        if (isset($this->components['custom_roulette_api'])) {
+            $this->components['custom_roulette_api']->init();
+        }
     }
 
     /**

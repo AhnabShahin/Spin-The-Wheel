@@ -27,8 +27,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/menu/index.js");
-/* harmony import */ var _CustomRouletteManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteManager */ "./src/admin/components/CustomRouletteManager.jsx");
-/* harmony import */ var _SettingsManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SettingsManager */ "./src/admin/components/SettingsManager.jsx");
+/* harmony import */ var _Roulette_CustomRouletteList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Roulette/CustomRouletteList */ "./src/admin/components/Roulette/CustomRouletteList.jsx");
+/* harmony import */ var _Settings_SettingsManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Settings/SettingsManager */ "./src/admin/components/Settings/SettingsManager.jsx");
 /* harmony import */ var _WheelDataManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WheelDataManager */ "./src/admin/components/WheelDataManager.jsx");
 
 
@@ -100,11 +100,11 @@ const AdminApp = () => {
   const renderContent = () => {
     switch (currentTab) {
       case 'themes':
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteManager__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Roulette_CustomRouletteList__WEBPACK_IMPORTED_MODULE_2__["default"], null);
       case 'wheels':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_WheelDataManager__WEBPACK_IMPORTED_MODULE_4__["default"], null);
       case 'settings':
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SettingsManager__WEBPACK_IMPORTED_MODULE_3__["default"], null);
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings_SettingsManager__WEBPACK_IMPORTED_MODULE_3__["default"], null);
       case 'analytics':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
           level: 3
@@ -230,10 +230,10 @@ const AdminApp = () => {
 
 /***/ }),
 
-/***/ "./src/admin/components/CustomRouletteForm.jsx":
-/*!*****************************************************!*\
-  !*** ./src/admin/components/CustomRouletteForm.jsx ***!
-  \*****************************************************/
+/***/ "./src/admin/components/Roulette/CustomRouletteForm.jsx":
+/*!**************************************************************!*\
+  !*** ./src/admin/components/Roulette/CustomRouletteForm.jsx ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -848,10 +848,198 @@ CustomRouletteForm.propTypes = {
 
 /***/ }),
 
-/***/ "./src/admin/components/CustomRouletteManager.jsx":
-/*!********************************************************!*\
-  !*** ./src/admin/components/CustomRouletteManager.jsx ***!
-  \********************************************************/
+/***/ "./src/admin/components/Roulette/CustomRouletteList.jsx":
+/*!**************************************************************!*\
+  !*** ./src/admin/components/Roulette/CustomRouletteList.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/EditOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/DeleteOutlined.js");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/PlusOutlined.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/typography/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/notification/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/table/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/drawer/index.js");
+/* harmony import */ var _CustomRouletteManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomRouletteManager */ "./src/admin/components/Roulette/CustomRouletteManager.jsx");
+
+
+
+
+
+
+// Enhanced UI/UX with Drawer for full-screen editing
+
+const {
+  Title
+} = antd__WEBPACK_IMPORTED_MODULE_2__["default"];
+const CustomRouletteList = () => {
+  const [roulettes, setRoulettes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isDrawerVisible, setIsDrawerVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [selectedRoulette, setSelectedRoulette] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    fetchRoulettes();
+  }, []);
+  const fetchRoulettes = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/roulettes');
+      const data = await response.json();
+      setRoulettes(data);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleCreate = () => {
+    setSelectedRoulette(null);
+    setIsDrawerVisible(true);
+  };
+  const handleEdit = roulette => {
+    setSelectedRoulette(roulette);
+    setIsDrawerVisible(true);
+  };
+  const handleDelete = id => {
+    Modal.confirm({
+      title: 'Are you sure you want to delete this roulette?',
+      onOk: async () => {
+        try {
+          await fetch(`/api/roulettes/${id}`, {
+            method: 'DELETE'
+          });
+          antd__WEBPACK_IMPORTED_MODULE_3__["default"].success({
+            message: 'Deleted',
+            description: 'Roulette deleted successfully.'
+          });
+          fetchRoulettes();
+        } catch {
+          antd__WEBPACK_IMPORTED_MODULE_3__["default"].error({
+            message: 'Error',
+            description: 'Failed to delete roulette.'
+          });
+        }
+      }
+    });
+  };
+  const handleSave = async newRoulette => {
+    try {
+      if (selectedRoulette) {
+        // Update existing roulette
+        await fetch(`/api/roulettes/${selectedRoulette.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newRoulette)
+        });
+        antd__WEBPACK_IMPORTED_MODULE_3__["default"].success({
+          message: 'Updated',
+          description: 'Roulette updated successfully.'
+        });
+      } else {
+        // Add new roulette
+        await fetch('/api/roulettes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newRoulette)
+        });
+        antd__WEBPACK_IMPORTED_MODULE_3__["default"].success({
+          message: 'Created',
+          description: 'Roulette created successfully.'
+        });
+      }
+      fetchRoulettes();
+      setIsDrawerVisible(false);
+    } catch {
+      antd__WEBPACK_IMPORTED_MODULE_3__["default"].error({
+        message: 'Error',
+        description: 'Failed to save roulette.'
+      });
+    }
+  };
+  const columns = [{
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name'
+  }, {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description'
+  }, {
+    title: 'Actions',
+    key: 'actions',
+    render: (_, record) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_6__["default"], null),
+      onClick: () => handleEdit(record)
+    }, "Edit"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+      danger: true,
+      onClick: () => handleDelete(record.id)
+    }, "Delete"))
+  }];
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      padding: 24,
+      background: '#fff',
+      borderRadius: 8,
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    justify: "space-between",
+    align: "middle",
+    style: {
+      marginBottom: 16
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Title, {
+    level: 3,
+    style: {
+      margin: 0
+    }
+  }, "Custom Roulette List")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    type: "primary",
+    icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_10__["default"], null),
+    onClick: handleCreate
+  }, "Create New Roulette"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    columns: columns,
+    dataSource: roulettes,
+    rowKey: "id",
+    loading: loading,
+    pagination: {
+      pageSize: 10
+    },
+    bordered: true
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    title: selectedRoulette ? 'Edit Roulette' : 'Create Roulette',
+    visible: isDrawerVisible,
+    onClose: () => setIsDrawerVisible(false),
+    width: "100%",
+    zIndex: 99999 // Ensures the drawer is always on top
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteManager__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    roulette: selectedRoulette,
+    onSave: handleSave,
+    onCancel: () => setIsDrawerVisible(false)
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteList);
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/CustomRouletteManager.jsx":
+/*!*****************************************************************!*\
+  !*** ./src/admin/components/Roulette/CustomRouletteManager.jsx ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -868,8 +1056,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
-/* harmony import */ var _CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteForm */ "./src/admin/components/CustomRouletteForm.jsx");
-/* harmony import */ var _Roulette_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Roulette/PreviewCustomRoulette */ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx");
+/* harmony import */ var _CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteForm */ "./src/admin/components/Roulette/CustomRouletteForm.jsx");
+/* harmony import */ var _PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PreviewCustomRoulette */ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx");
 
 
 
@@ -943,7 +1131,7 @@ const CustomRouletteManager = () => {
     style: {
       height: '100%'
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Roulette_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__["default"], {
     formData: formData
   })))));
 };
@@ -1084,10 +1272,10 @@ PreviewCustomRoulette.propTypes = {
 
 /***/ }),
 
-/***/ "./src/admin/components/SettingsManager.jsx":
-/*!**************************************************!*\
-  !*** ./src/admin/components/SettingsManager.jsx ***!
-  \**************************************************/
+/***/ "./src/admin/components/Settings/SettingsManager.jsx":
+/*!***********************************************************!*\
+  !*** ./src/admin/components/Settings/SettingsManager.jsx ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1109,7 +1297,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/switch/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/space/index.js");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/button/index.js");
-/* harmony import */ var _shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/providers/ApiProvider */ "./src/shared/providers/ApiProvider.jsx");
+/* harmony import */ var _shared_providers_ApiProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../shared/providers/ApiProvider */ "./src/shared/providers/ApiProvider.jsx");
 
 
 
@@ -1856,122 +2044,6 @@ if (container) {
 
 /***/ }),
 
-/***/ "./src/shared/components/ErrorBoundary.jsx":
-/*!*************************************************!*\
-  !*** ./src/shared/components/ErrorBoundary.jsx ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ErrorBoundary: () => (/* binding */ ErrorBoundary)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-/**
- * Error Boundary Component
- * Catches JavaScript errors and displays fallback UI
- */
-class ErrorBoundary extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-      errorInfo: null
-    };
-  }
-  static getDerivedStateFromError(error) {
-    return {
-      hasError: true
-    };
-  }
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo
-    });
-
-    // Log error to console in development
-    if (true) {
-      console.error('STW Error Boundary caught an error:', error, errorInfo);
-    }
-
-    // Send error to analytics if available
-    if (window.stwData?.config?.enable_error_tracking) {
-      this.logError(error, errorInfo);
-    }
-  }
-  logError = async (error, errorInfo) => {
-    try {
-      const errorData = {
-        message: error.message,
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent
-      };
-
-      // Send to WordPress REST API
-      await fetch(`${window.stwData?.rest_url}stw/v1/error-log`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': window.stwData?.rest_nonce
-        },
-        body: JSON.stringify(errorData)
-      });
-    } catch (logError) {
-      console.error('Failed to log error:', logError);
-    }
-  };
-  handleRetry = () => {
-    this.setState({
-      hasError: false,
-      error: null,
-      errorInfo: null
-    });
-  };
-  render() {
-    if (this.state.hasError) {
-      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-        className: "stw-error-boundary"
-      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-        className: "stw-error-content"
-      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Oops! Something went wrong"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "We're sorry, but something unexpected happened. Please try refreshing the page or contact support if the problem persists."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-        className: "stw-error-actions"
-      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-        onClick: this.handleRetry,
-        className: "button button-primary"
-      }, "Try Again"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-        onClick: () => window.location.reload(),
-        className: "button"
-      }, "Refresh Page")),  true && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("details", {
-        className: "stw-error-details"
-      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("summary", null, "Error Details (Development)"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("pre", null, this.state.error && this.state.error.toString()), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("pre", null, this.state.errorInfo.componentStack))));
-    }
-    return this.props.children;
-  }
-}
-
-/***/ }),
-
-/***/ "./src/shared/config/themeConfig.json":
-/*!********************************************!*\
-  !*** ./src/shared/config/themeConfig.json ***!
-  \********************************************/
-/***/ ((module) => {
-
-module.exports = /*#__PURE__*/JSON.parse('{"token":{"colorPrimary":"#5148ea","colorSuccess":"#4bc210","colorWarning":"#fdaa08","colorError":"#fc4143","colorTextBase":"#191822","fontSizeHeading1":40,"lineHeightHeading1":1.15,"fontSizeHeading2":28,"fontSizeHeading3":20,"fontSizeHeading4":16,"fontSizeHeading5":14,"lineHeightHeading2":1.24,"lineHeightHeading3":1.4,"lineHeightHeading4":1.5,"lineHeightHeading5":1.571,"lineHeight":1.414,"wireframe":false,"colorTextSecondary":"rgba(87, 87, 90, 1)","fontFamily":"\'Inter\', sans-serif;","colorPrimaryHover":"#625aec","colorInfo":"#5148ea","colorPrimaryActive":"#625aec"},"components":{"Typography":{"fontFamilyCode":"\'Inter\';"},"Message":{"zIndexPopup":9999999},"Avatar":{"groupBorderColor":"#BFBFBF"},"Button":{"colorTextDisabled":"rgb(208,213,221)","colorBgContainerDisabled":"rgb(255,255,255)","borderColorDisabled":"rgb(234,236,240)","paddingInline":24,"paddingInlineLG":24,"primaryShadow":"none","defaultShadow":"none"},"Radio":{"wireframe":true,"radioSize":20,"fontSize":16,"fontSizeLG":18,"fontFamily":"Inter","colorText":"rgb(52,64,84)","borderRadius":8,"buttonSolidCheckedBg":"rgb(244,238,255)","buttonSolidCheckedColor":"rgb(81,72,234)","buttonSolidCheckedHoverBg":"rgba(244,238,255,0.71)","buttonSolidCheckedActiveBg":"rgb(244,238,255)","buttonBg":"rgb(243,243,243)","buttonColor":"rgb(100,116,139)"},"Select":{"controlItemBgActive":"#F4F4F7","colorBorder":"#D9D9D9","colorIcon":"#263043","controlPaddingHorizontalSM":8,"controlOutlineWidth":2,"controlPaddingHorizontal":24,"lineWidth":1,"fontFamily":"\'Inter\'","multipleItemBg":"rgba(255,255,255,0)","fontSize":16,"multipleItemBorderColor":"rgb(208,213,221)","borderRadius":8,"colorTextPlaceholder":"rgb(146,157,178)"},"Input":{"fontFamily":"Inter","colorBgContainer":"transparent","hoverBorderColor":"rgb(81, 72, 234)","activeShadow":"0px 1px 2px 0px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #ECEBFF","colorBorder":"rgb(208,213,221)","colorTextPlaceholder":"rgb(146,157,178)","inputFontSizeSM":12,"paddingInline":12,"paddingInlineLG":12,"borderRadius":8},"InputNumber":{"fontFamily":"Inter","borderRadius":8,"inputFontSizeSM":12},"Checkbox":{"controlInteractiveSize":20,"fontFamily":"Inter","fontSize":16,"fontSizeLG":18,"colorText":"rgb(52,64,84)"},"Tabs":{"titleFontSize":12,"titleFontSizeSM":10,"titleFontSizeLG":14,"inkBarColor":"#5148EA","horizontalMargin":"0 0 24px 0","horizontalItemGutter":30,"horizontalItemMargin":"","horizontalItemPadding":"20px 0","verticalItemMargin":"16px 0 0 0","verticalItemPadding":"8px 24px","itemSelectedColor":"#5148EA","itemColor":"#191822","itemHoverColor":"#5148EA","borderRadius":4,"colorBgContainer":"#ffffff"},"Breadcrumb":{"itemColor":"rgba(147, 147, 151, 1)","lastItemColor":"rgba(25, 24, 34, 1)"},"Tag":{"marginXS":0},"Form":{"layout":"vertical","fontFamily":"\'Inter\', sans-serif;","screenXSMax":320,"verticalLabelPadding":"0 0 2px","itemMarginBottom":10},"Slider":{"trackBg":"rgb(81, 72, 234)","handleColor":"rgb(81, 72, 234)","handleActiveColor":"rgb(98, 90, 236)","trackHoverBg":"rgb(98, 90, 236)","dotActiveBorderColor":"rgb(98, 90, 236)","colorPrimaryBorderHover":"rgb(98, 90, 236)"},"Menu":{"fontSize":14,"itemSelectedBg":"#5148EA","itemSelectedColor":"#5148EA","motionDurationSlow":"0","itemHoverBg":"rgb(244, 244, 247)","itemActiveBg":"rgb(244, 244, 247)","itemBorderRadius":4,"borderRadius":4,"lineWidth":1,"iconMarginInlineEnd":9,"subMenuItemBg":"rgb(255, 255, 255)","groupTitleColor":"rgba(0, 0, 0, 0.65)","itemMarginBlock":2},"Drawer":{"colorBgMask":"rgba(16, 16, 22, 0.4)","zIndexPopup":2040},"Collapse":{"motionDurationMid":"0.4s","headerBg":"rgb(239,242,252)"},"Pagination":{"colorText":"rgb(25, 24, 34)","borderRadius":74,"colorPrimaryHover":"rgb(255, 255, 255)","fontWeightStrong":500,"colorTextDisabled":"rgb(185, 185, 188)","itemActiveBg":"rgb(81,72,234)","itemBg":"rgba(230,52,52,0)","colorPrimary":"rgb(255,255,255)","borderRadiusLG":74,"borderRadiusSM":74,"fontSize":12,"controlHeight":24},"Upload":{"motionDurationSlow":"0"},"Divider":{"colorSplit":"rgb(229, 229, 234)","margin":0,"marginLG":0,"marginXS":0},"Tooltip":{"zIndexPopupBase":9999999,"motionDurationFast":"0.3s"},"Switch":{"colorTextQuaternary":"rgb(201, 199, 216)","colorTextTertiary":"rgb(186, 185, 197)"},"Notification":{"zIndexPopup":99999,"placement":"bottomRight","duration":4.5},"Modal":{"zIndexPopupBase":9999,"colorBgMask":"rgba(0, 0, 0, 0.85)"},"Table":{"headerBg":"#EEF2FE","headerSortActiveBg":"rgb(247,247,247)","colorText":"rgb(25,24,34)","borderColor":"#DCE1F0","borderRadius":16,"headerBorderRadius":16},"Segmented":{"borderRadius":4,"itemSelectedBg":"#57575A","itemSelectedColor":"#FFFFFF","trackBg":"#F7F7FA !important","fontSize":15,"fontFamily":"Roboto","itemColor":"#57575A"},"DatePicker":{"fontSize":16,"colorTextPlaceholder":"rgb(146,157,178)","fontWeightStrong":400,"inputFontSizeSM":12,"borderRadius":8}}}');
-
-/***/ }),
-
 /***/ "./src/shared/providers/ApiProvider.jsx":
 /*!**********************************************!*\
   !*** ./src/shared/providers/ApiProvider.jsx ***!
@@ -2005,57 +2077,6 @@ const useApi = () => {
   const context = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useContext)(ApiContext);
   if (!context) {
     throw new Error('useApi must be used within ApiProvider');
-  }
-  return context;
-};
-
-/***/ }),
-
-/***/ "./src/shared/providers/LoadingProvider.jsx":
-/*!**************************************************!*\
-  !*** ./src/shared/providers/LoadingProvider.jsx ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   LoadingProvider: () => (/* binding */ LoadingProvider),
-/* harmony export */   useLoading: () => (/* binding */ useLoading)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-// Loading Context
-const LoadingContext = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createContext)();
-const LoadingProvider = ({
-  children
-}) => {
-  const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const [loadingText, setLoadingText] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('Loading...');
-  const showLoading = (text = 'Loading...') => {
-    setLoadingText(text);
-    setLoading(true);
-  };
-  const hideLoading = () => {
-    setLoading(false);
-  };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingContext.Provider, {
-    value: {
-      loading,
-      loadingText,
-      showLoading,
-      hideLoading
-    }
-  }, children);
-};
-const useLoading = () => {
-  const context = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useContext)(LoadingContext);
-  if (!context) {
-    throw new Error('useLoading must be used within LoadingProvider');
   }
   return context;
 };
@@ -2521,7 +2542,7 @@ module.exports = window["ReactDOM"];
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors"], () => (__webpack_require__("./src/admin/index.jsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors","shared"], () => (__webpack_require__("./src/admin/index.jsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

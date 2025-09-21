@@ -2,7 +2,7 @@ import { useState, useEffect } from "@wordpress/element";
 import { Form, Row, Col, Button, Card, message } from "antd";
 
 import CustomRouletteForm from "./CustomRouletteForm";
-import PreviewCustomRoulette from "./Roulette/PreviewCustomRoulette";
+import PreviewCustomRoulette from "./PreviewCustomRoulette";
 
 const CustomRouletteManager = () => {
   const [form] = Form.useForm();

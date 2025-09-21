@@ -5,7 +5,7 @@ module.exports = {
   ...defaultConfig,
   entry: {
     index: path.resolve(__dirname, 'src/admin/index.jsx'),
-    user: path.resolve(__dirname, 'src/frontend/index.jsx')
+    user: path.resolve(__dirname, 'src/user/index.jsx')
   },
   output: {
     path: path.resolve(__dirname, 'ui-resources'),
@@ -19,7 +19,7 @@ module.exports = {
       '@': path.resolve(__dirname, 'src'),
       '@shared': path.resolve(__dirname, 'src/shared'),
       '@admin': path.resolve(__dirname, 'src/admin'),
-      '@frontend': path.resolve(__dirname, 'src/frontend')
+      '@user': path.resolve(__dirname, 'src/user')
     }
   },
   module: {

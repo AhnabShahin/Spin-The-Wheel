@@ -23,7 +23,10 @@ abstract class RestAPI
         $this->init();
     }
 
-    protected function init(): void
+    /**
+     * Initialize the REST API (make this method public for external access)
+     */
+    public function init(): void
     {
         if (is_null($this->apiBasePrefix)) {
             $this->addResponseMessage('error', 'API prefix is not set.');

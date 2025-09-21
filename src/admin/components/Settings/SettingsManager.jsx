@@ -14,7 +14,7 @@ import {
     Select
 } from 'antd';
 
-import { useApi } from '../../shared/providers/ApiProvider';
+import { useApi } from '../../../shared/providers/ApiProvider';
 
 const { Title, Text } = Typography;
 
