@@ -69,9 +69,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
       layout="vertical"
       onFinish={handleSubmit}
       onValuesChange={(changedValues, allValues) => {
-        if (typeof handleFormValuesChange === "function") {
           handleFormValuesChange(changedValues, allValues);
-        }
       }}
       initialValues={{
         slices: [

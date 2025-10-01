@@ -312,9 +312,7 @@ const CustomRouletteForm = ({
     layout: "vertical",
     onFinish: handleSubmit,
     onValuesChange: (changedValues, allValues) => {
-      if (typeof handleFormValuesChange === "function") {
-        handleFormValuesChange(changedValues, allValues);
-      }
+      handleFormValuesChange(changedValues, allValues);
     },
     initialValues: {
       slices: [{
@@ -1074,32 +1072,31 @@ const CustomRouletteManager = () => {
     setIsSubmitting(true);
     try {
       // Make API call to save the roulette
-      const response = await fetch('/wp-json/stw/v1/roulette', {
-        method: 'POST',
+      const response = await fetch("/wp-json/stw/v1/roulette", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': window.stwAjax?.nonce || ''
+          "Content-Type": "application/json",
+          "X-WP-Nonce": window.stwAjax?.nonce || ""
         },
         body: JSON.stringify(values)
       });
       const result = await response.json();
       if (response.ok && result.success) {
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success('Roulette saved successfully!');
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].success("Roulette saved successfully!");
         // Optionally redirect or update the form with the returned data
-        console.log('Saved roulette:', result.data);
       } else {
-        antd__WEBPACK_IMPORTED_MODULE_5__["default"].error(result.message || 'Failed to save roulette');
+        antd__WEBPACK_IMPORTED_MODULE_5__["default"].error(result.message || "Failed to save roulette");
       }
     } catch (error) {
-      console.error('Error saving roulette:', error);
-      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error('An error occurred while saving the roulette');
+      console.error("Error saving roulette:", error);
+      antd__WEBPACK_IMPORTED_MODULE_5__["default"].error("An error occurred while saving the roulette");
     } finally {
       setIsSubmitting(false);
     }
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      padding: '24px'
+      padding: "24px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     gutter: 24
@@ -1108,7 +1105,7 @@ const CustomRouletteManager = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     title: "Roulette Configuration",
     style: {
-      height: '100%'
+      height: "100%"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
     form: form,
@@ -1117,7 +1114,7 @@ const CustomRouletteManager = () => {
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       marginTop: 24,
-      textAlign: 'right'
+      textAlign: "right"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_9__["default"], {
     type: "primary",
@@ -1129,7 +1126,7 @@ const CustomRouletteManager = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
     title: "Live Preview",
     style: {
-      height: '100%'
+      height: "100%"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__["default"], {
     formData: formData

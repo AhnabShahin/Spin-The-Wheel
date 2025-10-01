@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 import { Card } from "antd";
 import PropTypes from 'prop-types';
 import { Wheel } from "react-custom-roulette";
@@ -7,30 +7,16 @@ import "./PreviewCustomRoulette.css";
 const PreviewCustomRoulette = ({ formData = {} }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
-  const [wheelData, setWheelData] = useState([]);
-
-  useEffect(() => {
-    if (formData?.slices && Array.isArray(formData.slices)) {
-      const data = formData.slices.map((slice, index) => ({
-        option: slice.option || `Item ${index + 1}`,
-        style: {
-          backgroundColor: slice.style?.backgroundColor || "#ff8f43",
-          textColor: slice.style?.textColor || "#ffffff",
-        },
-      }));
-      setWheelData(data);
-    }
-  }, [formData]);
 
   const handleSpinClick = () => {
     if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * wheelData.length);
+      const newPrizeNumber = Math.floor(Math.random() * (formData?.slices?.length || 0));
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
     }
   };
 
-  if (!wheelData.length) {
+  if (!formData?.slices?.length) {
     return (
       <Card style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
         Please add wheel slices to preview
@@ -43,7 +29,7 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
-        data={wheelData}
+        data={formData?.slices ?? []}
         onStopSpinning={() => {
           setMustSpin(false);
         }}
