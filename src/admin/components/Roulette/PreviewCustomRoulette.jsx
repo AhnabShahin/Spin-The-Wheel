@@ -1,5 +1,4 @@
 import { useState } from "@wordpress/element";
-import { Card } from "antd";
 import PropTypes from 'prop-types';
 import { Wheel } from "react-custom-roulette";
 import "./PreviewCustomRoulette.css";
@@ -7,20 +6,30 @@ import "./PreviewCustomRoulette.css";
 const PreviewCustomRoulette = ({ formData = {} }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const spinDurationSeconds = formData?.spinDuration
+    ? formData.spinDuration > 10
+      ? formData.spinDuration / 1000
+      : formData.spinDuration
+    : 1.0;
 
   const handleSpinClick = () => {
     if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * (formData?.slices?.length || 0));
+      const newPrizeNumber = Math.floor(Math.random() * (slices.length || 0));
       setPrizeNumber(newPrizeNumber);
-      setMustSpin(true);
+      setMustSpin(true); 
     }
   };
 
-  if (!formData?.slices?.length) {
+  // prefer `slices` but fall back to legacy `data`
+  const slices = Array.isArray(formData?.slices)
+    ? formData.slices
+    : [];
+ 
+  if (!slices.length) {
     return (
-      <Card style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", color: "#999" }}>
         Please add wheel slices to preview
-      </Card>
+      </div>
     );
   }
 
@@ -29,7 +38,7 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
-        data={formData?.slices ?? []}
+        data={slices}
         onStopSpinning={() => {
           setMustSpin(false);
         }}
@@ -41,7 +50,7 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
         radiusLineWidth={formData?.radiusLineWidth || 2}
         fontSize={formData?.fontSize || 16}
         textDistance={formData?.textDistance || 60}
-        spinDuration={formData?.spinDuration || 1.0}
+        spinDuration={spinDurationSeconds}
       />
       <div style={{ marginTop: "20px" }}>
         <button

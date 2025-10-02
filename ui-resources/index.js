@@ -268,10 +268,11 @@ const {
 const CustomRouletteForm = ({
   form,
   handleSubmit,
-  handleFormValuesChange
+  handleFormValuesChange,
+  initialValues = {}
 }) => {
   const handleSliceAdd = () => {
-    const slices = form.getFieldValue("slices") || [];
+    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
     const newSlices = [...slices, {
       option: "",
       image: {
@@ -297,7 +298,7 @@ const CustomRouletteForm = ({
     });
   };
   const handleSliceRemove = index => {
-    const slices = form.getFieldValue("slices") || [];
+    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
     if (slices.length <= 1) {
       antd__WEBPACK_IMPORTED_MODULE_2__["default"].warning("At least one slice is required");
       return;
@@ -314,46 +315,7 @@ const CustomRouletteForm = ({
     onValuesChange: (changedValues, allValues) => {
       handleFormValuesChange(changedValues, allValues);
     },
-    initialValues: {
-      slices: [{
-        option: "",
-        image: {
-          uri: "",
-          offsetX: 0,
-          offsetY: 0,
-          sizeMultiplier: 1,
-          landscape: false
-        },
-        style: {
-          backgroundColor: "#ff8f43",
-          textColor: "#ffffff",
-          fontFamily: "Arial",
-          fontSize: 16,
-          fontWeight: 400,
-          fontStyle: "normal"
-        },
-        optionSize: 1,
-        couponId: ""
-      }],
-      mustStartSpinning: false,
-      prizeNumber: 0,
-      outerBorderColor: "#000000",
-      outerBorderWidth: 5,
-      innerRadius: 0,
-      innerBorderColor: "#000000",
-      innerBorderWidth: 0,
-      radiusLineColor: "#000000",
-      radiusLineWidth: 5,
-      fontFamily: "Arial",
-      fontSize: 20,
-      fontWeight: 400,
-      fontStyle: "normal",
-      perpendicularText: false,
-      textDistance: 60,
-      spinDuration: 1000,
-      startingOptionIndex: 0,
-      disableInitialAnimation: false
-    }
+    initialValues: initialValues
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     title: "Basic Information",
     style: {
@@ -392,7 +354,7 @@ const CustomRouletteForm = ({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].List, {
     name: "slices"
   }, (fields, {
-    add,
+    add: _add,
     remove
   }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, fields.map((field, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: field.key,
@@ -840,7 +802,8 @@ const CustomRouletteForm = ({
 CustomRouletteForm.propTypes = {
   form: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().object).isRequired,
   handleSubmit: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().func).isRequired,
-  handleFormValuesChange: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().func)
+  handleFormValuesChange: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().func),
+  initialValues: (prop_types__WEBPACK_IMPORTED_MODULE_15___default().object)
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteForm);
 
@@ -1061,6 +1024,49 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+// Single source of truth for initial values used by both the form and preview
+const initialFormValues = {
+  slices: [{
+    option: "",
+    image: {
+      uri: "",
+      offsetX: 0,
+      offsetY: 0,
+      sizeMultiplier: 1,
+      landscape: false
+    },
+    style: {
+      backgroundColor: "#ff8f43",
+      textColor: "#ffffff",
+      fontFamily: "Arial",
+      fontSize: 16,
+      fontWeight: 400,
+      fontStyle: "normal"
+    },
+    optionSize: 1,
+    couponId: ""
+  }],
+  mustStartSpinning: false,
+  prizeNumber: 0,
+  outerBorderColor: "#000000",
+  outerBorderWidth: 5,
+  innerRadius: 0,
+  innerBorderColor: "#000000",
+  innerBorderWidth: 0,
+  radiusLineColor: "#000000",
+  radiusLineWidth: 5,
+  fontFamily: "Arial",
+  fontSize: 20,
+  fontWeight: 400,
+  fontStyle: "normal",
+  perpendicularText: false,
+  textDistance: 60,
+  // keep this in ms here (works with form UX) — Preview will normalize
+  spinDuration: 1000,
+  startingOptionIndex: 0,
+  disableInitialAnimation: false
+};
 const CustomRouletteManager = () => {
   const [form] = antd__WEBPACK_IMPORTED_MODULE_4__["default"].useForm();
   const [formData, setFormData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
@@ -1068,6 +1074,12 @@ const CustomRouletteManager = () => {
   const handleFormValuesChange = (changedValues, allValues) => {
     setFormData(allValues);
   };
+
+  // set initial values into the form and preview when component mounts
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    form.setFieldsValue(initialFormValues);
+    setFormData(initialFormValues);
+  }, [form]);
   const handleSubmit = async values => {
     setIsSubmitting(true);
     try {
@@ -1110,7 +1122,8 @@ const CustomRouletteManager = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
     form: form,
     handleSubmit: handleSubmit,
-    handleFormValuesChange: handleFormValuesChange
+    handleFormValuesChange: handleFormValuesChange,
+    initialValues: initialFormValues
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       marginTop: 24,
@@ -1162,13 +1175,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-custom-roulette */ "./node_modules/react-custom-roulette/dist/bundle.js");
 /* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _PreviewCustomRoulette_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PreviewCustomRoulette.css */ "./src/admin/components/Roulette/PreviewCustomRoulette.css");
-
 
 
 
@@ -1179,33 +1190,26 @@ const PreviewCustomRoulette = ({
 }) => {
   const [mustSpin, setMustSpin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [prizeNumber, setPrizeNumber] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
-  const [wheelData, setWheelData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (formData?.slices && Array.isArray(formData.slices)) {
-      const data = formData.slices.map((slice, index) => ({
-        option: slice.option || `Item ${index + 1}`,
-        style: {
-          backgroundColor: slice.style?.backgroundColor || "#ff8f43",
-          textColor: slice.style?.textColor || "#ffffff"
-        }
-      }));
-      setWheelData(data);
-    }
-  }, [formData]);
+  const spinDurationSeconds = formData?.spinDuration ? formData.spinDuration > 10 ? formData.spinDuration / 1000 : formData.spinDuration : 1.0;
   const handleSpinClick = () => {
     if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * wheelData.length);
+      const newPrizeNumber = Math.floor(Math.random() * (slices.length || 0));
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
     }
   };
-  if (!wheelData.length) {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
+
+  // prefer `slices` but fall back to legacy `data`
+  const slices = Array.isArray(formData?.slices) ? formData.slices : [];
+  if (!slices.length) {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       style: {
         height: "100%",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        fontSize: "16px",
+        color: "#999"
       }
     }, "Please add wheel slices to preview");
   }
@@ -1214,7 +1218,7 @@ const PreviewCustomRoulette = ({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
     mustStartSpinning: mustSpin,
     prizeNumber: prizeNumber,
-    data: wheelData,
+    data: slices,
     onStopSpinning: () => {
       setMustSpin(false);
     },
@@ -1226,7 +1230,7 @@ const PreviewCustomRoulette = ({
     radiusLineWidth: formData?.radiusLineWidth || 2,
     fontSize: formData?.fontSize || 16,
     textDistance: formData?.textDistance || 60,
-    spinDuration: formData?.spinDuration || 1.0
+    spinDuration: spinDurationSeconds
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       marginTop: "20px"
@@ -1246,23 +1250,23 @@ const PreviewCustomRoulette = ({
   }, mustSpin ? "Spinning..." : "SPIN")));
 };
 PreviewCustomRoulette.propTypes = {
-  formData: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
-    slices: prop_types__WEBPACK_IMPORTED_MODULE_5___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
-      option: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
-      style: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
-        backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
-        textColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string)
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+    slices: prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+      option: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+      style: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
+        backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+        textColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)
       })
     })),
-    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
-    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
-    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
-    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
-    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
-    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
-    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
-    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
-    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number)
+    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
+    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
+    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number)
   })
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewCustomRoulette);
@@ -1693,7 +1697,7 @@ const WheelDataManager = () => {
     render: data => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
       wrap: true,
       size: "small"
-    }, Array.isArray(data) && data.slice(0, 3).map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, Array.isArray(data) && data?.slice(0, 3).map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
       key: index,
       color: getColorValue(item.style?.backgroundColor),
       style: {

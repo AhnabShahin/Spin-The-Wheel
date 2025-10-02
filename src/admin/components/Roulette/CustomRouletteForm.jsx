@@ -1,13 +1,8 @@
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
   Form,
   Input,
   Select,
-  Divider,
   Row,
   Col,
   InputNumber,
@@ -16,17 +11,15 @@ import {
   ColorPicker,
   Button,
   Card,
-  Space,
-  Upload,
   message,
 } from "antd";
 import PropTypes from "prop-types";
 
 const { Panel } = Collapse;
 
-const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
+const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initialValues = {} }) => {
   const handleSliceAdd = () => {
-    const slices = form.getFieldValue("slices") || [];
+    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
     const newSlices = [
       ...slices,
       {
@@ -54,7 +47,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
   };
 
   const handleSliceRemove = (index) => {
-    const slices = form.getFieldValue("slices") || [];
+    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
     if (slices.length <= 1) {
       message.warning("At least one slice is required");
       return;
@@ -71,48 +64,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
       onValuesChange={(changedValues, allValues) => {
           handleFormValuesChange(changedValues, allValues);
       }}
-      initialValues={{
-        slices: [
-          {
-            option: "",
-            image: {
-              uri: "",
-              offsetX: 0,
-              offsetY: 0,
-              sizeMultiplier: 1,
-              landscape: false,
-            },
-            style: {
-              backgroundColor: "#ff8f43",
-              textColor: "#ffffff",
-              fontFamily: "Arial",
-              fontSize: 16,
-              fontWeight: 400,
-              fontStyle: "normal",
-            },
-            optionSize: 1,
-            couponId: "",
-          },
-        ],
-        mustStartSpinning: false,
-        prizeNumber: 0,
-        outerBorderColor: "#000000",
-        outerBorderWidth: 5,
-        innerRadius: 0,
-        innerBorderColor: "#000000",
-        innerBorderWidth: 0,
-        radiusLineColor: "#000000",
-        radiusLineWidth: 5,
-        fontFamily: "Arial",
-        fontSize: 20,
-        fontWeight: 400,
-        fontStyle: "normal",
-        perpendicularText: false,
-        textDistance: 60,
-        spinDuration: 1000,
-        startingOptionIndex: 0,
-        disableInitialAnimation: false,
-      }}
+      initialValues={initialValues}
     >
       {/* Basic Information */}
       <Card title="Basic Information" style={{ marginBottom: 16 }}>
@@ -150,8 +102,8 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange }) => {
           </Button>
         }
       >
-        <Form.List name="slices">
-          {(fields, { add, remove }) => (
+  <Form.List name="slices">
+          {(fields, { add: _add, remove }) => (
             <>
               {fields.map((field, index) => (
                 <Card
@@ -631,6 +583,7 @@ CustomRouletteForm.propTypes = {
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleFormValuesChange: PropTypes.func,
+  initialValues: PropTypes.object,
 };
 
 export default CustomRouletteForm;

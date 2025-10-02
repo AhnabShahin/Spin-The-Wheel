@@ -9,6 +9,7 @@
   flex-shrink: 0 !important;
   z-index: 5 !important;
   pointer-events: none !important;
+  visibility: visible !important;
 }
 
 .custom-roulette-container {

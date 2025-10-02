@@ -4,14 +4,67 @@ import { Form, Row, Col, Button, Card, message } from "antd";
 import CustomRouletteForm from "./CustomRouletteForm";
 import PreviewCustomRoulette from "./PreviewCustomRoulette";
 
+// Single source of truth for initial values used by both the form and preview
+const initialFormValues = {
+  slices: [
+    {
+      option: "",
+      image: {
+        uri: "",
+        offsetX: 0,
+        offsetY: 0,
+        sizeMultiplier: 1,
+        landscape: false,
+      },
+      style: {
+        backgroundColor: "#ff8f43",
+        textColor: "#ffffff",
+        fontFamily: "Arial",
+        fontSize: 16,
+        fontWeight: 400,
+        fontStyle: "normal",
+      },
+      optionSize: 1,
+      couponId: "",
+    },
+  ],
+  mustStartSpinning: false,
+  prizeNumber: 0,
+  outerBorderColor: "#000000",
+  outerBorderWidth: 5,
+  innerRadius: 0,
+  innerBorderColor: "#000000",
+  innerBorderWidth: 0,
+  radiusLineColor: "#000000",
+  radiusLineWidth: 5,
+  fontFamily: "Arial",
+  fontSize: 20,
+  fontWeight: 400,
+  fontStyle: "normal",
+  perpendicularText: false,
+  textDistance: 60,
+  // keep this in ms here (works with form UX) — Preview will normalize
+  spinDuration: 1000,
+  startingOptionIndex: 0,
+  disableInitialAnimation: false,
+};
+
 const CustomRouletteManager = () => {
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  
+
   const handleFormValuesChange = (changedValues, allValues) => {
     setFormData(allValues);
   };
+
+  // set initial values into the form and preview when component mounts
+  useEffect(() => {
+    form.setFieldsValue(initialFormValues);
+    setFormData(initialFormValues);
+  }, [form]); 
 
   const handleSubmit = async (values) => {
     setIsSubmitting(true);
@@ -52,6 +105,7 @@ const CustomRouletteManager = () => {
               form={form}
               handleSubmit={handleSubmit}
               handleFormValuesChange={handleFormValuesChange}
+              initialValues={initialFormValues}
             />
 
             <div style={{ marginTop: 24, textAlign: "right" }}>

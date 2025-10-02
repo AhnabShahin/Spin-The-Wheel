@@ -268,7 +268,7 @@ const WheelDataManager = () => {
       width: "40%",
       render: (data) => (
         <Space wrap size="small">
-          {Array.isArray(data) && data.slice(0, 3).map((item, index) => (
+          {Array.isArray(data) && data?.slice(0, 3).map((item, index) => (
             <Tag
               key={index}
               color={getColorValue(item.style?.backgroundColor)}
