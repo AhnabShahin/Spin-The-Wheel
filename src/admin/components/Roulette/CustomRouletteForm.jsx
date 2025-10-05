@@ -44,6 +44,8 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
       },
     ];
     form.setFieldsValue({ slices: newSlices });
+    // Ensure handleFormValuesChange is called with updated allValues
+    handleFormValuesChange({}, form.getFieldsValue());
   };
 
   const handleSliceRemove = (index) => {
@@ -54,6 +56,8 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
     }
     const newSlices = slices.filter((_, i) => i !== index);
     form.setFieldsValue({ slices: newSlices });
+    // Ensure handleFormValuesChange is called with updated allValues
+    handleFormValuesChange({}, form.getFieldsValue());
   };
 
   return (
@@ -103,7 +107,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
         }
       >
   <Form.List name="slices">
-          {(fields, { add: _add, remove }) => (
+          {(fields, { add: _add, remove: _remove }) => (
             <>
               {fields.map((field, index) => (
                 <Card
@@ -118,7 +122,6 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                         danger
                         icon={<DeleteOutlined />}
                         onClick={() => {
-                          remove(field.name);
                           handleSliceRemove(index);
                         }}
                       />
