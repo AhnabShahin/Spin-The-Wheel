@@ -54,8 +54,6 @@ const CustomRouletteManager = () => {
   const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  
-
   const handleFormValuesChange = (changedValues, allValues) => {
     setFormData(allValues);
   };
@@ -64,7 +62,12 @@ const CustomRouletteManager = () => {
   useEffect(() => {
     form.setFieldsValue(initialFormValues);
     setFormData(initialFormValues);
-  }, [form]); 
+  }, [form]);
+
+  // Keep the form instance in sync when formData changes from other places
+  useEffect(() => {
+    form.setFieldsValue(formData || {});
+  }, [formData, form]);
 
   const handleSubmit = async (values) => {
     setIsSubmitting(true);

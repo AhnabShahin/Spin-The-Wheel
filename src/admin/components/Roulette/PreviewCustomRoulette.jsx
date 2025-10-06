@@ -1,5 +1,5 @@
 import { useState } from "@wordpress/element";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Wheel } from "react-custom-roulette";
 import "./PreviewCustomRoulette.css";
 
@@ -16,29 +16,39 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
     if (!mustSpin) {
       const newPrizeNumber = Math.floor(Math.random() * (slices.length || 0));
       setPrizeNumber(newPrizeNumber);
-      setMustSpin(true); 
+      setMustSpin(true);
     }
   };
 
   // prefer `slices` but fall back to legacy `data`
-  const slices = Array.isArray(formData?.slices)
-    ? formData.slices
-    : [];
- 
+  const slices = Array.isArray(formData?.slices) ? formData.slices : [];
+
   if (!slices.length) {
     return (
-      <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", color: "#999" }}>
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "16px",
+          color: "#999",
+        }}
+      >
         Please add wheel slices to preview
       </div>
     );
   }
-
+  console.log(formData);
   return (
     <div className="custom-roulette-container">
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
-        data={slices}
+        data={slices.map((slice) => ({
+          ...slice,
+          option: slice.option || "", // Ensure option field is used
+        }))}
         onStopSpinning={() => {
           setMustSpin(false);
         }}
@@ -75,13 +85,15 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
 
 PreviewCustomRoulette.propTypes = {
   formData: PropTypes.shape({
-    slices: PropTypes.arrayOf(PropTypes.shape({
-      option: PropTypes.string,
-      style: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-        textColor: PropTypes.string
+    slices: PropTypes.arrayOf(
+      PropTypes.shape({
+        option: PropTypes.string,
+        style: PropTypes.shape({
+          backgroundColor: PropTypes.string,
+          textColor: PropTypes.string,
+        }),
       })
-    })),
+    ),
     outerBorderColor: PropTypes.string,
     outerBorderWidth: PropTypes.number,
     innerBorderColor: PropTypes.string,
@@ -90,8 +102,8 @@ PreviewCustomRoulette.propTypes = {
     radiusLineWidth: PropTypes.number,
     fontSize: PropTypes.number,
     textDistance: PropTypes.number,
-    spinDuration: PropTypes.number
-  })
+    spinDuration: PropTypes.number,
+  }),
 };
 
 export default PreviewCustomRoulette;

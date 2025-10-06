@@ -296,6 +296,8 @@ const CustomRouletteForm = ({
     form.setFieldsValue({
       slices: newSlices
     });
+    // Ensure handleFormValuesChange is called with updated allValues
+    handleFormValuesChange({}, form.getFieldsValue());
   };
   const handleSliceRemove = index => {
     const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
@@ -307,6 +309,8 @@ const CustomRouletteForm = ({
     form.setFieldsValue({
       slices: newSlices
     });
+    // Ensure handleFormValuesChange is called with updated allValues
+    handleFormValuesChange({}, form.getFieldsValue());
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
     form: form,
@@ -355,7 +359,7 @@ const CustomRouletteForm = ({
     name: "slices"
   }, (fields, {
     add: _add,
-    remove
+    remove: _remove
   }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, fields.map((field, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: field.key,
     size: "small",
@@ -368,7 +372,6 @@ const CustomRouletteForm = ({
       danger: true,
       icon: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_10__["default"], null),
       onClick: () => {
-        remove(field.name);
         handleSliceRemove(index);
       }
     }) : null
@@ -399,7 +402,16 @@ const CustomRouletteForm = ({
     presets: [{
       label: "Recommended",
       colors: ["#ff8f43", "#70bbe0", "#0b7ec8", "#ffd23f", "#e74c3c", "#f39c12", "#9b59b6", "#2ecc71"]
-    }]
+    }],
+    onChange: color => {
+      const hexColor = color.toHexString(); // Convert color object to hex string
+      const slices = form.getFieldValue("slices") || [];
+      slices[field.name].style.backgroundColor = hexColor;
+      form.setFieldsValue({
+        slices
+      });
+      handleFormValuesChange({}, form.getFieldsValue());
+    }
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     span: 8
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
@@ -1080,6 +1092,11 @@ const CustomRouletteManager = () => {
     form.setFieldsValue(initialFormValues);
     setFormData(initialFormValues);
   }, [form]);
+
+  // Keep the form instance in sync when formData changes from other places
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    form.setFieldsValue(formData || {});
+  }, [formData, form]);
   const handleSubmit = async values => {
     setIsSubmitting(true);
     try {
@@ -1213,12 +1230,16 @@ const PreviewCustomRoulette = ({
       }
     }, "Please add wheel slices to preview");
   }
+  console.log(formData);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "custom-roulette-container"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
     mustStartSpinning: mustSpin,
     prizeNumber: prizeNumber,
-    data: slices,
+    data: slices.map(slice => ({
+      ...slice,
+      option: slice.option || "" // Ensure option field is used
+    })),
     onStopSpinning: () => {
       setMustSpin(false);
     },

@@ -144,6 +144,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                       </Form.Item>
                     </Col>
                     <Col span={8}>
+                      {/* Background Color Picker with onChange handler */}
                       <Form.Item
                         name={[field.name, "style", "backgroundColor"]}
                         label="Background Color"
@@ -167,6 +168,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                               ],
                             },
                           ]}
+                          onChange={(color) => {
+                            const hexColor = color.toHexString(); // Convert color object to hex string
+                            const slices = form.getFieldValue("slices") || [];
+                            slices[field.name].style.backgroundColor = hexColor;
+                            form.setFieldsValue({ slices });
+                            handleFormValuesChange({}, form.getFieldsValue());
+                          }}
                         />
                       </Form.Item>
                     </Col>
