@@ -1,4 +1,5 @@
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useEffect } from "@wordpress/element";
 import {
   Form,
   Input,
@@ -17,9 +18,21 @@ import PropTypes from "prop-types";
 
 const { Panel } = Collapse;
 
-const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initialValues = {} }) => {
+const CustomRouletteForm = ({ formData, setFormData, initialValues }) => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue(formData);
+  }, [formData]);
+
+  const handleFormValuesChange = (changedValues, allValues) => {
+    setFormData(allValues);
+  };
+
   const handleSliceAdd = () => {
-    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
+    const slices = Array.isArray(form.getFieldValue("slices"))
+      ? form.getFieldValue("slices")
+      : [];
     const newSlices = [
       ...slices,
       {
@@ -49,7 +62,9 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
   };
 
   const handleSliceRemove = (index) => {
-    const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
+    const slices = Array.isArray(form.getFieldValue("slices"))
+      ? form.getFieldValue("slices")
+      : [];
     if (slices.length <= 1) {
       message.warning("At least one slice is required");
       return;
@@ -59,14 +74,12 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
     // Ensure handleFormValuesChange is called with updated allValues
     handleFormValuesChange({}, form.getFieldsValue());
   };
-
   return (
     <Form
       form={form}
       layout="vertical"
-      onFinish={handleSubmit}
       onValuesChange={(changedValues, allValues) => {
-          handleFormValuesChange(changedValues, allValues);
+        handleFormValuesChange(changedValues, allValues);
       }}
       initialValues={initialValues}
     >
@@ -106,7 +119,7 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
           </Button>
         }
       >
-  <Form.List name="slices">
+        <Form.List name="slices">
           {(fields, { add: _add, remove: _remove }) => (
             <>
               {fields.map((field, index) => (
@@ -168,13 +181,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                               ],
                             },
                           ]}
-                          onChange={(color) => {
-                            const hexColor = color.toHexString(); // Convert color object to hex string
-                            const slices = form.getFieldValue("slices") || [];
-                            slices[field.name].style.backgroundColor = hexColor;
-                            form.setFieldsValue({ slices });
-                            handleFormValuesChange({}, form.getFieldsValue());
-                          }}
+                            onChange={(color) => {
+                              const hexColor = color.toHexString(); // Ensure only hex color is used
+                              const slices = form.getFieldValue("slices") || [];
+                              slices[field.name].style.backgroundColor = hexColor;
+                              form.setFieldsValue({ slices });
+                              handleFormValuesChange({}, form.getFieldsValue());
+                            }}
                         />
                       </Form.Item>
                     </Col>
@@ -202,6 +215,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                               ],
                             },
                           ]}
+                            onChange={(color) => {
+                              const hexColor = color.toHexString(); // Ensure only hex color is used
+                              const slices = form.getFieldValue("slices") || [];
+                              slices[field.name].style.textColor = hexColor;
+                              form.setFieldsValue({ slices });
+                              handleFormValuesChange({}, form.getFieldsValue());
+                            }}
                         />
                       </Form.Item>
                     </Col>
@@ -433,7 +453,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                     showText
                     format="hex"
                     style={{ width: "100%" }}
-                  />
+                    onChange={(color) => {
+                      const hexColor = color.toHexString();
+                      const formValues = form.getFieldsValue();
+                      form.setFieldsValue({ ...formValues, outerBorderColor: hexColor });
+                      handleFormValuesChange({}, form.getFieldsValue());
+                    }}
+                    />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -464,7 +490,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                     showText
                     format="hex"
                     style={{ width: "100%" }}
-                  />
+                    onChange={(color) => {
+                      const hexColor = color.toHexString();
+                      const formValues = form.getFieldsValue();
+                      form.setFieldsValue({ ...formValues, innerBorderColor: hexColor });
+                      handleFormValuesChange({}, form.getFieldsValue());
+                    }}
+                    />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -496,7 +528,13 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
                     showText
                     format="hex"
                     style={{ width: "100%" }}
-                  />
+                    onChange={(color) => {
+                      const hexColor = color.toHexString();
+                      const formValues = form.getFieldsValue();
+                      form.setFieldsValue({ ...formValues, radiusLineColor: hexColor });
+                      handleFormValuesChange({}, form.getFieldsValue());
+                    }}
+                    />
                 </Form.Item>
               </Col>
             </Row>
@@ -586,14 +624,20 @@ const CustomRouletteForm = ({ form, handleSubmit, handleFormValuesChange, initia
           </Panel>
         </Collapse>
       </Card>
+
+      {/* Save Button */}
+      <div style={{ marginTop: 24, textAlign: "right" }}>
+        <Button type="primary" onClick={() => form.submit()} size="large">
+          Save Roulette
+        </Button>
+      </div>
     </Form>
   );
 };
 
 CustomRouletteForm.propTypes = {
-  form: PropTypes.object.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleFormValuesChange: PropTypes.func,
+  formData: PropTypes.object,
+  setFormData: PropTypes.func,
   initialValues: PropTypes.object,
 };
 

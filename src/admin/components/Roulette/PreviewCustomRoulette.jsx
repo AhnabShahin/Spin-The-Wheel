@@ -39,15 +39,18 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
       </div>
     );
   }
-  console.log(formData);
+  console.log("preview", slices);
   return (
     <div className="custom-roulette-container">
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
         data={slices.map((slice) => ({
-          ...slice,
-          option: slice.option || "", // Ensure option field is used
+          option: slice.option || "No Option",
+          style: {
+            backgroundColor: slice.style?.backgroundColor || "#ffffff",
+            textColor: slice.style?.textColor || "#000000",
+          },
         }))}
         onStopSpinning={() => {
           setMustSpin(false);

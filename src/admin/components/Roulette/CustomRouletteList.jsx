@@ -158,9 +158,6 @@ const CustomRouletteList = () => {
         zIndex={99999} // Ensures the drawer is always on top
       >
         <CustomRouletteManager
-          roulette={selectedRoulette}
-          onSave={handleSave}
-          onCancel={() => setIsDrawerVisible(false)}
         />
       </Drawer>
     </div>
