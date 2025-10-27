@@ -20,7 +20,7 @@ const initialFormValues = {
         backgroundColor: "#ff8f43",
         textColor: "#ffffff",
         fontFamily: "Arial",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 400,
         fontStyle: "normal",
       },
