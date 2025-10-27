@@ -125,17 +125,49 @@ const CustomRouletteForm = ({ formData, setFormData, initialValues }) => {
                   <Row gutter={16}>
                     <Col span={8}>
                       <Form.Item
-                        name={[field.name, "option"]}
-                        label="Slice Text"
+                        name={[field.name, "type"]}
+                        label="Slice Type"
                         rules={[
                           {
                             required: true,
-                            message: "Please enter slice text",
+                            message: "Please select slice type",
                           },
                         ]}
                       >
-                        <Input placeholder="Enter slice text" />
+                        <Select placeholder="Select type">
+                          <Select.Option value="text">Text</Select.Option>
+                          <Select.Option value="image">Image</Select.Option>
+                        </Select>
                       </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      {form.getFieldValue(["slices", field.name, "type"]) === "text" ? (
+                        <Form.Item
+                          name={[field.name, "option"]}
+                          label="Slice Text"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter slice text",
+                            },
+                          ]}
+                        >
+                          <Input placeholder="Enter slice text" />
+                        </Form.Item>
+                      ) : (
+                        <Form.Item
+                          name={[field.name, "image", "uri"]}
+                          label="Image URL"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter image URL",
+                            },
+                          ]}
+                        >
+                          <Input placeholder="Enter image URL" />
+                        </Form.Item>
+                      )}
                     </Col>
                     <Col span={8}>
                       {/* Background Color Picker with onChange handler */}
@@ -210,143 +242,140 @@ const CustomRouletteForm = ({ formData, setFormData, initialValues }) => {
 
                   <Collapse ghost>
                     <Panel header="Advanced Slice Settings" key="1">
-                      <Row gutter={16}>
-                        <Col span={12}>
-                          <Form.Item
-                            name={[field.name, "image", "uri"]}
-                            label="Image URL"
-                          >
-                            <Input placeholder="Enter image URL" />
-                          </Form.Item>
-                        </Col>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "optionSize"]}
-                            label="Option Size"
-                          >
-                            <InputNumber
-                              min={0.1}
-                              max={10}
-                              step={0.1}
-                              style={{ width: "100%" }}
-                            />
-                          </Form.Item>
-                        </Col>
-                      </Row>
+                      <Form.Item
+                        name={[field.name, "optionSize"]}
+                        label="Option Size"
+                        style={{ marginBottom: 24 }}
+                      >
+                        <InputNumber
+                          min={0.1}
+                          max={10}
+                          step={0.1}
+                          style={{ width: "100%" }}
+                        />
+                      </Form.Item>
 
-                      <Row gutter={16}>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "image", "offsetX"]}
-                            label="Image Offset X"
-                          >
-                            <InputNumber style={{ width: "100%" }} />
-                          </Form.Item>
-                        </Col>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "image", "offsetY"]}
-                            label="Image Offset Y"
-                          >
-                            <InputNumber style={{ width: "100%" }} />
-                          </Form.Item>
-                        </Col>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "image", "sizeMultiplier"]}
-                            label="Image Size"
-                          >
-                            <InputNumber
-                              min={0.1}
-                              max={5}
-                              step={0.1}
-                              style={{ width: "100%" }}
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "image", "landscape"]}
-                            label="Landscape"
-                            valuePropName="checked"
-                          >
-                            <Switch />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-
-                      <Row gutter={16}>
-                        <Col span={8}>
-                          <Form.Item
-                            name={[field.name, "style", "fontFamily"]}
-                            label="Font Family"
-                          >
-                            <Select placeholder="Select font family">
-                              <Select.Option value="Arial">Arial</Select.Option>
-                              <Select.Option value="Helvetica">
-                                Helvetica
-                              </Select.Option>
-                              <Select.Option value="Times New Roman">
-                                Times New Roman
-                              </Select.Option>
-                              <Select.Option value="Georgia">
-                                Georgia
-                              </Select.Option>
-                              <Select.Option value="Verdana">
-                                Verdana
-                              </Select.Option>
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                          <Form.Item
-                            name={[field.name, "style", "fontSize"]}
-                            label="Font Size"
-                          >
-                            <InputNumber
-                              min={8}
-                              max={48}
-                              style={{ width: "100%" }}
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                          <Form.Item
-                            name={[field.name, "style", "fontWeight"]}
-                            label="Font Weight"
-                          >
-                            <Select placeholder="Select font weight">
-                              <Select.Option value={100}>
-                                100 - Thin
-                              </Select.Option>
-                              <Select.Option value={200}>
-                                200 - Extra Light
-                              </Select.Option>
-                              <Select.Option value={300}>
-                                300 - Light
-                              </Select.Option>
-                              <Select.Option value={400}>
-                                400 - Normal
-                              </Select.Option>
-                              <Select.Option value={500}>
-                                500 - Medium
-                              </Select.Option>
-                              <Select.Option value={600}>
-                                600 - Semi Bold
-                              </Select.Option>
-                              <Select.Option value={700}>
-                                700 - Bold
-                              </Select.Option>
-                              <Select.Option value={800}>
-                                800 - Extra Bold
-                              </Select.Option>
-                              <Select.Option value={900}>
-                                900 - Black
-                              </Select.Option>
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                      </Row>
+                      {form.getFieldValue(["slices", field.name, "type"]) === "image" ? (
+                        <Card title="Image Settings" size="small" bordered={false}>
+                          <Row gutter={16}>
+                            <Col span={12}>
+                              <Form.Item
+                                name={[field.name, "image", "offsetX"]}
+                                label="Image Offset X"
+                              >
+                                <InputNumber style={{ width: "100%" }} />
+                              </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                              <Form.Item
+                                name={[field.name, "image", "offsetY"]}
+                                label="Image Offset Y"
+                              >
+                                <InputNumber style={{ width: "100%" }} />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                          <Row gutter={16}>
+                            <Col span={12}>
+                              <Form.Item
+                                name={[field.name, "image", "sizeMultiplier"]}
+                                label="Image Size"
+                              >
+                                <InputNumber
+                                  min={0.1}
+                                  max={5}
+                                  step={0.1}
+                                  style={{ width: "100%" }}
+                                />
+                              </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                              <Form.Item
+                                name={[field.name, "image", "landscape"]}
+                                label="Landscape"
+                                valuePropName="checked"
+                              >
+                                <Switch />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </Card>
+                      ) : (
+                        <Card title="Style Settings" size="small" bordered={false} style={{ marginTop: 16 }}>
+                          <Row gutter={16}>
+                            <Col span={8}>
+                              <Form.Item
+                                name={[field.name, "style", "fontFamily"]}
+                                label="Font Family"
+                              >
+                                <Select placeholder="Select font family">
+                                  <Select.Option value="Arial">Arial</Select.Option>
+                                  <Select.Option value="Helvetica">
+                                    Helvetica
+                                  </Select.Option>
+                                  <Select.Option value="Times New Roman">
+                                    Times New Roman
+                                  </Select.Option>
+                                  <Select.Option value="Georgia">
+                                    Georgia
+                                  </Select.Option>
+                                  <Select.Option value="Verdana">
+                                    Verdana
+                                  </Select.Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                              <Form.Item
+                                name={[field.name, "style", "fontSize"]}
+                                label="Font Size"
+                              >
+                                <InputNumber
+                                  min={8}
+                                  max={48}
+                                  style={{ width: "100%" }}
+                                />
+                              </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                              <Form.Item
+                                name={[field.name, "style", "fontWeight"]}
+                                label="Font Weight"
+                              >
+                                <Select placeholder="Select font weight">
+                                  <Select.Option value={100}>
+                                    100 - Thin
+                                  </Select.Option>
+                                  <Select.Option value={200}>
+                                    200 - Extra Light
+                                  </Select.Option>
+                                  <Select.Option value={300}>
+                                    300 - Light
+                                  </Select.Option>
+                                  <Select.Option value={400}>
+                                    400 - Normal
+                                  </Select.Option>
+                                  <Select.Option value={500}>
+                                    500 - Medium
+                                  </Select.Option>
+                                  <Select.Option value={600}>
+                                    600 - Semi Bold
+                                  </Select.Option>
+                                  <Select.Option value={700}>
+                                    700 - Bold
+                                  </Select.Option>
+                                  <Select.Option value={800}>
+                                    800 - Extra Bold
+                                  </Select.Option>
+                                  <Select.Option value={900}>
+                                    900 - Black
+                                  </Select.Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </Card>
+                      )}
                     </Panel>
                   </Collapse>
                 </Card>

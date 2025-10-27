@@ -47,11 +47,19 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
-        data={slices.map((slice) => ({
-          option: slice.option || "No Option",
-          image: slice.image || undefined,
-          style: slice.style || undefined,
-        }))}
+        data={slices.map((slice) => {
+          if (slice.type === 'text') {
+            return {
+              option: slice.option || "",
+              style: slice.style || {},
+            };
+          } else {
+            return {
+              image: slice.image || {},
+              style: { backgroundColor: slice.style?.backgroundColor || '#ffffff' },
+            };
+          }
+        })}
         onStopSpinning={() => {
           setMustSpin(false);
         }}

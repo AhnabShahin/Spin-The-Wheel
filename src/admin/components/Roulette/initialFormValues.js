@@ -1,9 +1,10 @@
 export const initialFormValues = {
   slices: [
     {
-      option: "",
+      type: "text", // Can be "text" or "image"
+      option: "asds",
       image: {
-        uri: "https://files.yosuite.com/media/modules-documents-models-document-documentmodel/68ff4a63c3c94dac0d0610bf/documents__attachment/ChatGPT%20Image%20Oct%2020,%202025,%2002_55_45%20PM-YKNaWS2qbO.png",
+        uri: "",
         offsetX: 0,
         offsetY: 0,
         sizeMultiplier: 1,
