@@ -35,26 +35,7 @@ const CustomRouletteForm = ({ formData, setFormData, initialValues }) => {
       : [];
     const newSlices = [
       ...slices,
-      {
-        option: "",
-        image: {
-          uri: "",
-          offsetX: 0,
-          offsetY: 0,
-          sizeMultiplier: 1,
-          landscape: false,
-        },
-        style: {
-          backgroundColor: "#ff8f43",
-          textColor: "#ffffff",
-          fontFamily: "Arial",
-          fontSize: 16,
-          fontWeight: 400,
-          fontStyle: "normal",
-        },
-        optionSize: 1,
-        couponId: "",
-      },
+      {...initialValues.slices[0]},
     ];
     form.setFieldsValue({ slices: newSlices });
     // Ensure handleFormValuesChange is called with updated allValues

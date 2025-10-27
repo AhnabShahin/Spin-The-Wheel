@@ -1,6 +1,8 @@
 import { useState } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Wheel } from "react-custom-roulette";
+
+import { initialFormValues } from "./initialFormValues";
 import "./PreviewCustomRoulette.css";
 
 const PreviewCustomRoulette = ({ formData = {} }) => {
@@ -39,7 +41,7 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
       </div>
     );
   }
-  console.log("preview", slices);
+
   return (
     <div className="custom-roulette-container">
       <Wheel
@@ -48,21 +50,21 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
         data={slices.map((slice) => ({
           option: slice.option || "No Option",
           style: {
-            backgroundColor: slice.style?.backgroundColor || "#ffffff",
-            textColor: slice.style?.textColor || "#000000",
+            backgroundColor: slice.style?.backgroundColor || initialFormValues.slices[0].style.backgroundColor,
+            textColor: slice.style?.textColor || initialFormValues.slices[0].style.textColor,
           },
         }))}
         onStopSpinning={() => {
           setMustSpin(false);
         }}
-        outerBorderColor={formData?.outerBorderColor || "#000000"}
-        outerBorderWidth={formData?.outerBorderWidth || 5}
-        innerBorderColor={formData?.innerBorderColor || "#000000"}
-        innerBorderWidth={formData?.innerBorderWidth || 3}
-        radiusLineColor={formData?.radiusLineColor || "#000000"}
-        radiusLineWidth={formData?.radiusLineWidth || 2}
-        fontSize={formData?.fontSize || 16}
-        textDistance={formData?.textDistance || 60}
+        outerBorderColor={formData?.outerBorderColor || initialFormValues.outerBorderColor}
+        outerBorderWidth={formData?.outerBorderWidth || initialFormValues.outerBorderWidth}
+        innerBorderColor={formData?.innerBorderColor || initialFormValues.innerBorderColor}
+        innerBorderWidth={formData?.innerBorderWidth || initialFormValues.innerBorderWidth}
+        radiusLineColor={formData?.radiusLineColor || initialFormValues.radiusLineColor}
+        radiusLineWidth={formData?.radiusLineWidth || initialFormValues.radiusLineWidth}
+        fontSize={formData?.fontSize || initialFormValues.fontSize}
+        textDistance={formData?.textDistance || initialFormValues.textDistance}
         spinDuration={spinDurationSeconds}
       />
       <div style={{ marginTop: "20px" }}>

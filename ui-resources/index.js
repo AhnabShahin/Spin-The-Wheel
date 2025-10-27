@@ -283,24 +283,7 @@ const CustomRouletteForm = ({
   const handleSliceAdd = () => {
     const slices = Array.isArray(form.getFieldValue("slices")) ? form.getFieldValue("slices") : [];
     const newSlices = [...slices, {
-      option: "",
-      image: {
-        uri: "",
-        offsetX: 0,
-        offsetY: 0,
-        sizeMultiplier: 1,
-        landscape: false
-      },
-      style: {
-        backgroundColor: "#ff8f43",
-        textColor: "#ffffff",
-        fontFamily: "Arial",
-        fontSize: 16,
-        fontWeight: 400,
-        fontStyle: "normal"
-      },
-      optionSize: 1,
-      couponId: ""
+      ...initialValues.slices[0]
     }];
     form.setFieldsValue({
       slices: newSlices
@@ -1071,18 +1054,198 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/row/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/col/index.js");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! antd */ "./node_modules/antd/es/card/index.js");
 /* harmony import */ var _CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomRouletteForm */ "./src/admin/components/Roulette/CustomRouletteForm.jsx");
-/* harmony import */ var _PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PreviewCustomRoulette */ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx");
+/* harmony import */ var _initialFormValues__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./initialFormValues */ "./src/admin/components/Roulette/initialFormValues.js");
+/* harmony import */ var _PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PreviewCustomRoulette */ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx");
 
 
 
 
 
 
-// Single source of truth for initial values used by both the form and preview
+const CustomRouletteManager = () => {
+  const [formData, setFormData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    setFormData(_initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues);
+  }, []);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      padding: "24px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gutter: 24
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 14
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    title: "Roulette Configuration",
+    style: {
+      height: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    initialValues: _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues,
+    formData: formData,
+    setFormData: setFormData
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    span: 10
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    title: "Live Preview",
+    style: {
+      height: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    formData: formData,
+    setFormData: setFormData
+  })))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteManager);
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.css":
+/*!*****************************************************************!*\
+  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.css ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx":
+/*!*****************************************************************!*\
+  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.jsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-custom-roulette */ "./node_modules/react-custom-roulette/dist/bundle.js");
+/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _initialFormValues__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./initialFormValues */ "./src/admin/components/Roulette/initialFormValues.js");
+/* harmony import */ var _PreviewCustomRoulette_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PreviewCustomRoulette.css */ "./src/admin/components/Roulette/PreviewCustomRoulette.css");
+
+
+
+
+
+
+const PreviewCustomRoulette = ({
+  formData = {}
+}) => {
+  const [mustSpin, setMustSpin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [prizeNumber, setPrizeNumber] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const spinDurationSeconds = formData?.spinDuration ? formData.spinDuration > 10 ? formData.spinDuration / 1000 : formData.spinDuration : 1.0;
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = Math.floor(Math.random() * (slices.length || 0));
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    }
+  };
+
+  // prefer `slices` but fall back to legacy `data`
+  const slices = Array.isArray(formData?.slices) ? formData.slices : [];
+  if (!slices.length) {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      style: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "16px",
+        color: "#999"
+      }
+    }, "Please add wheel slices to preview");
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "custom-roulette-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
+    mustStartSpinning: mustSpin,
+    prizeNumber: prizeNumber,
+    data: slices.map(slice => ({
+      option: slice.option || "No Option",
+      style: {
+        backgroundColor: slice.style?.backgroundColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.slices[0].style.backgroundColor,
+        textColor: slice.style?.textColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.slices[0].style.textColor
+      }
+    })),
+    onStopSpinning: () => {
+      setMustSpin(false);
+    },
+    outerBorderColor: formData?.outerBorderColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.outerBorderColor,
+    outerBorderWidth: formData?.outerBorderWidth || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.outerBorderWidth,
+    innerBorderColor: formData?.innerBorderColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.innerBorderColor,
+    innerBorderWidth: formData?.innerBorderWidth || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.innerBorderWidth,
+    radiusLineColor: formData?.radiusLineColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.radiusLineColor,
+    radiusLineWidth: formData?.radiusLineWidth || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.radiusLineWidth,
+    fontSize: formData?.fontSize || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.fontSize,
+    textDistance: formData?.textDistance || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.textDistance,
+    spinDuration: spinDurationSeconds
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      marginTop: "20px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: handleSpinClick,
+    disabled: mustSpin,
+    style: {
+      padding: "10px 20px",
+      fontSize: "16px",
+      cursor: mustSpin ? "not-allowed" : "pointer",
+      backgroundColor: "#1890ff",
+      color: "white",
+      border: "none",
+      borderRadius: "4px"
+    }
+  }, mustSpin ? "Spinning..." : "SPIN")));
+};
+PreviewCustomRoulette.propTypes = {
+  formData: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+    slices: prop_types__WEBPACK_IMPORTED_MODULE_5___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+      option: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+      style: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+        backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+        textColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string)
+      })
+    })),
+    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number)
+  })
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewCustomRoulette);
+
+/***/ }),
+
+/***/ "./src/admin/components/Roulette/initialFormValues.js":
+/*!************************************************************!*\
+  !*** ./src/admin/components/Roulette/initialFormValues.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initialFormValues: () => (/* binding */ initialFormValues)
+/* harmony export */ });
 const initialFormValues = {
   slices: [{
     option: "",
@@ -1119,177 +1282,10 @@ const initialFormValues = {
   fontStyle: "normal",
   perpendicularText: false,
   textDistance: 60,
-  // keep this in ms here (works with form UX) — Preview will normalize
   spinDuration: 1000,
   startingOptionIndex: 0,
   disableInitialAnimation: false
 };
-const CustomRouletteManager = () => {
-  const [formData, setFormData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    setFormData(initialFormValues);
-  }, []);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: {
-      padding: "24px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    gutter: 24
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    span: 14
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    title: "Roulette Configuration",
-    style: {
-      height: "100%"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CustomRouletteForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    initialValues: initialFormValues,
-    formData: formData,
-    setFormData: setFormData
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    span: 10
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    title: "Live Preview",
-    style: {
-      height: "100%"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    formData: formData,
-    setFormData: setFormData
-  })))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomRouletteManager);
-
-/***/ }),
-
-/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.css":
-/*!*****************************************************************!*\
-  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.css ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/admin/components/Roulette/PreviewCustomRoulette.jsx":
-/*!*****************************************************************!*\
-  !*** ./src/admin/components/Roulette/PreviewCustomRoulette.jsx ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-custom-roulette */ "./node_modules/react-custom-roulette/dist/bundle.js");
-/* harmony import */ var react_custom_roulette__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _PreviewCustomRoulette_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PreviewCustomRoulette.css */ "./src/admin/components/Roulette/PreviewCustomRoulette.css");
-
-
-
-
-
-const PreviewCustomRoulette = ({
-  formData = {}
-}) => {
-  const [mustSpin, setMustSpin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const [prizeNumber, setPrizeNumber] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
-  const spinDurationSeconds = formData?.spinDuration ? formData.spinDuration > 10 ? formData.spinDuration / 1000 : formData.spinDuration : 1.0;
-  const handleSpinClick = () => {
-    if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * (slices.length || 0));
-      setPrizeNumber(newPrizeNumber);
-      setMustSpin(true);
-    }
-  };
-
-  // prefer `slices` but fall back to legacy `data`
-  const slices = Array.isArray(formData?.slices) ? formData.slices : [];
-  if (!slices.length) {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      style: {
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "16px",
-        color: "#999"
-      }
-    }, "Please add wheel slices to preview");
-  }
-  console.log("preview", slices);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "custom-roulette-container"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_custom_roulette__WEBPACK_IMPORTED_MODULE_2__.Wheel, {
-    mustStartSpinning: mustSpin,
-    prizeNumber: prizeNumber,
-    data: slices.map(slice => ({
-      option: slice.option || "No Option",
-      style: {
-        backgroundColor: slice.style?.backgroundColor || "#ffffff",
-        textColor: slice.style?.textColor || "#000000"
-      }
-    })),
-    onStopSpinning: () => {
-      setMustSpin(false);
-    },
-    outerBorderColor: formData?.outerBorderColor || "#000000",
-    outerBorderWidth: formData?.outerBorderWidth || 5,
-    innerBorderColor: formData?.innerBorderColor || "#000000",
-    innerBorderWidth: formData?.innerBorderWidth || 3,
-    radiusLineColor: formData?.radiusLineColor || "#000000",
-    radiusLineWidth: formData?.radiusLineWidth || 2,
-    fontSize: formData?.fontSize || 16,
-    textDistance: formData?.textDistance || 60,
-    spinDuration: spinDurationSeconds
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: {
-      marginTop: "20px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: handleSpinClick,
-    disabled: mustSpin,
-    style: {
-      padding: "10px 20px",
-      fontSize: "16px",
-      cursor: mustSpin ? "not-allowed" : "pointer",
-      backgroundColor: "#1890ff",
-      color: "white",
-      border: "none",
-      borderRadius: "4px"
-    }
-  }, mustSpin ? "Spinning..." : "SPIN")));
-};
-PreviewCustomRoulette.propTypes = {
-  formData: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
-    slices: prop_types__WEBPACK_IMPORTED_MODULE_4___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
-      option: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
-      style: prop_types__WEBPACK_IMPORTED_MODULE_4___default().shape({
-        backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
-        textColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)
-      })
-    })),
-    outerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
-    outerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
-    innerBorderColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
-    innerBorderWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
-    radiusLineColor: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string),
-    radiusLineWidth: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
-    fontSize: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
-    textDistance: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number),
-    spinDuration: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().number)
-  })
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PreviewCustomRoulette);
 
 /***/ }),
 
