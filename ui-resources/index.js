@@ -1066,7 +1066,8 @@ const CustomRouletteManager = () => {
   }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      padding: "24px"
+      padding: "24px",
+      minHeight: "100vh"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_5__["default"], {
     gutter: 24
@@ -1082,11 +1083,18 @@ const CustomRouletteManager = () => {
     formData: formData,
     setFormData: setFormData
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    span: 10
+    span: 10,
+    style: {
+      position: "sticky",
+      top: 24,
+      height: "fit-content"
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     title: "Live Preview",
     style: {
-      height: "100%"
+      height: "100%",
+      position: "sticky",
+      top: 24
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PreviewCustomRoulette__WEBPACK_IMPORTED_MODULE_4__["default"], {
     formData: formData,

@@ -13,7 +13,7 @@ const CustomRouletteManager = () => {
   }, []);
 
   return (
-    <div style={{ padding: "24px" }}>
+    <div style={{ padding: "24px", minHeight: "100vh" }}>
       <Row gutter={24}>
         <Col span={14}>
           <Card title="Roulette Configuration" style={{ height: "100%" }}>
@@ -25,8 +25,8 @@ const CustomRouletteManager = () => {
           </Card>
         </Col>
 
-        <Col span={10}>
-          <Card title="Live Preview" style={{ height: "100%" }}>
+        <Col span={10} style={{ position: "sticky", top: 24, height: "fit-content" }}>
+          <Card title="Live Preview" style={{ height: "100%", position: "sticky", top: 24 }}>
             <PreviewCustomRoulette formData={formData} setFormData={setFormData} />
           </Card>
         </Col>
