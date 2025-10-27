@@ -453,13 +453,6 @@ const CustomRouletteForm = ({
     style: {
       width: "100%"
     }
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    span: 6
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
-    name: [field.name, "couponId"],
-    label: "Coupon ID"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    placeholder: "Coupon ID"
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
     gutter: 16
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(antd__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -1177,10 +1170,8 @@ const PreviewCustomRoulette = ({
     prizeNumber: prizeNumber,
     data: slices.map(slice => ({
       option: slice.option || "No Option",
-      style: {
-        backgroundColor: slice.style?.backgroundColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.slices[0].style.backgroundColor,
-        textColor: slice.style?.textColor || _initialFormValues__WEBPACK_IMPORTED_MODULE_3__.initialFormValues.slices[0].style.textColor
-      }
+      image: slice.image || undefined,
+      style: slice.style || undefined
     })),
     onStopSpinning: () => {
       setMustSpin(false);
@@ -1216,6 +1207,13 @@ PreviewCustomRoulette.propTypes = {
   formData: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
     slices: prop_types__WEBPACK_IMPORTED_MODULE_5___default().arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
       option: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+      image: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
+        uri: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
+        offsetX: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+        offsetY: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+        sizeMultiplier: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
+        landscape: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().bool)
+      }),
       style: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
         backgroundColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string),
         textColor: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().string)
@@ -1250,7 +1248,7 @@ const initialFormValues = {
   slices: [{
     option: "",
     image: {
-      uri: "",
+      uri: "https://files.yosuite.com/media/modules-documents-models-document-documentmodel/68ff4a63c3c94dac0d0610bf/documents__attachment/ChatGPT%20Image%20Oct%2020,%202025,%2002_55_45%20PM-YKNaWS2qbO.png",
       offsetX: 0,
       offsetY: 0,
       sizeMultiplier: 1,
@@ -1264,8 +1262,7 @@ const initialFormValues = {
       fontWeight: 400,
       fontStyle: "normal"
     },
-    optionSize: 1,
-    couponId: ""
+    optionSize: 1
   }],
   mustStartSpinning: false,
   prizeNumber: 0,

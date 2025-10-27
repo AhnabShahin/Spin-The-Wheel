@@ -49,10 +49,8 @@ const PreviewCustomRoulette = ({ formData = {} }) => {
         prizeNumber={prizeNumber}
         data={slices.map((slice) => ({
           option: slice.option || "No Option",
-          style: {
-            backgroundColor: slice.style?.backgroundColor || initialFormValues.slices[0].style.backgroundColor,
-            textColor: slice.style?.textColor || initialFormValues.slices[0].style.textColor,
-          },
+          image: slice.image || undefined,
+          style: slice.style || undefined,
         }))}
         onStopSpinning={() => {
           setMustSpin(false);
@@ -93,6 +91,13 @@ PreviewCustomRoulette.propTypes = {
     slices: PropTypes.arrayOf(
       PropTypes.shape({
         option: PropTypes.string,
+        image: PropTypes.shape({
+          uri: PropTypes.string,
+          offsetX: PropTypes.number,
+          offsetY: PropTypes.number,
+          sizeMultiplier: PropTypes.number,
+          landscape: PropTypes.bool,
+        }),
         style: PropTypes.shape({
           backgroundColor: PropTypes.string,
           textColor: PropTypes.string,

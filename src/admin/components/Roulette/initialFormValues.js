@@ -3,7 +3,7 @@ export const initialFormValues = {
     {
       option: "",
       image: {
-        uri: "",
+        uri: "https://files.yosuite.com/media/modules-documents-models-document-documentmodel/68ff4a63c3c94dac0d0610bf/documents__attachment/ChatGPT%20Image%20Oct%2020,%202025,%2002_55_45%20PM-YKNaWS2qbO.png",
         offsetX: 0,
         offsetY: 0,
         sizeMultiplier: 1,
@@ -18,7 +18,6 @@ export const initialFormValues = {
         fontStyle: "normal",
       },
       optionSize: 1,
-      couponId: "",
     },
   ],
   mustStartSpinning: false,

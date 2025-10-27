@@ -232,14 +232,6 @@ const CustomRouletteForm = ({ formData, setFormData, initialValues }) => {
                             />
                           </Form.Item>
                         </Col>
-                        <Col span={6}>
-                          <Form.Item
-                            name={[field.name, "couponId"]}
-                            label="Coupon ID"
-                          >
-                            <Input placeholder="Coupon ID" />
-                          </Form.Item>
-                        </Col>
                       </Row>
 
                       <Row gutter={16}>
